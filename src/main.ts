@@ -1,21 +1,25 @@
-import Handlebars from 'handlebars'
-import templateSource from './templates/app.hbs?raw'
 import './styles.css'
 
-type AppTemplateContext = {
-  title: string
-  subtitle: string
-}
+import { APP_ROOT_SELECTOR } from './constants'
+import { registerPartials } from './partials'
+import { renderCurrentRoute } from './router/router'
 
-const rootNode = document.querySelector<HTMLDivElement>('#app')
+const rootNode = document.querySelector<HTMLDivElement>(APP_ROOT_SELECTOR)
 
 if (!rootNode) {
   throw new Error('rootNode не найден в DOM')
 }
 
-const template = Handlebars.compile<AppTemplateContext>(templateSource)
+const render = () => {
+  rootNode.replaceChildren(renderCurrentRoute())
+}
 
-rootNode.innerHTML = template({
-title: 'Веб мессенджер',
-subtitle: 'Sprint 1: стартовая конфигурация проекта',
-})
+registerPartials()
+
+window.addEventListener('hashchange', render)
+
+if (!window.location.hash) {
+  window.location.hash = '#/'
+}
+
+render()
