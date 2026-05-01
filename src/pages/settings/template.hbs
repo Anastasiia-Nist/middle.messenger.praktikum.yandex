@@ -1,9 +1,24 @@
-{{#> layout-page title=title mainClass="page_size_md"}}
-<div class="page__profile">
+{{#> layout-page title=title mainClass="page-profile"}}
+{{#> ui-link href="#/chats" linkClass="page-profile__aside" ariaLabel="Назад к чатам"}}
+  <span class="page-profile__back" aria-hidden="true"></span>
+{{/ui-link}}
+<div class="page-profile__content">
+  <div class="profile__avatar-wrap">
+    {{> ui-avatar type="button" overlayText="Поменять аватар"}}
+  </div>
+  <div class="title title_position_center title_size_md">{{profileForm.fields.0.value}}</div>
   {{> ui-form formClass=profileForm.formClass name="profile-info" fields=profileForm.fields
-  actions=profileForm.actions}}
-  {{> ui-form formClass=avatarForm.formClass name="profile-avatar" fields=avatarForm.fields actions=avatarForm.actions}}
-  {{> ui-form formClass=passwordForm.formClass name="profile-password" fields=passwordForm.fields
-  actions=passwordForm.actions}}
+  actions=profileForm.actions disabled=profileForm.disabled}}
+  <div class="profile__actions">
+    <div class="profile__actions-item">
+      {{> ui-button buttonClass="profile__action-button button_type_link" text="Изменить данные"}}
+    </div>
+    <div class="profile__actions-item">
+      {{> ui-button buttonClass="profile__action-button button_type_link" text="Изменить пароль"}}
+    </div>
+    <div class="profile__actions-item">
+      {{> ui-button buttonClass="profile__action-button button_type_link button_color_danger" text="Выйти"}}
+    </div>
+  </div>
 </div>
 {{/layout-page}}

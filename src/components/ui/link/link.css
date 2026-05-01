@@ -1,3 +1,6 @@
 .link {
+  font-size: var(--font-size-xs);
   color: var(--color-link);
+
 }
+

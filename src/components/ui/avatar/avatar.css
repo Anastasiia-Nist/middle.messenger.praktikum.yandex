@@ -1,0 +1,31 @@
+.avatar {
+  position: relative;
+  display: block;
+  width: 130px;
+  height: 130px;
+  background: #EFEFEF;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.avatar__overlay {
+  position: absolute;
+  display: flex;
+  padding: 1rem;
+  font-size: var(--font-size-sm);
+  color: #fff;
+  background: rgb(0 0 0 / 45%);
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+  align-items: center;
+  inset: 0;
+  justify-content: center;
+  text-align: center;
+}
+
+.avatar:hover .avatar__overlay,
+.avatar:focus-visible .avatar__overlay {
+  opacity: 1;
+}

@@ -1,8 +1,8 @@
 export const error500PageData = {
   title: '500',
-  description: 'Ошибка сервера',
+  description: 'Мы уже фиксим',
   link: {
     href: '#/',
-    text: 'На главную',
+    text: 'Назад к чатам',
   },
 }

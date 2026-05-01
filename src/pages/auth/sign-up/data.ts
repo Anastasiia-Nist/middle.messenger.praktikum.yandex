@@ -1,5 +1,4 @@
 export const signUpPageData = {
-  title: 'Регистрация',
   form: {
     fields: [
       {
@@ -43,8 +42,10 @@ export const signUpPageData = {
       {
         type: 'submit',
         text: 'Зарегистрироваться',
+        buttonClass: 'button_stretch_full',
       },
     ],
+    formClass: 'page-auth__form',
   },
   redirectLink: {
     href: '#/sign-in',

@@ -1,10 +1,10 @@
-.page__error {
+.page-error {
   display: flex;
   align-items: center;
   flex-direction: column;
   justify-content: center;
 }
 
-.page__error-description {
-  margin-bottom: 1rem;
+.page-error__description {
+  margin-bottom: 4.25rem;
 }

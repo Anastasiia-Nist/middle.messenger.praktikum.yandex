@@ -1,6 +1,9 @@
-@import url('./components/layout/footer/footer.css');
-@import url('./components/layout/header/header.css');
-@import url('./components/layout/page/page.css');
+@import url('./base.css');
+@import url('./components/layouts/footer/footer.css');
+@import url('./components/layouts/header/header.css');
+@import url('./components/layouts/layout/layout.css');
+@import url('./components/layouts/page/page.css');
+@import url('./components/ui/avatar/avatar.css');
 @import url('./components/ui/button/button.css');
 @import url('./components/ui/form/form.css');
 @import url('./components/ui/icon/icon.css');
@@ -9,63 +12,7 @@
 @import url('./components/ui/list/list.css');
 @import url('./components/ui/nav/nav.css');
 @import url('./components/ui/title/title.css');
+@import url('./components/ui/container/container.css');
+@import url('./pages/auth/style.css');
+@import url('./pages/error/style.css');
 @import url('./pages/settings/style.css');
-@import url('./pages/error-404/style.css');
-
-:root {
-  --font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', roboto, sans-serif;
-  --font-weight-regular: 400;
-  --font-weight-medium: 500;
-  --font-weight-semibold: 600;
-  --font-weight-bold: 700;
-  --font-size-xs: 0.75rem;
-  --font-size-sm: 0.875rem;
-  --font-size-md: 1rem;
-  --font-size-lg: 1.125rem;
-  --font-size-xl: 1.25rem;
-  --font-size-2xl: 1.5rem;
-  --font-size-3xl: 2rem;
-  --line-height-tight: 1.25;
-  --line-height-normal: 1.5;
-  --color-link: #3369F3;
-  --color-text: #1a1a1a;
-  --color-text-muted: #5c5c5c;
-  --color-border: #e0e0e0;
-}
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-html {
-  font-family: var(--font-family);
-  font-size: var(--font-size-md);
-  line-height: var(--line-height-normal);
-  color: var(--color-text);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: var(--font-weight-regular);
-}
-
-body {
-  margin: 0;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  margin: 0;
-}
-
-p {
-  margin: 0;
-}
-
-a {
-  text-decoration: none;
-}

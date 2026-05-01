@@ -1,5 +1,4 @@
 export const signInPageData = {
-  title: 'Вход',
   form: {
     fields: [
       {
@@ -18,12 +17,14 @@ export const signInPageData = {
     actions: [
       {
         type: 'submit',
-        text: 'Войти',
+        text: 'Авторизоваться',
+        buttonClass: 'button_stretch_full',
       },
     ],
+    formClass: 'page-auth__form',
   },
   redirectLink: {
     href: '#/sign-up',
-    text: 'Зарегистрироваться',
+    text: 'Нет аккаунта?',
   },
 }

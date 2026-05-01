@@ -3,6 +3,6 @@ export const error404PageData = {
   description: 'Не туда попали',
   link: {
     href: '#/',
-    text: 'На главную',
+    text: 'Назад к чатам',
   },
 }

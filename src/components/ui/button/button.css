@@ -6,3 +6,21 @@
   border-radius: 6px;
   cursor: pointer;
 }
+
+.button_stretch_full {
+  width: 100%;
+}
+
+.button_type_link {
+  color: var(--color-link);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.button_color_danger {
+  color: #F00;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}

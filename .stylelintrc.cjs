@@ -25,6 +25,7 @@ module.exports = {
         'font',
         'font-family',
         'font-size',
+        'font-weight',
         'line-height',
         'color',
         'background',
