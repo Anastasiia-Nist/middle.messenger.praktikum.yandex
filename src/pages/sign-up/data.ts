@@ -46,8 +46,8 @@ export const signUpPageData = {
       },
     ],
   },
-  footerLink: {
+  redirectLink: {
     href: '#/sign-in',
-    text: 'Уже есть аккаунт? Войти',
+    text: 'Войти',
   },
 }

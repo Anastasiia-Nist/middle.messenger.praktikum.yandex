@@ -1,7 +1,7 @@
 <form class="form {{formClass}}" name="{{name}}" method="post">
   <div class="form__fields">
     {{#each fields}}
-      {{> ui-input inputClass=this.inputClass id=this.id name=this.name label=this.label type=this.type}}
+      {{> ui-input inputClass=this.inputClass id=this.id name=this.name label=this.label type=this.type fieldType=this.fieldType rows=this.rows}}
     {{/each}}
   </div>
   {{#if actions.length}}

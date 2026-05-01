@@ -1,8 +1,6 @@
 import { chatMessagesMock } from '../../mock/chat/messages'
 
 export const chatsPageData = {
-  title: 'Чаты',
-  stubText: 'Заглушка страницы списка чатов и переписки.',
   messages: chatMessagesMock,
   form: {
     fields: [
@@ -10,7 +8,8 @@ export const chatsPageData = {
         id: 'message',
         name: 'message',
         label: 'Сообщение',
-        type: 'text',
+        fieldType: 'textarea',
+        rows: 3,
       },
     ],
     actions: [

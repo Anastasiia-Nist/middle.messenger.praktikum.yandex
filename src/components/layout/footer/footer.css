@@ -1,1 +1,9 @@
-/* TODO: стили будут добавлены позже. */
+.footer {
+  display: flex;
+  padding: 1rem 1.25rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.footer__content {
+  margin-left: auto;
+}

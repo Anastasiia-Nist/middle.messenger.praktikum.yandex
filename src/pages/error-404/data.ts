@@ -1,5 +1,8 @@
 export const error404PageData = {
   title: '404',
-  description: 'Не найдено.',
-  linkText: 'На главную',
+  description: 'Не туда попали',
+  link: {
+    href: '#/',
+    text: 'На главную',
+  },
 }

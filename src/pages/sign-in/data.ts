@@ -22,8 +22,8 @@ export const signInPageData = {
       },
     ],
   },
-  footerLink: {
+  redirectLink: {
     href: '#/sign-up',
-    text: 'Нет аккаунта? Зарегистрироваться',
+    text: 'Зарегистрироваться',
   },
 }

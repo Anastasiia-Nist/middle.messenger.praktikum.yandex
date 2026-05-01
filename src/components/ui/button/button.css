@@ -1,1 +1,8 @@
-/* TODO: стили будут добавлены позже. */
+.button {
+  padding: 0.5rem 1rem;
+  color: #FFF;
+  background-color: var(--color-link);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}

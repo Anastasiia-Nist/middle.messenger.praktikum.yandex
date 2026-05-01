@@ -1,1 +1,12 @@
-/* TODO: стили будут добавлены позже. */
+.icon {
+  display: inline-flex;
+  line-height: 0;
+  color: inherit;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.icon svg {
+  display: block;
+}

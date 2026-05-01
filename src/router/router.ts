@@ -5,8 +5,6 @@ import { error404PageData } from '../pages/error-404/data'
 import error404TemplateSource from '../pages/error-404/template.hbs?raw'
 import { error500PageData } from '../pages/error-500/data'
 import error500TemplateSource from '../pages/error-500/template.hbs?raw'
-import { homePageData } from '../pages/home/data'
-import homeTemplateSource from '../pages/home/template.hbs?raw'
 import { settingsPageData } from '../pages/settings/data'
 import settingsTemplateSource from '../pages/settings/template.hbs?raw'
 import { signInPageData } from '../pages/sign-in/data'
@@ -40,8 +38,8 @@ const layoutDefaults: TemplateContext = {
 
 const routes: Record<string, RouteConfig> = {
   '/': {
-    templateSource: homeTemplateSource,
-    data: homePageData,
+    templateSource: chatsTemplateSource,
+    data: chatsPageData,
   },
   '/sign-in': {
     templateSource: signInTemplateSource,

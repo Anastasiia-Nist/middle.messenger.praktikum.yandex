@@ -1,5 +1,5 @@
-.list {
+.page__profile {
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
+  gap: 2rem;
 }

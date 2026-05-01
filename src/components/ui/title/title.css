@@ -1,1 +1,7 @@
-/* TODO: стили будут добавлены позже. */
+.title {
+  font-size: var(--font-size-3xl);
+  line-height: var(--line-height-tight);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-tight);
+  margin-bottom: 1rem;
+}

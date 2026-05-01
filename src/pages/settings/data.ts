@@ -1,5 +1,4 @@
 export const settingsPageData = {
-  title: 'Профиль',
   profileForm: {
     fields: [
       {
