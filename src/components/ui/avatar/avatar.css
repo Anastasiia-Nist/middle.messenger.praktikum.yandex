@@ -10,6 +10,11 @@
   overflow: hidden;
 }
 
+.avatar_type_icon {
+  width: 46px;
+  height: 46px;
+}
+
 .avatar__overlay {
   position: absolute;
   display: flex;

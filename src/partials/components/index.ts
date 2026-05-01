@@ -5,6 +5,7 @@ import headerTemplateSource from '../../components/layouts/header/header.hbs?raw
 import layoutTemplateSource from '../../components/layouts/layout/layout.hbs?raw'
 import pageTemplateSource from '../../components/layouts/page/page.hbs?raw'
 import buttonTemplateSource from '../../components/ui/button/button.hbs?raw'
+import chatSidebarTemplateSource from '../../components/pages/chats/sidebar/chat-sidebar.hbs?raw'
 import formTemplateSource from '../../components/ui/form/form.hbs?raw'
 import iconTemplateSource from '../../components/ui/icon/icon.hbs?raw'
 import inputTemplateSource from '../../components/ui/input/input.hbs?raw'
@@ -17,6 +18,7 @@ import containerTemplateSource from '../../components/ui/container/container.hbs
 export const registerUiPartials = (): void => {
   Handlebars.registerPartial('ui-avatar', avatarTemplateSource)
   Handlebars.registerPartial('ui-button', buttonTemplateSource)
+  Handlebars.registerPartial('chat-sidebar', chatSidebarTemplateSource)
   Handlebars.registerPartial('ui-form', formTemplateSource)
   Handlebars.registerPartial('ui-icon', iconTemplateSource)
   Handlebars.registerPartial('ui-input', inputTemplateSource)

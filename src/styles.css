@@ -5,6 +5,7 @@
 @import url('./components/layouts/page/page.css');
 @import url('./components/ui/avatar/avatar.css');
 @import url('./components/ui/button/button.css');
+@import url('./components/pages/chats/sidebar/chat-sidebar.css');
 @import url('./components/ui/form/form.css');
 @import url('./components/ui/icon/icon.css');
 @import url('./components/ui/input/input.css');
@@ -15,4 +16,5 @@
 @import url('./components/ui/container/container.css');
 @import url('./pages/auth/style.css');
 @import url('./pages/error/style.css');
+@import url('./pages/chats/style.css');
 @import url('./pages/settings/style.css');

@@ -1,0 +1,29 @@
+<div class="chat-sidebar">
+  <div class="chat-sidebar__header">
+    <a class="chat-sidebar__profile-link" href="{{profileLink}}">{{profileText}}</a>
+    <input class="chat-sidebar__search" type="search" placeholder="{{searchPlaceholder}}" name="chat-search" />
+  </div>
+  <ul class="chat-sidebar__list">
+    {{#each chats}}
+    <li class="chat-sidebar__item {{#if this.isActive}}chat-sidebar__item_active{{/if}}">
+      <div class="chat-sidebar__item-content">
+        <div class="chat-sidebar__avatar">
+          {{> ui-avatar type="icon"}}
+        </div>
+        <div class="chat-sidebar__item-info">
+          <div class="chat-sidebar__item-top">
+            <span class="chat-sidebar__name">{{this.name}}</span>
+            <span class="chat-sidebar__time">{{this.time}}</span>
+          </div>
+          <div class="chat-sidebar__item-bottom">
+            <p class="chat-sidebar__preview">{{this.preview}}</p>
+            {{#if this.unreadCount}}
+            <span class="chat-sidebar__unread">{{this.unreadCount}}</span>
+            {{/if}}
+          </div>
+        </div>
+      </div>
+    </li>
+    {{/each}}
+  </ul>
+</div>

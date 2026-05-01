@@ -5,7 +5,7 @@
       {{/each}}
     </div>
     {{#if actions.length}}
-      <div class="form__actions">
+      <div class="form__actions {{actionsClass}}">
         {{#each actions}}
           {{> ui-button buttonClass=this.buttonClass type=this.type text=this.text}}
         {{/each}}

@@ -9,7 +9,6 @@
 }
 
 .layout__aside {
-  width: 310px;
   flex-shrink: 0;
 }
 
