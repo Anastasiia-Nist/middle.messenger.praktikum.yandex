@@ -26,52 +26,52 @@
   background-size: contain;
 }
 
-.profile__avatar-wrap {
+.page-profile__avatar-wrap {
   display: flex;
   justify-content: center;
   margin-bottom: 1.25rem;
 }
 
-.profile__form {
+.page-profile__form {
   display: flex;
   flex-direction: column;
   gap: 2rem;
 }
 
-.profile__form .form-field {
+.page-profile__form .form-field {
   position: relative;
 }
 
-.profile__form .form-field__label {
+.page-profile__form .form-field__label {
   position: absolute;
   font-size: var(--font-size-xs);
   color: var(--color-text);
 }
 
-.profile__form .form-field__input {
+.page-profile__form .form-field__input {
   color: var(--color-text-muted);
   border-bottom: 1px solid var(--color-border);
   text-align: right;
 }
 
-.profile__form .form-field:last-child .form-field__input {
+.page-profile__form .form-field:last-child .form-field__input {
   border-bottom: none;
 }
 
-.profile__actions {
+.page-profile__actions {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
-.profile__actions-item {
+.page-profile__actions-item {
   border-bottom: 1px solid var(--color-border);
 }
 
-.profile__action-button {
+.page-profile__action-button {
   padding-left: 0;
 }
 
-.profile__actions-item:last-child {
+.page-profile__actions-item:last-child {
   border-bottom: none;
 }

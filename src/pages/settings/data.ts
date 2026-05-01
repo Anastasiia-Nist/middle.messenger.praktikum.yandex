@@ -49,6 +49,6 @@ export const settingsPageData = {
         value: getProfileValue('phone'),
       },
     ],
-    formClass: 'profile__form',
+    formClass: 'page-profile__form',
   },
 }

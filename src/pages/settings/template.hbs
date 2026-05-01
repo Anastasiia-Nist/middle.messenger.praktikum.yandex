@@ -3,21 +3,21 @@
   <span class="page-profile__back" aria-hidden="true"></span>
 {{/ui-link}}
 <div class="page-profile__content">
-  <div class="profile__avatar-wrap">
+  <div class="page-profile__avatar-wrap">
     {{> ui-avatar type="button" overlayText="Поменять аватар"}}
   </div>
   <div class="title title_position_center title_size_md">{{profileForm.fields.0.value}}</div>
   {{> ui-form formClass=profileForm.formClass name="profile-info" fields=profileForm.fields
   actions=profileForm.actions disabled=profileForm.disabled}}
-  <div class="profile__actions">
-    <div class="profile__actions-item">
-      {{> ui-button buttonClass="profile__action-button button_type_link" text="Изменить данные"}}
+  <div class="page-profile__actions">
+    <div class="page-profile__actions-item">
+      {{> ui-button buttonClass="page-profile__action-button button_type_link" text="Изменить данные"}}
     </div>
-    <div class="profile__actions-item">
-      {{> ui-button buttonClass="profile__action-button button_type_link" text="Изменить пароль"}}
+    <div class="page-profile__actions-item">
+      {{> ui-button buttonClass="page-profile__action-button button_type_link" text="Изменить пароль"}}
     </div>
-    <div class="profile__actions-item">
-      {{> ui-button buttonClass="profile__action-button button_type_link button_color_danger" text="Выйти"}}
+    <div class="page-profile__actions-item">
+      {{> ui-button buttonClass="page-profile__action-button button_type_link button_color_danger" text="Выйти"}}
     </div>
   </div>
 </div>
