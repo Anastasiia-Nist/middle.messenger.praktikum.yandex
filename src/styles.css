@@ -1,1 +1,12 @@
 /* TODO: стили будут добавлены позже. */
+
+@import url('./components/layout/footer/footer.css');
+@import url('./components/layout/header/header.css');
+@import url('./components/layout/page/page.css');
+@import url('./components/ui/button/button.css');
+@import url('./components/ui/form/form.css');
+@import url('./components/ui/icon/icon.css');
+@import url('./components/ui/input/input.css');
+@import url('./components/ui/list/list.css');
+@import url('./components/ui/nav/nav.css');
+@import url('./components/ui/title/title.css');

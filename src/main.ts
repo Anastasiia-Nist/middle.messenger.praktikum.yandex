@@ -1,7 +1,7 @@
 import './styles.css'
 
 import { APP_ROOT_SELECTOR } from './constants'
-import { registerPartials } from './partials'
+import { registerPartials } from './partials/register'
 import { renderCurrentRoute } from './router/router'
 
 const rootNode = document.querySelector<HTMLDivElement>(APP_ROOT_SELECTOR)

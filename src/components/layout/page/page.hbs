@@ -1,0 +1,14 @@
+<div class="wrapper">
+  {{#> layout-header layoutHeaderClass=layoutHeaderClass}}
+    {{> ui-icon href="#/" label="На главную" iconClass="header__home-link"}}
+    {{> ui-nav links=layoutNavLinks}}
+    {{{headerContent}}}
+  {{/layout-header}}
+  <main class="page {{mainClass}}">
+    {{> ui-title titleClass=layoutTitleClass text=title}}
+    {{> @partial-block}}
+  </main>
+  {{#> layout-footer layoutFooterClass=layoutFooterClass}}
+    {{{footerContent}}}
+  {{/layout-footer}}
+</div>

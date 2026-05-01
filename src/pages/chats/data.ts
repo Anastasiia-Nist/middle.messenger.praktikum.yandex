@@ -1,4 +1,4 @@
-import { chatMessagesMock } from '../../mock/chat-messages'
+import { chatMessagesMock } from '../../mock/chat/messages'
 
 export const chatsPageData = {
   title: 'Чаты',

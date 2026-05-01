@@ -21,6 +21,23 @@ type RouteConfig = {
   data: TemplateContext
 }
 
+const layoutDefaults: TemplateContext = {
+  layoutNavLinks: [
+    {
+      href: '#/sign-in',
+      text: 'Вход',
+    },
+    {
+      href: '#/sign-up',
+      text: 'Регистрация',
+    },
+    {
+      href: '#/settings',
+      text: 'Профиль',
+    },
+  ],
+}
+
 const routes: Record<string, RouteConfig> = {
   '/': {
     templateSource: homeTemplateSource,
@@ -57,7 +74,12 @@ export const renderCurrentRoute = (): HTMLElement => {
   const route = routes[path] ?? routes['/404']
   const templateSource = route.templateSource
   const template = Handlebars.compile(templateSource)
-  const fragment = document.createRange().createContextualFragment(template(route.data))
+  const fragment = document.createRange().createContextualFragment(
+    template({
+      ...layoutDefaults,
+      ...route.data,
+    })
+  )
   const page = fragment.firstElementChild
 
   if (!page) {
