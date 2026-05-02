@@ -32,5 +32,4 @@
 ## Ссылки
 
 - **Демо:** [messenger-practicum-yandex-by-nist.netlify.app](https://messenger-practicum-yandex-by-nist.netlify.app/)
-- **Репозиторий:** [Anastasiia-Nist/middle.messenger.praktikum.yandex](https://github.com/Anastasiia-Nist/middle.messenger.praktikum.yandex)
 - **Figma:** [ссылка на макет](https://www.figma.com/design/jF5fFFzgGOxQeB4CmKWTiE/Chat_external_link?node-id=1-502&t=FRbllHNs6HSSEDlZ-0)
