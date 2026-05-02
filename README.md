@@ -22,6 +22,8 @@
 
 Маршруты работают через hash: в адресе после `#` указывается путь (например `http://localhost:3000/#/settings` или тот же путь на демо-домене).
 
+**без VPN демо не открывается**
+
 - **Чаты:** `/`, `/chats` — [открыть на демо](https://messenger-practicum-yandex-by-nist.netlify.app/#/)
 - **Вход:** `/sign-in` — [открыть на демо](https://messenger-practicum-yandex-by-nist.netlify.app/#/sign-in)
 - **Регистрация:** `/sign-up` — [открыть на демо](https://messenger-practicum-yandex-by-nist.netlify.app/#/sign-up)
@@ -31,5 +33,5 @@
 
 ## Ссылки
 
-- **Демо:** [messenger-practicum-yandex-by-nist.netlify.app](https://messenger-practicum-yandex-by-nist.netlify.app/)
+- **Демо:** [messenger-practicum-yandex-by-nist.netlify.app](https://messenger-practicum-yandex-by-nist.netlify.app/) — **без VPN демо не открывается**
 - **Figma:** [ссылка на макет](https://www.figma.com/design/jF5fFFzgGOxQeB4CmKWTiE/Chat_external_link?node-id=1-502&t=FRbllHNs6HSSEDlZ-0)
