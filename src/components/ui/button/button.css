@@ -1,5 +1,7 @@
 .button {
-  padding: 0.5rem 1rem;
+  padding: var(--space-xs) var(--space-lg);
+  font-family: inherit;
+  font-size: var(--font-size-lg);
   color: #FFF;
   background-color: var(--color-link);
   border: none;

@@ -1,23 +1,11 @@
 .layout {
   display: flex;
-  gap: 1.5rem;
 }
 
 .layout__content {
-  min-width: 0;
   flex: 1;
 }
 
 .layout__aside {
   flex-shrink: 0;
-}
-
-@media (width <= 1024px) {
-  .layout {
-    flex-direction: column;
-  }
-
-  .layout__aside {
-    width: 100%;
-  }
 }

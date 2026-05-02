@@ -1,0 +1,23 @@
+.settings-sidebar {
+  height: 100%;
+}
+
+.settings-sidebar__link {
+  position: fixed;
+  display: flex;
+  width: 64px;
+  background-color: #fbfbfb;
+  inset: 0;
+}
+
+.settings-sidebar__back {
+  width: 1.75rem;
+  height: 1.75rem;
+  margin: auto;
+  padding: var(--space-0);
+  background-color: transparent;
+  background-image: url('../../../../public/img/button-back.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}

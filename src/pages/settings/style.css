@@ -2,34 +2,14 @@
   max-width: 510px;
 }
 
-.page-profile__aside {
-  position: fixed;
-  display: flex;
-  width: 64px;
-  background-color: #FBFBFB;
-  inset: 0;
-}
-
 .page-profile__content {
-  padding-left: 64px;
-}
-
-.page-profile__back {
-  width: 1.75rem;
-  height: 1.75rem;
-  margin: auto;
-  padding: 0;
-  background-color: transparent;
-  background-image: url('../../public/img/button-back.svg');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
+  padding-left: var(--space-sidebar-strip);
 }
 
 .page-profile__avatar-wrap {
   display: flex;
   justify-content: center;
-  margin-bottom: 1.25rem;
+  margin-bottom: var(--space-xl);
 }
 
 .page-profile__form {
@@ -44,7 +24,7 @@
 
 .page-profile__form .form-field__label {
   position: absolute;
-  font-size: var(--font-size-xs);
+  font-size: var(--font-size-lg);
   color: var(--color-text);
 }
 
@@ -69,7 +49,7 @@
 }
 
 .page-profile__action-button {
-  padding-left: 0;
+  padding-left: var(--space-0);
 }
 
 .page-profile__actions-item:last-child {

@@ -18,8 +18,8 @@
 .avatar__overlay {
   position: absolute;
   display: flex;
-  padding: 1rem;
-  font-size: var(--font-size-sm);
+  padding: var(--space-lg);
+  font-size: var(--font-size-lg);
   color: #fff;
   background: rgb(0 0 0 / 45%);
   opacity: 0;

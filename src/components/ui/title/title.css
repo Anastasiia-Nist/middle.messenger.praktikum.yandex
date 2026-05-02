@@ -1,13 +1,13 @@
 .title {
   font-size: var(--font-size-2xl);
   font-weight: var(--font-weight-medium);
-  margin-bottom: 1.25rem;
+  margin-bottom: var(--space-xl);
 }
 
 .title_position_center {
   text-align: center;
 }
 
-.title_size_md {
-  font-size: var(--font-size-md);
+.title_size_xl {
+  font-size: var(--font-size-xl);
 }
