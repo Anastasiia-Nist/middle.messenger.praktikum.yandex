@@ -12,7 +12,6 @@ import iconTemplateSource from '../../components/ui/icon/icon.hbs?raw'
 import inputTemplateSource from '../../components/ui/input/input.hbs?raw'
 import linkTemplateSource from '../../components/ui/link/link.hbs?raw'
 import listTemplateSource from '../../components/ui/list/list.hbs?raw'
-import navTemplateSource from '../../components/ui/nav/nav.hbs?raw'
 import titleTemplateSource from '../../components/ui/title/title.hbs?raw'
 import containerTemplateSource from '../../components/ui/container/container.hbs?raw'
 
@@ -26,7 +25,6 @@ export const registerUiPartials = (): void => {
   Handlebars.registerPartial('ui-input', inputTemplateSource)
   Handlebars.registerPartial('ui-link', linkTemplateSource)
   Handlebars.registerPartial('ui-list', listTemplateSource)
-  Handlebars.registerPartial('ui-nav', navTemplateSource)
   Handlebars.registerPartial('ui-title', titleTemplateSource)
   Handlebars.registerPartial('ui-container', containerTemplateSource)
 }
