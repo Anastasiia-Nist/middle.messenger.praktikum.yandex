@@ -1,7 +1,9 @@
 {{#if (eq type 'icon')}}
-  <span class="avatar avatar_type_icon {{avatarClass}}" aria-hidden="true"></span>
+  <span class='avatar avatar_type_icon {{avatarClass}}' aria-hidden='true'></span>
 {{else}}
-  <button class="avatar {{avatarClass}}" type="{{type}}">
-    <span class="avatar__overlay">{{overlayText}}</span>
+  <button class='avatar {{avatarClass}}' type='{{type}}'>
+    <span class='avatar__overlay'>
+      {{overlayText}}
+    </span>
   </button>
 {{/if}}

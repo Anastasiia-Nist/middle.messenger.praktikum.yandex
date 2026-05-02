@@ -1,7 +1,7 @@
 .title {
+  margin-bottom: var(--space-xl);
   font-size: var(--font-size-2xl);
   font-weight: var(--font-weight-medium);
-  margin-bottom: var(--space-xl);
 }
 
 .title_position_center {

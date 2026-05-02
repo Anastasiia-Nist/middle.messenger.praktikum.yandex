@@ -2,7 +2,7 @@
   padding: var(--space-xs) var(--space-lg);
   font-family: inherit;
   font-size: var(--font-size-lg);
-  color: #FFF;
+  color: #fff;
   background-color: var(--color-link);
   border: none;
   border-radius: 6px;
@@ -21,7 +21,7 @@
 }
 
 .button_color_danger {
-  color: #F00;
+  color: #f00;
   background-color: transparent;
   border: none;
   cursor: pointer;

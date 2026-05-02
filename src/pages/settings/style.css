@@ -30,8 +30,8 @@
 
 .page-profile__form .form-field__input {
   color: var(--color-text-muted);
-  border-bottom: 1px solid var(--color-border);
   text-align: right;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .page-profile__form .form-field:last-child .form-field__input {

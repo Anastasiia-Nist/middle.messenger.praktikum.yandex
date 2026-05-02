@@ -1,10 +1,9 @@
-{{#> layout-page title=title  mainClass="page-auth"}}
-{{#> ui-container containerClass="container_type_card"}}
-{{> ui-title text="Регистрация" titleClass="title_position_center title_size_xl"}}
-{{> ui-form formClass=form.formClass name="sign-up" fields=form.fields actions=form.actions}}
-  <div class="page__footer">
-    {{> ui-link href=redirectLink.href text=redirectLink.text}}
-  </div>
-</div>
-{{/ui-container}}
+{{#> layout-page title=title mainClass="page-auth"}}
+  {{#> ui-container containerClass="container_type_card"}}
+    {{> ui-title text="Регистрация" titleClass="title_position_center title_size_xl"}}
+    {{> ui-form formClass=form.formClass name="sign-up" fields=form.fields actions=form.actions}}
+    <div class="page__footer">
+      {{> ui-link href=redirectLink.href text=redirectLink.text}}
+    </div>
+  {{/ui-container}}
 {{/layout-page}}

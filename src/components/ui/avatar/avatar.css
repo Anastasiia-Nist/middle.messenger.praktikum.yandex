@@ -3,11 +3,11 @@
   display: block;
   width: 130px;
   height: 130px;
-  background: #EFEFEF;
+  background: #efefef;
   border: none;
   border-radius: 50%;
-  cursor: pointer;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .avatar_type_icon {
@@ -17,17 +17,17 @@
 
 .avatar__overlay {
   position: absolute;
+  inset: 0;
   display: flex;
+  align-items: center;
+  justify-content: center;
   padding: var(--space-lg);
   font-size: var(--font-size-lg);
   color: #fff;
+  text-align: center;
   background: rgb(0 0 0 / 45%);
   opacity: 0;
   transition: opacity 0.2s ease-in-out;
-  align-items: center;
-  inset: 0;
-  justify-content: center;
-  text-align: center;
 }
 
 .avatar:hover .avatar__overlay,

@@ -55,9 +55,7 @@ export const renderCurrentRoute = (): HTMLElement => {
   const route = routes[path] ?? routes['/404']
   const templateSource = route.templateSource
   const template = Handlebars.compile(templateSource)
-  const fragment = document.createRange().createContextualFragment(
-    template(route.data)
-  )
+  const fragment = document.createRange().createContextualFragment(template(route.data))
   const page = fragment.firstElementChild
 
   if (!page) {

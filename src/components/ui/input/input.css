@@ -30,8 +30,8 @@
 .form-field__input:-webkit-autofill:hover,
 .form-field__input:-webkit-autofill:focus,
 .form-field__input:-webkit-autofill:active {
-  transition: background-color 9999s ease-in-out 0s;
   box-shadow: 0 0 0 1000px #fff inset;
+  transition: background-color 9999s ease-in-out 0s;
   -webkit-text-fill-color: inherit;
 }
 

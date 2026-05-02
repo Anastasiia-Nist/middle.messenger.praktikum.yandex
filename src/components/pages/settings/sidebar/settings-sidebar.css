@@ -4,10 +4,10 @@
 
 .settings-sidebar__link {
   position: fixed;
+  inset: 0;
   display: flex;
   width: 64px;
   background-color: #fbfbfb;
-  inset: 0;
 }
 
 .settings-sidebar__back {
