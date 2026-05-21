@@ -1,0 +1,8 @@
+<div class="wrapper">
+  <main class="page {{mainClass}}">
+    {{#if title}}
+      {{> ui-title titleClass=layoutTitleClass text=title}}
+    {{/if}}
+    {{> @partial-block}}
+  </main>
+</div>

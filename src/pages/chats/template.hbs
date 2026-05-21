@@ -1,0 +1,36 @@
+{{#> layout-page mainClass="page-chats"}}
+  {{#> layout layoutClass="chat-layout" contentClass="chat-layout__content" asideClass="chat-layout__aside" hasAsideBlock=true}}
+    {{#*inline "aside-block"}}
+      {{> chat-sidebar profileLink=sidebar.profileLink profileText=sidebar.profileText searchPlaceholder=sidebar.searchPlaceholder chats=sidebar.chats}}
+    {{/inline}}
+
+    <section class="chat-content">
+      <header class="chat-content__header">
+        {{> ui-avatar type="icon"}}
+        <h1 class="chat-content__title">{{activeChatName}}</h1>
+      </header>
+
+      <ul class="chat-content__messages">
+        {{#each messagesByDay}}
+          <li class="chat-day">
+            <p class="chat-day__label">{{this.date}}</p>
+            <ul class="chat-day__messages">
+              {{#each this.messages}}
+                <li class="chat-message {{#if this.isOwn}}chat-message_own{{/if}}">
+                  <p class="chat-message__text">{{this.text}}</p>
+                  <span class="chat-message__time">{{this.time}}</span>
+                </li>
+              {{/each}}
+            </ul>
+          </li>
+        {{/each}}
+      </ul>
+
+      <form class="chat-content__form" name="chat-message" method="post">
+        {{> ui-button buttonClass="chat-content__add-file" type="icon"}}
+        <input class="chat-content__input" id="message" name="message" type="text" placeholder="Сообщение" />
+        {{> ui-button buttonClass="chat-content__submit" type="submit"}}
+      </form>
+    </section>
+  {{/layout}}
+{{/layout-page}}

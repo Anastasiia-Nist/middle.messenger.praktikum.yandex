@@ -1,0 +1,13 @@
+.title {
+  margin-bottom: var(--space-xl);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-medium);
+}
+
+.title_position_center {
+  text-align: center;
+}
+
+.title_size_xl {
+  font-size: var(--font-size-xl);
+}

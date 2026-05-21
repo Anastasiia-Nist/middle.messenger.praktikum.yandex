@@ -1,0 +1,11 @@
+.layout {
+  display: flex;
+}
+
+.layout__content {
+  flex: 1;
+}
+
+.layout__aside {
+  flex-shrink: 0;
+}

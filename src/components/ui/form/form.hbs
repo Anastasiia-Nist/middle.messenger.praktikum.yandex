@@ -1,0 +1,14 @@
+<form class="form {{formClass}}" name="{{name}}" method="post">
+  <div class="form__fields">
+    {{#each fields}}
+      {{> ui-input inputClass=this.inputClass id=this.id name=this.name label=this.label type=this.type fieldType=this.fieldType rows=this.rows value=this.value disabled=../disabled}}
+    {{/each}}
+  </div>
+  {{#if actions.length}}
+    <div class="form__actions {{actionsClass}}">
+      {{#each actions}}
+        {{> ui-button buttonClass=this.buttonClass type=this.type text=this.text}}
+      {{/each}}
+    </div>
+  {{/if}}
+</form>

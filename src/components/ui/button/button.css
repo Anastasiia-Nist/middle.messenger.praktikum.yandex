@@ -1,0 +1,28 @@
+.button {
+  padding: var(--space-xs) var(--space-lg);
+  font-family: inherit;
+  font-size: var(--font-size-lg);
+  color: #fff;
+  background-color: var(--color-link);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.button_stretch_full {
+  width: 100%;
+}
+
+.button_type_link {
+  color: var(--color-link);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.button_color_danger {
+  color: #f00;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}

@@ -1,0 +1,54 @@
+{
+  "name": "middle.messenger.praktikum.yandex",
+  "version": "1.0.0",
+  "description": "Учебный проект Яндекс Практикума - веб-приложение «Чат»",
+  "scripts": {
+    "start": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "npm run lint:ts && npm run lint:css",
+    "lint:ts": "eslint \"**/*.{ts,js}\"",
+    "lint:css": "stylelint \"src/**/*.css\"",
+    "lint:fix": "npm run lint:fix:ts && npm run lint:fix:css",
+    "lint:fix:ts": "eslint \"**/*.{ts,js}\" --fix",
+    "lint:fix:css": "stylelint \"src/**/*.css\" --fix",
+    "format": "find src -name '*.hbs' -exec npx js-beautify --config .jsbeautifyrc --type html -r {} +",
+    "prepare": "husky"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Anastasiia-Nist/middle.messenger.praktikum.yandex.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "bugs": {
+    "url": "https://github.com/Anastasiia-Nist/middle.messenger.praktikum.yandex/issues"
+  },
+  "homepage": "https://github.com/Anastasiia-Nist/middle.messenger.praktikum.yandex#readme",
+  "dependencies": {
+    "handlebars": "^4.7.9"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^20.5.2",
+    "@commitlint/config-conventional": "^20.5.0",
+    "@eslint/js": "^9.39.4",
+    "@stylistic/eslint-plugin": "^5.10.0",
+    "@types/node": "^25.6.0",
+    "eslint": "^9.39.4",
+    "husky": "^9.1.7",
+    "js-beautify": "^1.15.4",
+    "postcss": "^8.5.10",
+    "postcss-preset-env": "^10.6.1",
+    "stylelint": "^16.26.1",
+    "stylelint-config-standard": "^39.0.1",
+    "stylelint-order": "^6.0.4",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.59.0",
+    "vite": "^6.4.2"
+  }
+}

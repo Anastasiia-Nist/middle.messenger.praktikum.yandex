@@ -1,0 +1,9 @@
+.page-auth {
+  display: flex;
+}
+
+.page-auth__form {
+  display: flex;
+  flex-direction: column;
+  min-height: 370px;
+}

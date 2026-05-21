@@ -1,0 +1,57 @@
+.page-profile {
+  max-width: 510px;
+}
+
+.page-profile__content {
+  padding-left: var(--space-sidebar-strip);
+}
+
+.page-profile__avatar-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: var(--space-xl);
+}
+
+.page-profile__form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.page-profile__form .form-field {
+  position: relative;
+}
+
+.page-profile__form .form-field__label {
+  position: absolute;
+  font-size: var(--font-size-lg);
+  color: var(--color-text);
+}
+
+.page-profile__form .form-field__input {
+  color: var(--color-text-muted);
+  text-align: right;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.page-profile__form .form-field:last-child .form-field__input {
+  border-bottom: none;
+}
+
+.page-profile__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.page-profile__actions-item {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.page-profile__action-button {
+  padding-left: var(--space-0);
+}
+
+.page-profile__actions-item:last-child {
+  border-bottom: none;
+}

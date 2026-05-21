@@ -1,0 +1,7 @@
+<a class="link {{linkClass}}" href="{{href}}" aria-label="{{ariaLabel}}">
+  {{#if @partial-block}}
+    {{> @partial-block}}
+  {{else}}
+    {{text}}
+  {{/if}}
+</a>
