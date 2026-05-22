@@ -1,9 +1,11 @@
-{{#> layout-page title=title mainClass="page-auth"}}
-  {{#> ui-container containerClass="container_type_card"}}
-    {{> ui-title text="Регистрация" titleClass="title_position_center title_size_xl"}}
-    {{> ui-form formClass=form.formClass name="sign-up" fields=form.fields actions=form.actions}}
-    <div class="page__footer">
-      {{> ui-link href=redirectLink.href text=redirectLink.text}}
+<div class="wrapper">
+  <main class="page page-auth">
+    <div class="container container_type_card">
+      {{{ Title text="Регистрация" titleClass="title_position_center title_size_xl" }}}
+      {{{ Form formClass=form.formClass name=form.name fields=form.fields actions=form.actions onSubmit=form.onSubmit }}}
+      <div class="page__footer">
+        {{{ Link href=redirectLink.href text=redirectLink.text }}}
+      </div>
     </div>
-  {{/ui-container}}
-{{/layout-page}}
+  </main>
+</div>

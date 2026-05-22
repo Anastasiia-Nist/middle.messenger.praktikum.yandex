@@ -1,66 +1,37 @@
-import Handlebars from 'handlebars'
-import { chatsPageData } from '../pages/chats/data'
-import chatsTemplateSource from '../pages/chats/template.hbs?raw'
-import { error404PageData } from '../pages/error/404/data'
-import error404TemplateSource from '../pages/error/404/template.hbs?raw'
-import { error500PageData } from '../pages/error/500/data'
-import error500TemplateSource from '../pages/error/500/template.hbs?raw'
-import { settingsPageData } from '../pages/settings/data'
-import settingsTemplateSource from '../pages/settings/template.hbs?raw'
-import { signInPageData } from '../pages/auth/sign-in/data'
-import signInTemplateSource from '../pages/auth/sign-in/template.hbs?raw'
-import { signUpPageData } from '../pages/auth/sign-up/data'
-import signUpTemplateSource from '../pages/auth/sign-up/template.hbs?raw'
+import ChatsController from '../controllers/chats/ChatsController'
+import Error404Controller from '../controllers/error/Error404Controller'
+import Error500Controller from '../controllers/error/Error500Controller'
+import RouteController from '../controllers/RouteController'
+import SettingsController from '../controllers/settings/SettingsController'
+import SignInController from '../controllers/auth/SignInController'
+import SignUpController from '../controllers/auth/SignUpController'
 
-type TemplateContext = Record<string, unknown>
+type RouteFactory = () => RouteController
 
-type RouteConfig = {
-  templateSource: string
-  data: TemplateContext
+const routes: Record<string, RouteFactory> = {
+  '/': () => new ChatsController(),
+  '/chats': () => new ChatsController(),
+  '/sign-in': () => new SignInController(),
+  '/sign-up': () => new SignUpController(),
+  '/settings': () => new SettingsController(),
+  '/404': () => new Error404Controller(),
+  '/500': () => new Error500Controller(),
 }
 
-const routes: Record<string, RouteConfig> = {
-  '/': {
-    templateSource: chatsTemplateSource,
-    data: chatsPageData,
-  },
-  '/sign-in': {
-    templateSource: signInTemplateSource,
-    data: signInPageData,
-  },
-  '/sign-up': {
-    templateSource: signUpTemplateSource,
-    data: signUpPageData,
-  },
-  '/chats': {
-    templateSource: chatsTemplateSource,
-    data: chatsPageData,
-  },
-  '/settings': {
-    templateSource: settingsTemplateSource,
-    data: settingsPageData,
-  },
-  '/404': {
-    templateSource: error404TemplateSource,
-    data: error404PageData,
-  },
-  '/500': {
-    templateSource: error500TemplateSource,
-    data: error500PageData,
-  },
-}
+let currentController: RouteController | null = null
 
 export const renderCurrentRoute = (): HTMLElement => {
   const path = window.location.hash.slice(1) || '/'
-  const route = routes[path] ?? routes['/404']
-  const templateSource = route.templateSource
-  const template = Handlebars.compile(templateSource)
-  const fragment = document.createRange().createContextualFragment(template(route.data))
-  const page = fragment.firstElementChild
+  const createController = routes[path] ?? routes['/404']
+
+  currentController?.destroy?.()
+  currentController = createController()
+
+  const page = currentController.render()
 
   if (!page) {
-    throw new Error('Шаблон страницы не содержит корневого HTML-элемента')
+    throw new Error('Контроллер не вернул DOM-элемент страницы')
   }
 
-  return page as HTMLElement
+  return page
 }

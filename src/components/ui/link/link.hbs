@@ -1,6 +1,6 @@
 <a class="link {{linkClass}}" href="{{href}}" aria-label="{{ariaLabel}}">
-  {{#if @partial-block}}
-    {{> @partial-block}}
+  {{#if (eq variant 'back')}}
+    <span class="settings-sidebar__back" aria-hidden="true"></span>
   {{else}}
     {{text}}
   {{/if}}

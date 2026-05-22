@@ -1,5 +1,6 @@
 export const signInPageData = {
   form: {
+    name: 'sign-in',
     fields: [
       {
         id: 'login',

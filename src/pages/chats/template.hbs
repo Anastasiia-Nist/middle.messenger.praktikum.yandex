@@ -1,36 +1,36 @@
-{{#> layout-page mainClass="page-chats"}}
-  {{#> layout layoutClass="chat-layout" contentClass="chat-layout__content" asideClass="chat-layout__aside" hasAsideBlock=true}}
-    {{#*inline "aside-block"}}
-      {{> chat-sidebar profileLink=sidebar.profileLink profileText=sidebar.profileText searchPlaceholder=sidebar.searchPlaceholder chats=sidebar.chats}}
-    {{/inline}}
+<div class="wrapper">
+  <main class="page page-chats">
+    <div class="layout chat-layout">
+      <aside class="layout__aside chat-layout__aside">
+        {{{ ChatSidebar profileLink=sidebar.profileLink profileText=sidebar.profileText searchPlaceholder=sidebar.searchPlaceholder chats=sidebar.chats }}}
+      </aside>
+      <div class="layout__content chat-layout__content">
+        <section class="chat-content">
+          <header class="chat-content__header">
+            {{{ Avatar type="icon" }}}
+            <h1 class="chat-content__title">{{activeChatName}}</h1>
+          </header>
 
-    <section class="chat-content">
-      <header class="chat-content__header">
-        {{> ui-avatar type="icon"}}
-        <h1 class="chat-content__title">{{activeChatName}}</h1>
-      </header>
+          <ul class="chat-content__messages">
+            {{#each messagesByDay}}
+              <li class="chat-day">
+                <p class="chat-day__label">{{this.date}}</p>
+                <ul class="chat-day__messages">
+                  {{#each this.messages}}
+                    {{{ ChatMessage text=this.text time=this.time isOwn=this.isOwn }}}
+                  {{/each}}
+                </ul>
+              </li>
+            {{/each}}
+          </ul>
 
-      <ul class="chat-content__messages">
-        {{#each messagesByDay}}
-          <li class="chat-day">
-            <p class="chat-day__label">{{this.date}}</p>
-            <ul class="chat-day__messages">
-              {{#each this.messages}}
-                <li class="chat-message {{#if this.isOwn}}chat-message_own{{/if}}">
-                  <p class="chat-message__text">{{this.text}}</p>
-                  <span class="chat-message__time">{{this.time}}</span>
-                </li>
-              {{/each}}
-            </ul>
-          </li>
-        {{/each}}
-      </ul>
-
-      <form class="chat-content__form" name="chat-message" method="post">
-        {{> ui-button buttonClass="chat-content__add-file" type="icon"}}
-        <input class="chat-content__input" id="message" name="message" type="text" placeholder="Сообщение" />
-        {{> ui-button buttonClass="chat-content__submit" type="submit"}}
-      </form>
-    </section>
-  {{/layout}}
-{{/layout-page}}
+          <form class="chat-content__form" name="chat-message" method="post" ref="messageForm">
+            {{{ Button buttonClass="chat-content__add-file" type="button" }}}
+            <input class="chat-content__input" id="message" name="message" type="text" placeholder="Сообщение" ref="message" />
+            {{{ Button buttonClass="chat-content__submit" type="submit" }}}
+          </form>
+        </section>
+      </div>
+    </div>
+  </main>
+</div>

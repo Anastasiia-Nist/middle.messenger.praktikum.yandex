@@ -3,7 +3,9 @@ import { profileValuesMock } from '../../mock/profile/values'
 const getProfileValue = (name: string): string => profileValuesMock[name] ?? ''
 
 export const settingsPageData = {
+  displayName: getProfileValue('display_name'),
   profileForm: {
+    name: 'profile-info',
     disabled: true,
     fields: [
       {

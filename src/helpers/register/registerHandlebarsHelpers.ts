@@ -1,5 +1,5 @@
 import Handlebars from 'handlebars'
 
-export const registerHelpers = (): void => {
+export const registerHandlebarsHelpers = (): void => {
   Handlebars.registerHelper('eq', (value, expected) => value === expected)
 }

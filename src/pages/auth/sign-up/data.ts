@@ -1,5 +1,6 @@
 export const signUpPageData = {
   form: {
+    name: 'sign-up',
     fields: [
       {
         id: 'first_name',
