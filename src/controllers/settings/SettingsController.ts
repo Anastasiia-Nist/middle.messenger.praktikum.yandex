@@ -1,4 +1,4 @@
-import type { FormSubmitData } from '../../components/ui/form/Form'
+import type { FormSubmitData } from '../../components/ui/form/types'
 import { settingsPageData } from '../../pages/settings/data'
 import SettingsPage from '../../pages/settings/SettingsPage'
 import RouteController from '../RouteController'

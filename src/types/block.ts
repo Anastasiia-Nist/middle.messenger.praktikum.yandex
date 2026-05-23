@@ -1,4 +1,4 @@
-import type Block from '../block/block'
+import type Block from '../system/Block'
 
 export interface BlockOwnProps {
   __children?: Array<{

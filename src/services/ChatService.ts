@@ -1,4 +1,4 @@
-import type { ChatsPageProps } from '../pages/chats/ChatsPage'
+import type { ChatsPageProps } from '../pages/chats/types'
 import { chatsPageData } from '../pages/chats/data'
 
 export default class ChatService {

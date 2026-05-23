@@ -1,6 +1,6 @@
 import './styles.css'
 
-import { registerComponents } from './app/registerComponents'
+import { registerComponents } from './system/registerComponents'
 import { APP_ROOT_SELECTOR } from './constants'
 import { registerHandlebarsHelpers } from './helpers/register/registerHandlebarsHelpers'
 import { renderCurrentRoute } from './router/router'

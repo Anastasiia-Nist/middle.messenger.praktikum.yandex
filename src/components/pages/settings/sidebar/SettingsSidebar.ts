@@ -1,11 +1,6 @@
-import Block from '../../../../block/block'
-import type { BlockOwnProps } from '../../../../types/block'
+import Block from '../../../../system/Block'
 import template from './settings-sidebar.hbs?raw'
-
-export interface SettingsSidebarProps extends BlockOwnProps {
-  backHref: string
-  backAriaLabel: string
-}
+import type { SettingsSidebarProps } from './types'
 
 export default class SettingsSidebar extends Block<SettingsSidebarProps> {
   static componentName = 'SettingsSidebar'

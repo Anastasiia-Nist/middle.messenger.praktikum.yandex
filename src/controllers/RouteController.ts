@@ -1,4 +1,4 @@
-import Block from '../block/block'
+import Block from '../system/Block'
 
 export default abstract class RouteController<T extends Block = Block> {
   protected page: T | null = null

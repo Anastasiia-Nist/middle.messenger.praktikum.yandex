@@ -1,13 +1,6 @@
-import Block from '../../block/block'
-import type { FormProps } from '../../components/ui/form/Form'
-import type { BlockOwnProps } from '../../types/block'
+import Block from '../../system/Block'
 import template from './template.hbs?raw'
-
-export interface SettingsPageProps extends BlockOwnProps {
-  title?: string
-  displayName: string
-  profileForm: FormProps
-}
+import type { SettingsPageProps } from './types'
 
 export default class SettingsPage extends Block<SettingsPageProps> {
   protected template = template

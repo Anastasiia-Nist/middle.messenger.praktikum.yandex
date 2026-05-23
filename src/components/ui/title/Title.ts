@@ -1,11 +1,6 @@
-import Block from '../../../block/block'
-import type { BlockOwnProps } from '../../../types/block'
+import Block from '../../../system/Block'
 import template from './title.hbs?raw'
-
-export interface TitleProps extends BlockOwnProps {
-  text: string
-  titleClass?: string
-}
+import type { TitleProps } from './types'
 
 export default class Title extends Block<TitleProps> {
   static componentName = 'Title'

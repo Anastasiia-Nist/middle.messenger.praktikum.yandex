@@ -1,15 +1,15 @@
-import Block from '../../../block/block'
-import type { BlockOwnProps } from '../../../types/block'
+import Block from '../../../system/Block'
 import template from './button.hbs?raw'
-
-export interface ButtonProps extends BlockOwnProps {
-  type?: string
-  text?: string
-  buttonClass?: string
-}
+import type { ButtonProps } from './types'
 
 export default class Button extends Block<ButtonProps> {
   static componentName = 'Button'
 
   protected template = template
+
+  protected events = {
+    click: () => {
+      console.log('event button click', this)
+    },
+  }
 }
