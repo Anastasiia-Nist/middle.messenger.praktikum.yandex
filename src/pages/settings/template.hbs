@@ -1,29 +1,25 @@
-<div class="wrapper">
-  <main class="page page-profile">
-    <div class="layout profile-layout">
-      <aside class="layout__aside profile-layout__aside">
-        {{{ SettingsSidebar backHref="#/chats" backAriaLabel="Назад к чатам" }}}
-      </aside>
-      <div class="layout__content profile-layout__content">
-        <div class="page-profile__content">
-          <div class="page-profile__avatar-wrap">
-            {{{ Avatar type="button" overlayText="Поменять аватар" }}}
-          </div>
-          <div class="title title_position_center title_size_xl">{{displayName}}</div>
-          {{{ Form formClass=profileForm.formClass name="profile-info" fields=profileForm.fields actions=profileForm.actions disabled=profileForm.disabled onSubmit=profileForm.onSubmit }}}
-          <div class="page-profile__actions">
-            <div class="page-profile__actions-item">
-              {{{ Button buttonClass="page-profile__action-button button_type_link" text="Изменить данные" }}}
-            </div>
-            <div class="page-profile__actions-item">
-              {{{ Button buttonClass="page-profile__action-button button_type_link" text="Изменить пароль" }}}
-            </div>
-            <div class="page-profile__actions-item">
-              {{{ Button buttonClass="page-profile__action-button button_type_link button_color_danger" text="Выйти" }}}
-            </div>
-          </div>
+{{#> page mainClass="page-profile"}}
+  {{#> layout layoutClass="profile-layout" asideClass="profile-layout__aside" contentClass="profile-layout__content" hasAsideBlock=true}}
+    {{#*inline "aside-block"}}
+      {{{ SettingsSidebar backHref="#/chats" backAriaLabel="Назад к чатам" }}}
+    {{/inline}}
+    <div class="page-profile__content">
+      <div class="page-profile__avatar-wrap">
+        {{{ Avatar type="button" overlayText="Поменять аватар" }}}
+      </div>
+      {{{ Title text=displayName titleClass="title_position_center title_size_xl" }}}
+      {{{ Form formClass=profileForm.formClass name="profile-info" fields=profileForm.fields actions=profileForm.actions disabled=profileForm.disabled onSubmit=profileForm.onSubmit }}}
+      <div class="page-profile__actions">
+        <div class="page-profile__actions-item">
+          {{{ Button buttonClass="page-profile__action-button button_type_link" text="Изменить данные" }}}
+        </div>
+        <div class="page-profile__actions-item">
+          {{{ Button buttonClass="page-profile__action-button button_type_link" text="Изменить пароль" }}}
+        </div>
+        <div class="page-profile__actions-item">
+          {{{ Button buttonClass="page-profile__action-button button_type_link button_color_danger" text="Выйти" }}}
         </div>
       </div>
     </div>
-  </main>
-</div>
+  {{/layout}}
+{{/page}}

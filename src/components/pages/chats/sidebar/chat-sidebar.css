@@ -18,7 +18,15 @@
   color: var(--color-text-muted);
 }
 
-.chat-sidebar__search {
+.chat-sidebar__search .form-field__label {
+  display: none;
+}
+
+.chat-sidebar__search .form-field__error {
+  display: none;
+}
+
+.chat-sidebar__search .form-field__input {
   display: block;
   width: 100%;
   height: 2rem;
@@ -30,7 +38,7 @@
   border-radius: var(--border-radius-sm);
 }
 
-.chat-sidebar__search:focus {
+.chat-sidebar__search .form-field__input:focus {
   border-color: var(--color-link);
   outline: none;
 }

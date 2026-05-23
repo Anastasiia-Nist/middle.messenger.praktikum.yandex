@@ -1,7 +1,7 @@
 <div class="chat-sidebar">
   <div class="chat-sidebar__header">
     <a class="chat-sidebar__profile-link" href="{{profileLink}}">{{profileText}}</a>
-    <input class="chat-sidebar__search" type="search" placeholder="{{searchPlaceholder}}" name="chat-search" />
+    {{{ Input id="chat-search" name="chat-search" label="" type="search" placeholder=searchPlaceholder inputClass="chat-sidebar__search" validateOnBlur=false }}}
   </div>
   <ul class="chat-sidebar__list">
     {{#each chats}}

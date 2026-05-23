@@ -1,11 +1,9 @@
-<div class="wrapper">
-  <main class="page page-auth">
-    <div class="container container_type_card">
-      {{{ Title text="Регистрация" titleClass="title_position_center title_size_xl" }}}
-      {{{ Form formClass=form.formClass name=form.name fields=form.fields actions=form.actions onSubmit=form.onSubmit }}}
-      <div class="page__footer">
-        {{{ Link href=redirectLink.href text=redirectLink.text }}}
-      </div>
+{{#> page mainClass="page-auth"}}
+  {{#> container containerClass="container_type_card"}}
+    {{{ Title text="Регистрация" titleClass="title_position_center title_size_xl" }}}
+    {{{ Form formClass=form.formClass name=form.name fields=form.fields actions=form.actions onSubmit=form.onSubmit }}}
+    <div class="page__footer">
+      {{{ Link href=redirectLink.href text=redirectLink.text }}}
     </div>
-  </main>
-</div>
+  {{/container}}
+{{/page}}

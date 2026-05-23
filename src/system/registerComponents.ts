@@ -2,7 +2,6 @@ import Avatar from '../components/ui/avatar/Avatar'
 import Button from '../components/ui/button/Button'
 import ChatMessage from '../components/ui/chat-message/ChatMessage'
 import Form from '../components/ui/form/Form'
-import Icon from '../components/ui/icon/Icon'
 import Input from '../components/ui/input/Input'
 import Link from '../components/ui/link/Link'
 import Title from '../components/ui/title/Title'
@@ -15,7 +14,6 @@ export const registerComponents = (): void => {
   registerComponent(Link)
   registerComponent(Button)
   registerComponent(Avatar)
-  registerComponent(Icon)
   registerComponent(Input)
   registerComponent(Form)
   registerComponent(ChatMessage)

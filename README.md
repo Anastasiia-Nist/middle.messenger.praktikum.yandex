@@ -36,7 +36,7 @@ src/
 ├── components/          # View: компоненты
 │   ├── ui/              # Атомарные компоненты (Button, Form, Input…)
 │   ├── pages/           # Составные блоки конкретных страниц (сайдбары)
-│   └── layouts/         # Обёртки разметки (header, footer, layout)
+│   └── layouts/         # Обёртки разметки (layout, page)
 ├── helpers/             # Хелперы
 │   ├── register/        # Регистрация компонентов
 │   └── validation/      # Проверка полей форм

@@ -1,12 +1,9 @@
 @import url('./base.css');
-@import url('./components/layouts/footer/footer.css');
-@import url('./components/layouts/header/header.css');
 @import url('./components/layouts/layout/layout.css');
 @import url('./components/layouts/page/page.css');
 @import url('./components/ui/avatar/avatar.css');
 @import url('./components/ui/button/button.css');
 @import url('./components/ui/form/form.css');
-@import url('./components/ui/icon/icon.css');
 @import url('./components/ui/input/input.css');
 @import url('./components/ui/link/link.css');
 @import url('./components/ui/title/title.css');
