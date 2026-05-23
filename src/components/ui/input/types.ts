@@ -8,6 +8,10 @@ export interface InputProps extends BlockOwnProps {
   fieldType?: string
   rows?: number
   value?: string
+  placeholder?: string
   disabled?: boolean
   inputClass?: string
+  error?: string
+  validateOnBlur?: boolean
+  autocomplete?: string
 }

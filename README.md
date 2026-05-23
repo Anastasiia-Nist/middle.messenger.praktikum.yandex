@@ -13,11 +13,45 @@
 
 ## Архитектура (MVC)
 
-- **View** — базовый класс `Block` и компоненты/страницы (`Title`, `Form`, `ChatsPage` и т.д.), шаблоны Handlebars
-- **Model** — сервисы в `src/services/` (`FormService`, `ChatService`)
-- **Controller** — `src/controllers/`, связывают View и Model; роутер создаёт контроллер на маршрут
+Поток данных: `main.ts` → `router` (hash-маршрут) → **Controller** → **View** (страница `Block`) → при необходимости **Model** (сервис).
 
-Добавление UI-компонента: класс `extends Block` → `static componentName` → `registerComponent()` в `src/app/registerComponents.ts` → `{{{ ComponentName ... }}}` в шаблоне.
+| Слой | Где в `src/` | Роль |
+|------|--------------|------|
+| **View** | `components/`, `pages/`, `system/Block.ts` | Отрисовка UI: классы `extends Block`, шаблоны `.hbs`, стили |
+| **Controller** | `controllers/`, `router/` | Создание страницы, обработчики событий, связь View и Model |
+| **Model** | `services/` | Бизнес-логика без DOM (`FormService`, `ChatService`) |
+
+
+### Структура `src/`
+
+```
+src/
+├── main.ts              # Точка входа: регистрация, роутинг, монтирование в #app
+├── base.css, styles.css # Глобальные стили
+├── router/              # Hash-роутинг: маршрутизация
+├── system/              # Ядро View: Block, registerComponents
+├── controllers/         # Controller: контроллеры страниц
+├── services/            # Model: работа с данными и формами
+├── pages/               # View: страницы приложения (Block + template + data)
+├── components/          # View: компоненты
+│   ├── ui/              # Атомарные компоненты (Button, Form, Input…)
+│   ├── pages/           # Составные блоки конкретных страниц (сайдбары)
+│   └── layouts/         # Обёртки разметки (header, footer, layout)
+├── helpers/             # Хелперы
+│   ├── register/        # Регистрация компонентов
+│   └── validation/      # Проверка полей форм
+├── constants/           # Константы (селекторы, правила валидации)
+├── types/               # Общие TypeScript-типы
+├── mock/                # Заглушки данных (чаты, профиль) до подключения API
+└── public/              # Статические файлы (иконки, изображения)
+```
+
+### Добавление UI-компонента
+
+1. Класс `extends Block` в `components/ui/<name>/`
+2. `static componentName`, шаблон `.hbs`, стили
+3. Импорт и `registerComponent()` в `system/registerComponents.ts`
+4. В шаблоне: `{{{ ComponentName key=value }}}`
 
 ## Команды
 
@@ -31,7 +65,7 @@
 
 Маршруты работают через hash: в адресе после `#` указывается путь (например `http://localhost:3000/#/settings` или тот же путь на демо-домене).
 
-**без VPN демо не открывается**
+**Возможно без VPN демо не откроется**
 
 - **Чаты:** `/`, `/chats` — [открыть на демо](https://messenger-practicum-yandex-by-nist.netlify.app/#/)
 - **Вход:** `/sign-in` — [открыть на демо](https://messenger-practicum-yandex-by-nist.netlify.app/#/sign-in)
@@ -42,5 +76,5 @@
 
 ## Ссылки
 
-- **Демо:** [messenger-practicum-yandex-by-nist.netlify.app](https://messenger-practicum-yandex-by-nist.netlify.app/) — **без VPN демо не открывается**
+- **Демо:** [messenger-practicum-yandex-by-nist.netlify.app](https://messenger-practicum-yandex-by-nist.netlify.app/) — **Возможно без VPN демо не откроется**
 - **Figma:** [ссылка на макет](https://www.figma.com/design/jF5fFFzgGOxQeB4CmKWTiE/Chat_external_link?node-id=1-502&t=FRbllHNs6HSSEDlZ-0)

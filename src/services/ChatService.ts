@@ -10,6 +10,12 @@ export default class ChatService {
         chats: [...chatsPageData.sidebar.chats],
       },
       messagesByDay: [...chatsPageData.messagesByDay],
+      messageForm: {
+        ...chatsPageData.messageForm,
+        fields: [...chatsPageData.messageForm.fields],
+        leadingActions: [...chatsPageData.messageForm.leadingActions],
+        actions: [...chatsPageData.messageForm.actions],
+      },
     }
   }
 }

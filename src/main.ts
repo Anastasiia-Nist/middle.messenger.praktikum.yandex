@@ -3,6 +3,7 @@ import './styles.css'
 import { registerComponents } from './system/registerComponents'
 import { APP_ROOT_SELECTOR } from './constants'
 import { registerHandlebarsHelpers } from './helpers/register/registerHandlebarsHelpers'
+import { registerHandlebarsPartials } from './helpers/register/registerHandlebarsPartials'
 import { renderCurrentRoute } from './router/router'
 
 const rootNode = document.querySelector<HTMLDivElement>(APP_ROOT_SELECTOR)
@@ -16,6 +17,7 @@ const render = () => {
 }
 
 registerHandlebarsHelpers()
+registerHandlebarsPartials()
 registerComponents()
 
 window.addEventListener('hashchange', render)

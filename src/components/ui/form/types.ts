@@ -10,7 +10,10 @@ export interface FormFieldConfig {
   fieldType?: string
   rows?: number
   value?: string
+  placeholder?: string
   inputClass?: string
+  validateOnBlur?: boolean
+  autocomplete?: string
 }
 
 export interface FormActionConfig {
@@ -24,6 +27,7 @@ export interface FormProps extends BlockOwnProps {
   formClass?: string
   actionsClass?: string
   fields: FormFieldConfig[]
+  leadingActions?: FormActionConfig[]
   actions?: FormActionConfig[]
   disabled?: boolean
   onSubmit?: (data: FormSubmitData) => void

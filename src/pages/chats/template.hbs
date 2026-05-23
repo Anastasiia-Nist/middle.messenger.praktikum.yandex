@@ -24,11 +24,7 @@
             {{/each}}
           </ul>
 
-          <form class="chat-content__form" name="chat-message" method="post" ref="messageForm">
-            {{{ Button buttonClass="chat-content__add-file" type="button" }}}
-            <input class="chat-content__input" id="message" name="message" type="text" placeholder="Сообщение" ref="message" />
-            {{{ Button buttonClass="chat-content__submit" type="submit" }}}
-          </form>
+          {{{ Form formClass=messageForm.formClass name=messageForm.name fields=messageForm.fields leadingActions=messageForm.leadingActions actions=messageForm.actions onSubmit=onSubmit }}}
         </section>
       </div>
     </div>

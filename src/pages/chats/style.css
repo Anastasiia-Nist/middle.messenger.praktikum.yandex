@@ -116,19 +116,39 @@
   border-top: 1px solid var(--color-border);
 }
 
-.chat-content__input {
+.form_chat .form__fields {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.form_chat .form__actions {
+  margin-top: 0;
+}
+
+.form-field_chat {
+  gap: 0;
+}
+
+.form-field_chat .form-field__label:empty {
+  display: none;
+}
+
+.form-field_chat .form-field__input {
   width: 100%;
   padding: var(--space-xs);
   font-size: var(--font-size-md);
   background-color: var(--color-background-input);
   border: 1px solid var(--color-background-input);
   border-radius: var(--border-radius-lg);
-  border-color: var(--color-background-input);
 }
 
-.chat-content__input:focus {
+.form-field_chat .form-field__input:focus {
   border-color: var(--color-link);
   outline: none;
+}
+
+.form-field_chat.form-field_invalid .form-field__input {
+  border-color: #e53935;
 }
 
 .chat-content__add-file {

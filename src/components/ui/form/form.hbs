@@ -1,7 +1,14 @@
 <form class="form {{formClass}}" name="{{name}}" method="post" ref="form">
+  {{#if leadingActions}}
+    <div class="form__actions form__actions_leading {{actionsClass}}">
+      {{#each leadingActions}}
+        {{{ Button buttonClass=this.buttonClass type=this.type text=this.text }}}
+      {{/each}}
+    </div>
+  {{/if}}
   <div class="form__fields">
     {{#each fields}}
-      {{{ Input inputClass=this.inputClass id=this.id name=this.name label=this.label type=this.type fieldType=this.fieldType rows=this.rows value=this.value disabled=../disabled }}}
+      {{{ Input inputClass=this.inputClass id=this.id name=this.name label=this.label type=this.type fieldType=this.fieldType rows=this.rows value=this.value placeholder=this.placeholder disabled=../disabled validateOnBlur=this.validateOnBlur autocomplete=this.autocomplete }}}
     {{/each}}
   </div>
   {{#if actions}}

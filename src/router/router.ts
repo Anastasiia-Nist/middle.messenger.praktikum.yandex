@@ -1,6 +1,5 @@
 import ChatsController from '../controllers/chats/ChatsController'
-import Error404Controller from '../controllers/error/Error404Controller'
-import Error500Controller from '../controllers/error/Error500Controller'
+import ErrorController from '../controllers/error/ErrorController'
 import RouteController from '../controllers/RouteController'
 import SettingsController from '../controllers/settings/SettingsController'
 import SignInController from '../controllers/auth/SignInController'
@@ -14,8 +13,8 @@ const routes: Record<string, RouteFactory> = {
   '/sign-in': () => new SignInController(),
   '/sign-up': () => new SignUpController(),
   '/settings': () => new SettingsController(),
-  '/404': () => new Error404Controller(),
-  '/500': () => new Error500Controller(),
+  '/404': () => new ErrorController('404'),
+  '/500': () => new ErrorController('500'),
 }
 
 let currentController: RouteController | null = null

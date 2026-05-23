@@ -26,6 +26,10 @@
   -webkit-text-fill-color: inherit;
 }
 
+.form-field_invalid .form-field__input {
+  border-bottom-color: #e53935;
+}
+
 .form-field__input:-webkit-autofill,
 .form-field__input:-webkit-autofill:hover,
 .form-field__input:-webkit-autofill:focus,
@@ -41,4 +45,10 @@
 .form-field__input:disabled:-webkit-autofill:active {
   box-shadow: 0 0 0 1000px #fff inset;
   -webkit-text-fill-color: inherit;
+}
+
+.form-field__error {
+  min-height: 1em;
+  font-size: var(--font-size-xs);
+  color: #e53935;
 }

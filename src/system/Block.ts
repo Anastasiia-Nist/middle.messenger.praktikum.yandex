@@ -4,7 +4,7 @@ import type { BlockOwnProps } from '../types/block'
 
 export type { BlockOwnProps }
 
-type EventListType = Partial<Record<keyof HTMLElementEventMap, (e: Event) => void>>
+type EventListType = Partial<Record<keyof HTMLElementEventMap | string, (e: Event) => void>>
 
 export default abstract class Block<Props extends BlockOwnProps = BlockOwnProps> {
   protected abstract template: string
@@ -18,6 +18,8 @@ export default abstract class Block<Props extends BlockOwnProps = BlockOwnProps>
   protected refs: Record<string, Element> = {}
 
   protected events: EventListType = {}
+
+  protected eventsCapture: Array<keyof HTMLElementEventMap | string> = []
 
   constructor(props: Props = {} as Props) {
     this.props = props
@@ -64,19 +66,21 @@ export default abstract class Block<Props extends BlockOwnProps = BlockOwnProps>
   }
 
   private attachListeners() {
-    for (const eventName of Object.keys(this.events) as Array<keyof HTMLElementEventMap>) {
+    for (const eventName of Object.keys(this.events)) {
       const eventCallback = this.events[eventName]
       if (typeof eventCallback == 'function' && this.domElement) {
-        this.domElement.addEventListener(eventName, eventCallback)
+        const useCapture = this.eventsCapture.includes(eventName)
+        this.domElement.addEventListener(eventName, eventCallback, useCapture)
       }
     }
   }
 
   private removeListeners() {
-    for (const eventName of Object.keys(this.events) as Array<keyof HTMLElementEventMap>) {
+    for (const eventName of Object.keys(this.events)) {
       const eventCallback = this.events[eventName]
       if (typeof eventCallback === 'function' && this.domElement) {
-        this.domElement.removeEventListener(eventName, eventCallback)
+        const useCapture = this.eventsCapture.includes(eventName)
+        this.domElement.removeEventListener(eventName, eventCallback, useCapture)
       }
     }
   }
