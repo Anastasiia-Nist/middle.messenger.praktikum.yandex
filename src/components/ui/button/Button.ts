@@ -14,7 +14,7 @@ export default class Button extends Block<ButtonProps> {
         new CustomEvent(BUTTON_CLICK_EVENT, {
           bubbles: true,
           detail: { action: this.props.action },
-        }),
+        })
       )
     },
   }

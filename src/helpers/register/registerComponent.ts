@@ -6,7 +6,7 @@ import type { BlockComponentClass, BlockOwnProps } from '../../types/block'
 let uniqueId = 0
 
 export function registerComponent<P extends BlockOwnProps = BlockOwnProps>(
-  Component: BlockComponentClass<P>,
+  Component: BlockComponentClass<P>
 ): void {
   const dataAttribute = `data-component-hbs-id="${++uniqueId}"`
 
@@ -39,6 +39,6 @@ export function registerComponent<P extends BlockOwnProps = BlockOwnProps>(
       })
 
       return `<div ${dataAttribute}></div>`
-    },
+    }
   )
 }

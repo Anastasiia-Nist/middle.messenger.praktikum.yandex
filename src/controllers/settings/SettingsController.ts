@@ -17,7 +17,7 @@ export default class SettingsController extends RouteController<SettingsPage> {
           onSubmit: (data: FormSubmitData) => console.log(data),
         },
       }),
-      'SettingsPage',
+      'SettingsPage'
     )
   }
 }

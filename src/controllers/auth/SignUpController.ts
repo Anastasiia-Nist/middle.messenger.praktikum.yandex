@@ -13,7 +13,7 @@ export default class SignUpController extends RouteController<SignUpPage> {
           onSubmit: (data: FormSubmitData) => console.log(data),
         },
       }),
-      'SignUpPage',
+      'SignUpPage'
     )
   }
 }

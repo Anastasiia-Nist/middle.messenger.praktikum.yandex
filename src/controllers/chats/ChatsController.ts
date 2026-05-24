@@ -12,7 +12,7 @@ export default class ChatsController extends RouteController<ChatsPage> {
         ...this.chatService.getChatsPageData(),
         onSubmit: (data: FormSubmitData) => console.log(data),
       }),
-      'ChatsPage',
+      'ChatsPage'
     )
   }
 }

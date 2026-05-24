@@ -17,9 +17,6 @@ export interface ChatsPageProps extends BlockOwnProps {
   sidebar: ChatSidebarProps
   activeChatName: string
   messagesByDay: ChatDayGroup[]
-  messageForm: Pick<
-    FormProps,
-    'name' | 'formClass' | 'fields' | 'leadingActions' | 'actions'
-  >
+  messageForm: Pick<FormProps, 'name' | 'formClass' | 'fields' | 'leadingActions' | 'actions'>
   onSubmit?: (data: FormSubmitData) => void
 }

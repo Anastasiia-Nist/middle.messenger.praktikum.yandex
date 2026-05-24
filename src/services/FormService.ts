@@ -4,7 +4,6 @@ export default class FormService {
     const elements = Array.from(form)
 
     elements.forEach((element) => {
-
       if (!(element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement)) {
         return
       }

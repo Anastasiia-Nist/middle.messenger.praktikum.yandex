@@ -1,6 +1,6 @@
 export const isCustomEventWithStringDetail = <K extends string>(
   event: Event,
-  key: K,
+  key: K
 ): event is CustomEvent<Record<K, string>> => {
   if (!(event instanceof CustomEvent)) {
     return false
@@ -8,8 +8,10 @@ export const isCustomEventWithStringDetail = <K extends string>(
 
   const { detail } = event
 
-  return typeof detail === 'object'
-    && detail !== null
-    && key in detail
-    && typeof (detail as Record<string, unknown>)[key] === 'string'
+  return (
+    typeof detail === 'object' &&
+    detail !== null &&
+    key in detail &&
+    typeof (detail as Record<string, unknown>)[key] === 'string'
+  )
 }

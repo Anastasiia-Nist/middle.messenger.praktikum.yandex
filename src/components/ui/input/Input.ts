@@ -40,7 +40,7 @@ export default class Input extends Block<InputProps> {
         new CustomEvent(FIELD_BLUR_EVENT, {
           bubbles: true,
           detail: { name: this.props.name },
-        }),
+        })
       )
     },
   }
