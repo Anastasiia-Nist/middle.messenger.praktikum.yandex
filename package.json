@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Учебный проект Яндекс Практикума - веб-приложение «Чат»",
   "scripts": {
-    "start": "vite",
+    "start": "vite build && vite preview",
+    "dev": "vite",
     "typecheck": "tsc --noEmit",
     "build": "npm run lint && vite build",
     "preview": "vite preview",

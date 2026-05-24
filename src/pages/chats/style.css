@@ -109,31 +109,30 @@
 }
 
 .chat-content__form {
-  display: flex;
+  flex-direction: row;
   align-items: center;
   gap: 0.75rem;
   padding: var(--space-md) var(--space-xl);
   border-top: 1px solid var(--color-border);
 }
 
-.form_chat .form__fields {
+.chat-content__form .form__fields {
   flex: 1;
-  margin-bottom: 0;
 }
 
-.form_chat .form__actions {
+.chat-content__form .form__actions {
   margin-top: 0;
 }
 
 .form-field_chat {
-  gap: 0;
+  display: block;
 }
 
 .form-field_chat .form-field__label:empty {
   display: none;
 }
 
-.form-field_chat .form-field__input {
+.chat-content__form .form-field_chat .form-field__input {
   width: 100%;
   padding: var(--space-xs);
   font-size: var(--font-size-md);
@@ -142,13 +141,13 @@
   border-radius: var(--border-radius-lg);
 }
 
-.form-field_chat .form-field__input:focus {
+.chat-content__form .form-field_chat .form-field__input:focus {
   border-color: var(--color-link);
   outline: none;
 }
 
-.form-field_chat.form-field_invalid .form-field__input {
-  border-color: #e53935;
+.chat-content__form .form-field_chat.form-field_invalid .form-field__input {
+  border-color: var(--color-red);
 }
 
 .chat-content__add-file {

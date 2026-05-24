@@ -4,31 +4,42 @@ import {
   type ValidationFieldName,
 } from '../../constants/validation'
 
+type ValidationRule = {
+  pattern?: RegExp
+  required?: boolean
+}
+
+const FIELD_RULES: Record<ValidationFieldName, ValidationRule> = {
+  first_name: { pattern: VALIDATION_PATTERNS.NAME },
+  second_name: { pattern: VALIDATION_PATTERNS.NAME },
+  display_name: { required: true },
+  login: { pattern: VALIDATION_PATTERNS.LOGIN },
+  email: { pattern: VALIDATION_PATTERNS.EMAIL },
+  password: { pattern: VALIDATION_PATTERNS.PASSWORD },
+  oldPassword: { required: true },
+  newPassword: { pattern: VALIDATION_PATTERNS.PASSWORD },
+  phone: { pattern: VALIDATION_PATTERNS.PHONE },
+  message: { required: true },
+}
+
 const isValidationFieldName = (name: string): name is ValidationFieldName =>
   name in VALIDATION_MESSAGES
 
-export function validateField(name: string, value: string): string | null {
+export function validateFieldValue(name: string, value: string): string | null {
   if (!isValidationFieldName(name)) {
     return null
   }
 
   const trimmedValue = value.trim()
+  const rule = FIELD_RULES[name]
 
-  switch (name) {
-    case 'first_name':
-    case 'second_name':
-      return VALIDATION_PATTERNS.NAME.test(trimmedValue) ? null : VALIDATION_MESSAGES[name]
-    case 'login':
-      return VALIDATION_PATTERNS.LOGIN.test(trimmedValue) ? null : VALIDATION_MESSAGES[name]
-    case 'email':
-      return VALIDATION_PATTERNS.EMAIL.test(trimmedValue) ? null : VALIDATION_MESSAGES[name]
-    case 'password':
-      return VALIDATION_PATTERNS.PASSWORD.test(value) ? null : VALIDATION_MESSAGES[name]
-    case 'phone':
-      return VALIDATION_PATTERNS.PHONE.test(trimmedValue) ? null : VALIDATION_MESSAGES[name]
-    case 'message':
-      return trimmedValue.length > 0 ? null : VALIDATION_MESSAGES[name]
-    default:
-      return null
+  if (rule.required) {
+    return trimmedValue.length > 0 ? null : VALIDATION_MESSAGES[name]
   }
+
+  if (rule.pattern) {
+    return rule.pattern.test(trimmedValue) ? null : VALIDATION_MESSAGES[name]
+  }
+
+  return null
 }

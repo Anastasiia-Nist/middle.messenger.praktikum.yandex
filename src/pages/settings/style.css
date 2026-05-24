@@ -15,7 +15,6 @@
 .page-profile__form {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
 }
 
 .page-profile__form .form-field {
@@ -25,23 +24,33 @@
 .page-profile__form .form-field__label {
   position: absolute;
   font-size: var(--font-size-lg);
+}
+
+.page-profile__form.form_disabled .form-field__label {
   color: var(--color-text);
 }
 
 .page-profile__form .form-field__input {
-  color: var(--color-text-muted);
   text-align: right;
-  border-bottom: 1px solid var(--color-border);
 }
 
-.page-profile__form .form-field:last-child .form-field__input {
+.page-profile__form.form_disabled .form-field__input {
+  color: var(--color-text-muted);
+}
+
+.page-profile__form.form_disabled .form-field:last-child .form-field__input {
   border-bottom: none;
 }
 
 .page-profile__actions {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: var(--space-xl);
+  margin-top:  var(--space-3xl);
+}
+
+.page-profile__form-password {
+  margin: var(--space-md) 0;
 }
 
 .page-profile__actions-item {

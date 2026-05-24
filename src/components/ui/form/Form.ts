@@ -1,7 +1,8 @@
-import { validateField as getFieldValidationError } from '../../../helpers/validation'
+import { validateFieldValue } from '../../../helpers/validation'
 import FormService from '../../../services/FormService'
 import Block from '../../../system/Block'
-import { FIELD_BLUR_EVENT } from '../events'
+import { FIELD_BLUR_EVENT } from '../../../constants/events'
+import { isCustomEventWithStringDetail } from '../../../utils/events'
 import Input from '../input/Input'
 import template from './form.hbs?raw'
 import type { FormProps } from './types'
@@ -10,8 +11,6 @@ const formService = new FormService()
 
 export default class Form extends Block<FormProps> {
   static componentName = 'Form'
-
-  isValid = true
 
   protected template = template
 
@@ -32,36 +31,25 @@ export default class Form extends Block<FormProps> {
       return true
     }
 
-    const error = getFieldValidationError(name, control.value)
+    const error = validateFieldValue(name, control.value)
     inputChild.setError(error)
 
     return !error
   }
 
   validate(): boolean {
-    const results = this.getInputs().map((child) => this.validateField(child.getFieldName()))
-    this.isValid = results.every(Boolean)
-
-    return this.isValid
-  }
-
-  private updateIsValid(): void {
-    this.isValid = this.getInputs().every((child) => {
-      const control = child.getControl()
-
-      if (!control || control.disabled) {
-        return true
-      }
-
-      return getFieldValidationError(child.getFieldName(), control.value) === null
-    })
+    return this.getInputs()
+      .map((child) => this.validateField(child.getFieldName()))
+      .every(Boolean)
   }
 
   protected events = {
     [FIELD_BLUR_EVENT]: (event: Event) => {
-      const { name } = (event as CustomEvent<{ name: string }>).detail
-      this.validateField(name)
-      this.updateIsValid()
+      if (!isCustomEventWithStringDetail(event, 'name')) {
+        return
+      }
+
+      this.validateField(event.detail.name)
     },
 
     submit: (event: Event) => {

@@ -1,0 +1,1 @@
+export { isCustomEventWithStringDetail } from './isCustomEventWithStringDetail'

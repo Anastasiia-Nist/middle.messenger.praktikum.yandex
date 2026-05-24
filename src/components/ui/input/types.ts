@@ -12,6 +12,5 @@ export interface InputProps extends BlockOwnProps {
   disabled?: boolean
   inputClass?: string
   error?: string
-  validateOnBlur?: boolean
   autocomplete?: string
 }

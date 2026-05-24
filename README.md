@@ -4,12 +4,13 @@
 
 ## Стек
 
-- TypeScript 5+
-- Vite
+- Node.js 22+
+- TypeScript 6
+- Vite 6
 - PostCSS
 - Handlebars
-- ESLint
-- Stylelint
+- ESLint 9
+- Stylelint 16
 
 ## Архитектура (MVC)
 
@@ -56,10 +57,14 @@ src/
 ## Команды
 
 - `npm install` — установка зависимостей
-- `npm run start` — запуск dev-сервера на порту `3000`
+- `npm run dev` — dev-сервер Vite на порту `3000`
+- `npm run start` — production-сборка и preview на порту `3000`
+- `npm run preview` — preview уже собранного `dist`
 - `npm run typecheck` — проверка типов TypeScript (`tsc --noEmit`)
-- `npm run build` — typecheck + production-сборка в `dist`
-- `npm run lint` — проверка TypeScript и CSS линтерами
+- `npm run build` — lint (TypeScript, CSS, typecheck) и production-сборка в `dist`
+- `npm run lint` — ESLint, Stylelint и typecheck
+- `npm run lint:fix` — автоисправление замечаний ESLint и Stylelint
+- `npm run format` — форматирование шаблонов `.hbs` (js-beautify)
 
 ## Страницы приложения
 

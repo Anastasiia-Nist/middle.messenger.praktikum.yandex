@@ -12,7 +12,6 @@ export interface FormFieldConfig {
   value?: string
   placeholder?: string
   inputClass?: string
-  validateOnBlur?: boolean
   autocomplete?: string
 }
 
@@ -20,6 +19,7 @@ export interface FormActionConfig {
   type?: string
   text?: string
   buttonClass?: string
+  action?: string
 }
 
 export interface FormProps extends BlockOwnProps {

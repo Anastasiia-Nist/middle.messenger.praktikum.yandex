@@ -11,7 +11,7 @@ export const chatsPageData = {
   messagesByDay: chatMessagesByDayMock,
   messageForm: {
     name: 'chat-message',
-    formClass: 'chat-content__form form_chat',
+    formClass: 'chat-content__form',
     fields: [
       {
         id: 'message',
@@ -20,7 +20,6 @@ export const chatsPageData = {
         type: 'text',
         placeholder: 'Сообщение',
         inputClass: 'form-field_chat',
-        validateOnBlur: false,
         autocomplete: 'off',
       },
     ],

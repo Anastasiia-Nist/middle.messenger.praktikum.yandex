@@ -1,11 +1,11 @@
 import Handlebars from 'handlebars'
 import type { HelperOptions } from 'handlebars'
 
-import type { BlockComponentClass } from '../../types/block'
+import type { BlockComponentClass, BlockOwnProps } from '../../types/block'
 
 let uniqueId = 0
 
-export function registerComponent<P extends object = object>(
+export function registerComponent<P extends BlockOwnProps = BlockOwnProps>(
   Component: BlockComponentClass<P>,
 ): void {
   const dataAttribute = `data-component-hbs-id="${++uniqueId}"`

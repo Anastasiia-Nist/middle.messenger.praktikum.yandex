@@ -13,7 +13,7 @@ export default abstract class Block<Props extends BlockOwnProps = BlockOwnProps>
 
   private domElement: Element | null = null
 
-  protected children: Block<object>[] = []
+  protected children: Block<BlockOwnProps>[] = []
 
   protected refs: Record<string, Element> = {}
 

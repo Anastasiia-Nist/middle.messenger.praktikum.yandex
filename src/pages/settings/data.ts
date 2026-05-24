@@ -4,6 +4,7 @@ const getProfileValue = (name: string): string => profileValuesMock[name] ?? ''
 
 export const settingsPageData = {
   displayName: getProfileValue('display_name'),
+  passwordFormVisible: false,
   profileForm: {
     name: 'profile-info',
     disabled: true,
@@ -51,6 +52,29 @@ export const settingsPageData = {
         value: getProfileValue('phone'),
       },
     ],
+    actions: undefined,
     formClass: 'page-profile__form',
+  },
+  passwordForm: {
+    name: 'change-password',
+    disabled: false,
+    fields: [
+      {
+        id: 'oldPassword',
+        name: 'oldPassword',
+        label: 'Старый пароль',
+        type: 'password',
+        autocomplete: 'current-password',
+      },
+      {
+        id: 'newPassword',
+        name: 'newPassword',
+        label: 'Новый пароль',
+        type: 'password',
+        autocomplete: 'new-password',
+      },
+    ],
+    actions: undefined,
+    formClass: 'page-profile__form page-profile__form-password',
   },
 }

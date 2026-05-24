@@ -1,5 +1,5 @@
 import Block from '../../../system/Block'
-import { FIELD_BLUR_EVENT } from '../events'
+import { FIELD_BLUR_EVENT } from '../../../constants/events'
 import template from './input.hbs?raw'
 import type { InputProps } from './types'
 
@@ -36,10 +36,6 @@ export default class Input extends Block<InputProps> {
 
   protected events = {
     blur: () => {
-      if (this.props.validateOnBlur === false) {
-        return
-      }
-
       this.element()?.dispatchEvent(
         new CustomEvent(FIELD_BLUR_EVENT, {
           bubbles: true,

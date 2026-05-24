@@ -12,6 +12,10 @@ export default class SettingsController extends RouteController<SettingsPage> {
           ...settingsPageData.profileForm,
           onSubmit: (data: FormSubmitData) => console.log(data),
         },
+        passwordForm: {
+          ...settingsPageData.passwordForm,
+          onSubmit: (data: FormSubmitData) => console.log(data),
+        },
       }),
       'SettingsPage',
     )

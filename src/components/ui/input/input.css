@@ -26,10 +26,6 @@
   -webkit-text-fill-color: inherit;
 }
 
-.form-field_invalid .form-field__input {
-  border-bottom-color: #e53935;
-}
-
 .form-field__input:-webkit-autofill,
 .form-field__input:-webkit-autofill:hover,
 .form-field__input:-webkit-autofill:focus,
@@ -37,6 +33,10 @@
   box-shadow: 0 0 0 1000px #fff inset;
   transition: background-color 9999s ease-in-out 0s;
   -webkit-text-fill-color: inherit;
+}
+
+.form-field.form-field_invalid .form-field__input {
+  border-bottom-color: var(--color-red);
 }
 
 .form-field__input:disabled:-webkit-autofill,
@@ -50,5 +50,5 @@
 .form-field__error {
   min-height: 1em;
   font-size: var(--font-size-xs);
-  color: #e53935;
+  color: var(--color-red);
 }
