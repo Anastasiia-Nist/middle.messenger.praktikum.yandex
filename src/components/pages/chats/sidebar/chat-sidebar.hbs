@@ -1,14 +1,14 @@
 <div class="chat-sidebar">
   <div class="chat-sidebar__header">
     <a class="chat-sidebar__profile-link" href="{{profileLink}}">{{profileText}}</a>
-    <input class="chat-sidebar__search" type="search" placeholder="{{searchPlaceholder}}" name="chat-search" />
+    {{{ Input id="chat-search" name="chat-search" label="" type="search" placeholder=searchPlaceholder inputClass="chat-sidebar__search" }}}
   </div>
   <ul class="chat-sidebar__list">
     {{#each chats}}
       <li class="chat-sidebar__item {{#if this.isActive}}chat-sidebar__item_active{{/if}}">
         <div class="chat-sidebar__item-content">
           <div class="chat-sidebar__avatar">
-            {{> ui-avatar type="icon"}}
+            {{{ Avatar type="icon" }}}
           </div>
           <div class="chat-sidebar__item-info">
             <div class="chat-sidebar__item-top">

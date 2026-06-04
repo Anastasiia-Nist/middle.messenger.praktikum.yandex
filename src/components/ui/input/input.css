@@ -35,10 +35,20 @@
   -webkit-text-fill-color: inherit;
 }
 
+.form-field.form-field_invalid .form-field__input {
+  border-bottom-color: var(--color-red);
+}
+
 .form-field__input:disabled:-webkit-autofill,
 .form-field__input:disabled:-webkit-autofill:hover,
 .form-field__input:disabled:-webkit-autofill:focus,
 .form-field__input:disabled:-webkit-autofill:active {
   box-shadow: 0 0 0 1000px #fff inset;
   -webkit-text-fill-color: inherit;
+}
+
+.form-field__error {
+  min-height: 1em;
+  font-size: var(--font-size-xs);
+  color: var(--color-red);
 }

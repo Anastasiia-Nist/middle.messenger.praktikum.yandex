@@ -7,6 +7,12 @@
     "isolatedModules": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
+    "noEmit": true,
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "sourceMap": true,
+    "strictNullChecks": true,
     "types": ["vite/client"]
   },
   "include": ["src"]

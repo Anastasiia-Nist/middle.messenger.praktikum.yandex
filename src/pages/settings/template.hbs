@@ -1,27 +1,34 @@
-{{#> layout-page title=title mainClass="page-profile"}}
-  {{#> layout layoutClass="profile-layout" contentClass="profile-layout__content" asideClass="profile-layout__aside" hasAsideBlock=true}}
+{{#> page mainClass="page-profile"}}
+  {{#> layout layoutClass="profile-layout" asideClass="profile-layout__aside" contentClass="profile-layout__content" hasAsideBlock=true}}
     {{#*inline "aside-block"}}
-      {{> settings-sidebar backHref="#/chats" backAriaLabel="Назад к чатам"}}
+      {{{ SettingsSidebar backHref="#/chats" backAriaLabel="Назад к чатам" }}}
     {{/inline}}
-
     <div class="page-profile__content">
       <div class="page-profile__avatar-wrap">
-        {{> ui-avatar type="button" overlayText="Поменять аватар"}}
+        {{{ Avatar type="button" overlayText="Поменять аватар" }}}
       </div>
-      <div class="title title_position_center title_size_xl">{{profileForm.fields.0.value}}</div>
-      {{> ui-form formClass=profileForm.formClass name="profile-info" fields=profileForm.fields
-      actions=profileForm.actions disabled=profileForm.disabled}}
+      {{{ Title text=displayName titleClass="title_position_center title_size_xl" }}}
+      {{{ Form formClass=profileForm.formClass actionsClass=profileForm.actionsClass name="profile-info" fields=profileForm.fields actions=profileForm.actions disabled=profileForm.disabled onSubmit=profileForm.onSubmit }}}
       <div class="page-profile__actions">
+        {{#if profileForm.disabled}}
+          <div class="page-profile__actions-item">
+            {{{ Button buttonClass="page-profile__action-button button_type_link" text="Изменить данные" action="edit-profile" }}}
+          </div>
+        {{/if}}
+        {{#if passwordFormVisible}}
+          <div class="page-profile__password-form">
+            {{{ Form formClass=passwordForm.formClass actionsClass=passwordForm.actionsClass name=passwordForm.name fields=passwordForm.fields actions=passwordForm.actions disabled=passwordForm.disabled onSubmit=passwordForm.onSubmit }}}
+          </div>
+        {{/if}}
+        {{#unless passwordFormVisible}}
+          <div class="page-profile__actions-item">
+            {{{ Button buttonClass="page-profile__action-button button_type_link" text="Изменить пароль" action="edit-password" }}}
+          </div>
+        {{/unless}}
         <div class="page-profile__actions-item">
-          {{> ui-button buttonClass="page-profile__action-button button_type_link" text="Изменить данные"}}
-        </div>
-        <div class="page-profile__actions-item">
-          {{> ui-button buttonClass="page-profile__action-button button_type_link" text="Изменить пароль"}}
-        </div>
-        <div class="page-profile__actions-item">
-          {{> ui-button buttonClass="page-profile__action-button button_type_link button_color_danger" text="Выйти"}}
+          {{{ Button buttonClass="page-profile__action-button button_type_link button_color_danger" text="Выйти" }}}
         </div>
       </div>
     </div>
   {{/layout}}
-{{/layout-page}}
+{{/page}}

@@ -21,8 +21,12 @@
 }
 
 .button_color_danger {
-  color: #f00;
+  color: var(--color-red);
   background-color: transparent;
   border: none;
   cursor: pointer;
+}
+
+.button_border_danger {
+  border: 1px solid var(--color-red);
 }
