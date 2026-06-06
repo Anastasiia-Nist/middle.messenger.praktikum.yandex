@@ -25,5 +25,3 @@ export const VALIDATION_MESSAGES = {
   phone: 'Телефон должен содержать от 10 до 15 цифр',
   message: 'Сообщение не должно быть пустым',
 } as const
-
-export type ValidationFieldName = keyof typeof VALIDATION_MESSAGES

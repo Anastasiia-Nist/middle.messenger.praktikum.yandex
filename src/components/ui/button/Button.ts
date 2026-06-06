@@ -1,4 +1,4 @@
-import { BUTTON_CLICK_EVENT } from '../../../constants/events'
+import { BUTTON_CLICK_EVENT } from '../../../constants'
 import Block from '../../../system/Block'
 import template from './button.hbs?raw'
 import type { ButtonProps } from './types'

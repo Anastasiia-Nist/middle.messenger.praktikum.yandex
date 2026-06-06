@@ -1,5 +1,5 @@
 import Block from '../../../system/Block'
-import { FIELD_BLUR_EVENT } from '../../../constants/events'
+import { FIELD_BLUR_EVENT } from '../../../constants'
 import template from './input.hbs?raw'
 import type { InputProps } from './types'
 

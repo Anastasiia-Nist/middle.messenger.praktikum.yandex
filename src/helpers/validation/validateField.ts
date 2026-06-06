@@ -1,8 +1,5 @@
-import {
-  VALIDATION_MESSAGES,
-  VALIDATION_PATTERNS,
-  type ValidationFieldName,
-} from '../../constants/validation'
+import { VALIDATION_MESSAGES, VALIDATION_PATTERNS } from '../../constants'
+import type { ValidationFieldName } from '../../types'
 
 type ValidationRule = {
   pattern?: RegExp

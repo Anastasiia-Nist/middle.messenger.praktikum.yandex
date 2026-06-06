@@ -1,6 +1,4 @@
-import type { BlockOwnProps } from '../../types/block'
-
-import type { ErrorCode } from './data'
+import type { BlockOwnProps, ErrorCode } from '../../types'
 
 export interface ErrorPageProps extends BlockOwnProps {
   code: ErrorCode

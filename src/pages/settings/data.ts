@@ -1,8 +1,11 @@
+import { ROUTES } from '../../constants'
 import { profileValuesMock } from '../../mock/profile/values'
 
 const getProfileValue = (name: string): string => profileValuesMock[name] ?? ''
 
 export const settingsPageData = {
+  backHref: ROUTES.MESSENGER,
+  backAriaLabel: 'Назад к чатам',
   displayName: getProfileValue('display_name'),
   passwordFormVisible: false,
   profileForm: {

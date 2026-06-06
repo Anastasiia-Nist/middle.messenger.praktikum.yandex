@@ -1,8 +1,9 @@
+import { ROUTES } from '../../constants'
 import { chatListMock, chatMessagesByDayMock } from '../../mock/chat/messages'
 
 export const chatsPageData = {
   sidebar: {
-    profileLink: '#/settings',
+    profileLink: ROUTES.SETTINGS,
     profileText: 'Профиль >',
     searchPlaceholder: 'Поиск',
     chats: chatListMock,

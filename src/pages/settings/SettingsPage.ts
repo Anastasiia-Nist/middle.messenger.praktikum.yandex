@@ -1,5 +1,5 @@
 import type { FormActionConfig, FormSubmitData } from '../../components/ui/form/types'
-import { BUTTON_CLICK_EVENT } from '../../constants/events'
+import { BUTTON_CLICK_EVENT } from '../../constants'
 import Block from '../../system/Block'
 import { isCustomEventWithStringDetail } from '../../utils/events'
 import template from './template.hbs?raw'

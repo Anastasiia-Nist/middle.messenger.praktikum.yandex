@@ -1,7 +1,7 @@
 import { validateFieldValue } from '../../../helpers/validation'
 import FormService from '../../../services/FormService'
 import Block from '../../../system/Block'
-import { FIELD_BLUR_EVENT } from '../../../constants/events'
+import { FIELD_BLUR_EVENT } from '../../../constants'
 import { isCustomEventWithStringDetail } from '../../../utils/events'
 import Input from '../input/Input'
 import template from './form.hbs?raw'

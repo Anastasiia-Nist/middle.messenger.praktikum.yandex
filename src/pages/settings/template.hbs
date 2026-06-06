@@ -1,7 +1,7 @@
 {{#> page mainClass="page-profile"}}
   {{#> layout layoutClass="profile-layout" asideClass="profile-layout__aside" contentClass="profile-layout__content" hasAsideBlock=true}}
     {{#*inline "aside-block"}}
-      {{{ SettingsSidebar backHref="#/chats" backAriaLabel="Назад к чатам" }}}
+      {{{ SettingsSidebar backHref=backHref backAriaLabel=backAriaLabel }}}
     {{/inline}}
     <div class="page-profile__content">
       <div class="page-profile__avatar-wrap">

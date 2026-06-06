@@ -14,12 +14,12 @@
 
 ## Архитектура (MVC)
 
-Поток данных: `main.ts` → `router` (hash-маршрут) → **Controller** → **View** (страница `Block`) → при необходимости **Model** (сервис).
+Поток данных: `main.ts` → `Router` (History API) → **Controller** → **View** (страница `Block`) → при необходимости **Model** (сервис).
 
 | Слой | Где в `src/` | Роль |
 |------|--------------|------|
 | **View** | `components/`, `pages/`, `system/Block.ts` | Отрисовка UI: классы `extends Block`, шаблоны `.hbs`, стили |
-| **Controller** | `controllers/`, `router/` | Создание страницы, обработчики событий, связь View и Model |
+| **Controller** | `controllers/` | Создание страницы, обработчики событий, связь View и Model |
 | **Model** | `services/` | Бизнес-логика без DOM (`FormService`, `ChatService`) |
 
 
@@ -29,8 +29,8 @@
 src/
 ├── main.ts              # Точка входа: регистрация, роутинг, монтирование в #app
 ├── base.css, styles.css # Глобальные стили
-├── router/              # Hash-роутинг: маршрутизация
-├── system/              # Ядро View: Block, registerComponents
+├── system/              # Ядро View: Block, registerComponents, Router
+│   └── router/          # Классы Route, Router и регистрация маршрутов
 ├── controllers/         # Controller: контроллеры страниц
 ├── services/            # Model: работа с данными и формами
 ├── pages/               # View: страницы приложения (Block + template + data)
@@ -68,16 +68,16 @@ src/
 
 ## Страницы приложения
 
-Маршруты работают через hash: в адресе после `#` указывается путь (например `http://localhost:3000/#/settings` или тот же путь на демо-домене).
+Маршруты работают через History API: путь указывается в адресной строке (например `http://localhost:3000/settings`).
 
 **Возможно без VPN демо не откроется**
 
-- **Чаты:** `/`, `/chats` — [открыть на демо](https://messenger-practicum-yandex-by-nist.netlify.app/#/)
-- **Вход:** `/sign-in` — [открыть на демо](https://messenger-practicum-yandex-by-nist.netlify.app/#/sign-in)
-- **Регистрация:** `/sign-up` — [открыть на демо](https://messenger-practicum-yandex-by-nist.netlify.app/#/sign-up)
-- **Настройки профиля:** `/settings` — [открыть на демо](https://messenger-practicum-yandex-by-nist.netlify.app/#/settings)
-- **Ошибка 404:** `/404` — [открыть на демо](https://messenger-practicum-yandex-by-nist.netlify.app/#/404)
-- **Ошибка 500:** `/500` — [открыть на демо](https://messenger-practicum-yandex-by-nist.netlify.app/#/500)
+- **Вход:** `/` — [открыть на демо](https://messenger-practicum-yandex-by-nist.netlify.app/)
+- **Чаты:** `/messenger` — [открыть на демо](https://messenger-practicum-yandex-by-nist.netlify.app/messenger)
+- **Регистрация:** `/sign-up` — [открыть на демо](https://messenger-practicum-yandex-by-nist.netlify.app/sign-up)
+- **Настройки профиля:** `/settings` — [открыть на демо](https://messenger-practicum-yandex-by-nist.netlify.app/settings)
+- **Ошибка 404:** `/404` — [открыть на демо](https://messenger-practicum-yandex-by-nist.netlify.app/404)
+- **Ошибка 500:** `/500` — [открыть на демо](https://messenger-practicum-yandex-by-nist.netlify.app/500)
 
 ## Ссылки
 
