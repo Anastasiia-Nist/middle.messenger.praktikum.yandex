@@ -4,6 +4,7 @@ import { registerComponents } from './system/registerComponents'
 import { registerHandlebarsHelpers } from './helpers/register/registerHandlebarsHelpers'
 import { registerHandlebarsPartials } from './helpers/register/registerHandlebarsPartials'
 import { router } from './routes'
+import { authService } from './services/AuthService'
 
 registerHandlebarsHelpers()
 registerHandlebarsPartials()
@@ -26,4 +27,9 @@ document.addEventListener('click', (event) => {
   router.go(pathname)
 })
 
-router.start()
+const init = async (): Promise<void> => {
+  await authService.checkAuth()
+  router.start()
+}
+
+void init()

@@ -5,11 +5,11 @@ import { FIELD_BLUR_EVENT } from '../../../constants'
 import { isCustomEventWithStringDetail } from '../../../utils/events'
 import Input from '../input/Input'
 import template from './form.hbs?raw'
-import type { FormProps } from './types'
+import type { FormData, FormProps } from './types'
 
 const formService = new FormService()
 
-export default class Form extends Block<FormProps> {
+export default class Form<TData extends FormData = FormData> extends Block<FormProps<TData>> {
   static componentName = 'Form'
 
   protected template = template
@@ -65,7 +65,7 @@ export default class Form extends Block<FormProps> {
         return
       }
 
-      this.props.onSubmit(formService.collect(form))
+      this.props.onSubmit(formService.collect<TData>(form))
     },
   }
 }

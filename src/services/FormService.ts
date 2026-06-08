@@ -1,6 +1,8 @@
+import type { FormData } from '../components/ui/form/types'
+
 export default class FormService {
-  collect(form: HTMLFormElement): Record<string, string | boolean> {
-    const result: Record<string, string | boolean> = {}
+  collect<TData extends FormData = FormData>(form: HTMLFormElement): TData {
+    const result: FormData = {}
     const elements = Array.from(form)
 
     elements.forEach((element) => {
@@ -20,6 +22,6 @@ export default class FormService {
       result[element.name] = element.value
     })
 
-    return result
+    return result as TData
   }
 }

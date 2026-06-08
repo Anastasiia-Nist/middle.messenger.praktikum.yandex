@@ -1,5 +1,18 @@
 import { ROUTES } from '../../constants'
+import { authService } from '../../services/AuthService'
 import Route, { type BlockFactory } from './Route'
+
+const PUBLIC_ROUTES = [
+  ROUTES.SIGN_IN,
+  ROUTES.SIGN_UP,
+  ROUTES.ERROR_404,
+  ROUTES.ERROR_500,
+] as const
+
+const PRIVATE_ROUTES = [
+  ROUTES.MESSENGER,
+  ROUTES.SETTINGS,
+] as const
 
 export default class Router {
   private static __instance: Router | undefined
@@ -42,6 +55,21 @@ export default class Router {
   }
 
   private _onRoute(pathname: string): void {
+    if (PRIVATE_ROUTES.includes(pathname as typeof PRIVATE_ROUTES[number]) && !authService.isAuth()) {
+      this.go(ROUTES.SIGN_IN)
+
+      return
+    }
+
+    if (
+      (pathname === ROUTES.SIGN_IN || pathname === ROUTES.SIGN_UP)
+      && authService.isAuth()
+    ) {
+      this.go(ROUTES.MESSENGER)
+
+      return
+    }
+
     const route = this.getRoute(pathname) ?? this.getRoute(ROUTES.ERROR_404)
 
     if (!route) {
@@ -65,3 +93,5 @@ export default class Router {
     return this.routes.find((route) => route.match(pathname))
   }
 }
+
+export { PUBLIC_ROUTES, PRIVATE_ROUTES }

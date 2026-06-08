@@ -1,6 +1,7 @@
 import type { BlockOwnProps } from '../../../../types/block'
 
 export interface ChatSidebarItem {
+  id: number
   name: string
   time: string
   preview: string

@@ -5,7 +5,7 @@
     {{/inline}}
     <div class="page-profile__content">
       <div class="page-profile__avatar-wrap">
-        {{{ Avatar type="button" overlayText="Поменять аватар" }}}
+        {{{ Avatar type="button" overlayText="Поменять аватар" src=avatarSrc action="change-avatar" }}}
       </div>
       {{{ Title text=displayName titleClass="title_position_center title_size_xl" }}}
       {{{ Form formClass=profileForm.formClass actionsClass=profileForm.actionsClass name="profile-info" fields=profileForm.fields actions=profileForm.actions disabled=profileForm.disabled onSubmit=profileForm.onSubmit }}}
@@ -26,7 +26,7 @@
           </div>
         {{/unless}}
         <div class="page-profile__actions-item">
-          {{{ Button buttonClass="page-profile__action-button button_type_link button_color_danger" text="Выйти" }}}
+          {{{ Button buttonClass="page-profile__action-button button_type_link button_color_danger" text="Выйти" action="logout" }}}
         </div>
       </div>
     </div>

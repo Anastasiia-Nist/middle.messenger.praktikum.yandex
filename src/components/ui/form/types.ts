@@ -1,6 +1,6 @@
 import type { BlockOwnProps } from '../../../types/block'
 
-export type FormSubmitData = Record<string, string | boolean>
+export type FormData = Record<string, string | boolean>
 
 export interface FormFieldConfig {
   id: string
@@ -22,7 +22,7 @@ export interface FormActionConfig {
   action?: string
 }
 
-export interface FormProps extends BlockOwnProps {
+export interface FormProps<TData extends FormData = FormData> extends BlockOwnProps {
   name: string
   formClass?: string
   actionsClass?: string
@@ -30,5 +30,5 @@ export interface FormProps extends BlockOwnProps {
   leadingActions?: FormActionConfig[]
   actions?: FormActionConfig[]
   disabled?: boolean
-  onSubmit?: (data: FormSubmitData) => void
+  onSubmit?: (data: TData) => void
 }

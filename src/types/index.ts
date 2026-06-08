@@ -1,4 +1,7 @@
+export * from './api'
 export * from './block'
+export * from './chat'
 export * from './errors'
 export * from './routes'
+export * from './user'
 export * from './validation'

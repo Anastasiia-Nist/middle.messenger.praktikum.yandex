@@ -6,7 +6,10 @@ export interface SettingsPageProps extends BlockOwnProps {
   backHref: string
   backAriaLabel: string
   displayName: string
+  avatarSrc?: string
   profileForm: FormProps
   passwordForm: FormProps
   passwordFormVisible?: boolean
+  onLogout?: () => void
+  onAvatarChange?: (file: File) => void | Promise<void>
 }
