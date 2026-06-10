@@ -34,6 +34,14 @@ class UserService {
       throw new Error(parseApiError(error))
     }
   }
+
+  async searchByLogin(login: string): Promise<User[]> {
+    try {
+      return await userAPI.searchByLogin({ login })
+    } catch (error) {
+      throw new Error(parseApiError(error))
+    }
+  }
 }
 
 export const userService = new UserService()

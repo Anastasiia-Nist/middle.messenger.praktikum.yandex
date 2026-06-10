@@ -1,8 +1,10 @@
 import { chatAPI } from '../api'
 import type { ChatSidebarItem } from '../components/pages/chats/sidebar/types'
+import { defaultModalsState } from '../pages/chats/modalData'
+import { buildMenuItems } from '../pages/chats/menuItems'
 import type { ChatsPageProps } from '../pages/chats/types'
 import { chatsPageData } from '../pages/chats/data'
-import type { Chat } from '../types/chat'
+import type { Chat, ChatUser } from '../types/chat'
 import { parseApiError } from '../utils/api'
 
 function formatChatTime(time: string): string {
@@ -30,14 +32,14 @@ function formatChatTime(time: string): string {
   return date.toLocaleDateString('ru-RU', { weekday: 'short' })
 }
 
-function mapChatToSidebarItem(chat: Chat, index: number): ChatSidebarItem {
+function mapChatToSidebarItem(chat: Chat, activeChatId: number | null): ChatSidebarItem {
   return {
     id: chat.id,
     name: chat.title,
     time: chat.last_message ? formatChatTime(chat.last_message.time) : '',
     preview: chat.last_message?.content ?? '',
     unreadCount: chat.unread_count || undefined,
-    isActive: index === 0,
+    isActive: chat.id === activeChatId,
   }
 }
 
@@ -45,6 +47,9 @@ export default class ChatService {
   getChatsPageData(): ChatsPageProps {
     return {
       ...chatsPageData,
+      activeChatId: null,
+      menuItems: buildMenuItems(null),
+      modals: defaultModalsState,
       sidebar: {
         ...chatsPageData.sidebar,
         chats: [...chatsPageData.sidebar.chats],
@@ -59,11 +64,45 @@ export default class ChatService {
     }
   }
 
-  async fetchChats(): Promise<ChatSidebarItem[]> {
+  async fetchChats(activeChatId: number | null = null): Promise<ChatSidebarItem[]> {
     try {
       const chats = await chatAPI.getChats()
 
-      return chats.map(mapChatToSidebarItem)
+      return chats.map((chat) => mapChatToSidebarItem(chat, activeChatId))
+    } catch (error) {
+      throw new Error(parseApiError(error))
+    }
+  }
+
+  async createChat(title: string): Promise<number> {
+    try {
+      const response = await chatAPI.createChat({ title })
+
+      return response.id
+    } catch (error) {
+      throw new Error(parseApiError(error))
+    }
+  }
+
+  async addUsers(chatId: number, userIds: number[]): Promise<void> {
+    try {
+      await chatAPI.addUsers({ chatId, users: userIds })
+    } catch (error) {
+      throw new Error(parseApiError(error))
+    }
+  }
+
+  async removeUsers(chatId: number, userIds: number[]): Promise<void> {
+    try {
+      await chatAPI.removeUsers({ chatId, users: userIds })
+    } catch (error) {
+      throw new Error(parseApiError(error))
+    }
+  }
+
+  async fetchChatUsers(chatId: number): Promise<ChatUser[]> {
+    try {
+      return await chatAPI.getChatUsers(chatId)
     } catch (error) {
       throw new Error(parseApiError(error))
     }

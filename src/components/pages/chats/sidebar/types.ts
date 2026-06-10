@@ -14,4 +14,5 @@ export interface ChatSidebarProps extends BlockOwnProps {
   profileText: string
   searchPlaceholder: string
   chats: ChatSidebarItem[]
+  onChatSelect?: (chatId: number) => void
 }

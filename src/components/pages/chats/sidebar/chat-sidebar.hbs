@@ -5,7 +5,7 @@
   </div>
   <ul class="chat-sidebar__list">
     {{#each chats}}
-      <li class="chat-sidebar__item {{#if this.isActive}}chat-sidebar__item_active{{/if}}">
+      <li class="chat-sidebar__item {{#if this.isActive}}chat-sidebar__item_active{{/if}}" data-chat-id="{{this.id}}">
         <div class="chat-sidebar__item-content">
           <div class="chat-sidebar__avatar">
             {{{ Avatar type="icon" }}}

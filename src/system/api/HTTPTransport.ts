@@ -1,45 +1,6 @@
-import type { HTTPMethod, RequestOptions } from '../../types/api'
-
-const METHODS: Record<string, HTTPMethod> = {
-  GET: 'GET',
-  POST: 'POST',
-  PUT: 'PUT',
-  DELETE: 'DELETE',
-}
-
-export function queryStringify(data: Record<string, unknown>): string {
-  if (typeof data !== 'object' || data === null) {
-    throw new Error('Data must be a non-null object')
-  }
-
-  const pairs = Object.entries(data).reduce<string[]>((result, [key, value]) => {
-    if (value === undefined || value === null) {
-      return result
-    }
-
-    const encodedKey = encodeURIComponent(key)
-    const encodedValue = encodeURIComponent(String(value))
-
-    return [...result, `${encodedKey}=${encodedValue}`]
-  }, [])
-
-  if (pairs.length === 0) {
-    return ''
-  }
-
-  return `?${pairs.join('&')}`
-}
-
-function resolveUrl(base: string, url: string): string {
-  if (/^https?:\/\//.test(url)) {
-    return url
-  }
-
-  const normalizedBase = base.endsWith('/') ? base.slice(0, -1) : base
-  const normalizedUrl = url.startsWith('/') ? url : `/${url}`
-
-  return `${normalizedBase}${normalizedUrl}`
-}
+import { HTTP_METHODS } from '../../constants/httpMethods'
+import type { RequestOptions } from '../../types/api'
+import { queryStringify, resolveUrl } from '../../utils/api'
 
 export default class HTTPTransport {
   private readonly base: string
@@ -49,19 +10,19 @@ export default class HTTPTransport {
   }
 
   get = <T = unknown>(url: string, options: Omit<RequestOptions, 'method'> = {}): Promise<T> => {
-    return this.request<T>(url, { ...options, method: METHODS.GET })
+    return this.request<T>(url, { ...options, method: HTTP_METHODS.GET })
   }
 
   post = <T = unknown>(url: string, options: Omit<RequestOptions, 'method'> = {}): Promise<T> => {
-    return this.request<T>(url, { ...options, method: METHODS.POST })
+    return this.request<T>(url, { ...options, method: HTTP_METHODS.POST })
   }
 
   put = <T = unknown>(url: string, options: Omit<RequestOptions, 'method'> = {}): Promise<T> => {
-    return this.request<T>(url, { ...options, method: METHODS.PUT })
+    return this.request<T>(url, { ...options, method: HTTP_METHODS.PUT })
   }
 
   delete = <T = unknown>(url: string, options: Omit<RequestOptions, 'method'> = {}): Promise<T> => {
-    return this.request<T>(url, { ...options, method: METHODS.DELETE })
+    return this.request<T>(url, { ...options, method: HTTP_METHODS.DELETE })
   }
 
   request = <T = unknown>(
@@ -79,7 +40,7 @@ export default class HTTPTransport {
       }
 
       const xhr = new XMLHttpRequest()
-      const isGet = method === METHODS.GET
+      const isGet = method === HTTP_METHODS.GET
       const fullUrl = resolveUrl(this.base, url)
       const requestUrl = isGet && data && typeof data === 'object' && !(data instanceof FormData)
         ? `${fullUrl}${queryStringify(data as Record<string, unknown>)}`

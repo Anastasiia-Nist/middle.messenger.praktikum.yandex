@@ -8,7 +8,11 @@
 @import url('./components/ui/link/link.css');
 @import url('./components/ui/title/title.css');
 @import url('./components/ui/container/container.css');
+@import url('./components/ui/modal/modal.css');
+@import url('./components/ui/dropdown/dropdown.css');
 @import url('./components/pages/chats/sidebar/chat-sidebar.css');
+@import url('./components/pages/chats/header/chat-content-header.css');
+@import url('./components/pages/chats/modals/modals.css');
 @import url('./components/pages/settings/sidebar/settings-sidebar.css');
 @import url('./pages/auth/style.css');
 @import url('./pages/error/style.css');

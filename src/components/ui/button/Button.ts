@@ -9,7 +9,9 @@ export default class Button extends Block<ButtonProps> {
   protected template = template
 
   protected events = {
-    click: () => {
+    click: (event: Event) => {
+      event.stopPropagation()
+
       this.element()?.dispatchEvent(
         new CustomEvent(BUTTON_CLICK_EVENT, {
           bubbles: true,
