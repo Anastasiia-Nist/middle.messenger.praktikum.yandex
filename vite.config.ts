@@ -1,12 +1,10 @@
 import { defineConfig, loadEnv } from 'vite'
 
+const DEFAULT_API_HOST = 'https://ya-praktikum.tech'
+
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
-  const apiHost = env.VITE_API_HOST
-
-  if (!apiHost) {
-    throw new Error('Переменная окружения VITE_API_HOST не установлена')
-  }
+  const apiHost = env.VITE_API_HOST ?? DEFAULT_API_HOST
 
   return {
     server: {

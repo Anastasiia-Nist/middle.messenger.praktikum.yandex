@@ -1,4 +1,6 @@
-export const API_HOST = import.meta.env.VITE_API_HOST
+const DEFAULT_API_HOST = 'https://ya-praktikum.tech'
+
+export const API_HOST = import.meta.env.VITE_API_HOST || DEFAULT_API_HOST
 
 export const API_PREFIX = '/api/v2'
 
