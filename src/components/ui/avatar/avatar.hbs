@@ -1,7 +1,7 @@
 {{#if (eq type 'icon')}}
   <span class='avatar avatar_type_icon {{avatarClass}}' aria-hidden='true'></span>
 {{else}}
-  <button class='avatar {{avatarClass}}' type='{{type}}' {{#if action}}data-action='{{action}}'{{/if}}>
+  <button class='avatar {{avatarClass}}' type='{{type}}' {{#if action}}data-action='{{action}}' {{/if}}>
     {{#if src}}
       <img class='avatar__image' src='{{src}}' alt='' />
     {{/if}}
