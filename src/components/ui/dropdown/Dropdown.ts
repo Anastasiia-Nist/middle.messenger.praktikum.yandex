@@ -18,7 +18,13 @@ export default class Dropdown extends Block<DropdownProps> {
 
   protected template = template
 
-  private outsideClickHandler: ((event: MouseEvent) => void) | null = null
+  private outsideClickHandler = (event: MouseEvent) => {
+    const element = this.element()
+
+    if (!element?.contains(event.target as Node) && this.props.isMenuOpen) {
+      this.setMenuOpen(false)
+    }
+  }
 
   constructor(props: DropdownProps) {
     super({
@@ -32,35 +38,44 @@ export default class Dropdown extends Block<DropdownProps> {
 
   public setProps(props: Partial<DropdownProps>): void {
     const nextProps = { ...props }
+    const openStateChanged = 'isMenuOpen' in nextProps && nextProps.isMenuOpen !== this.props.isMenuOpen
 
     if (nextProps.items) {
       nextProps.items = mapItemsWithButtonClass(nextProps.items)
     }
 
     super.setProps(nextProps)
+
+    if (openStateChanged) {
+      this.syncMenuOpenState()
+    }
   }
 
   protected componentDidMount(): void {
-    this.outsideClickHandler = (event: MouseEvent) => {
-      const element = this.element()
-
-      if (!element?.contains(event.target as Node) && this.props.isMenuOpen) {
-        this.setProps({ isMenuOpen: false })
-      }
-    }
-
-    // Отложенная подписка, чтобы не перехватить клик по триггеру при монтировании
-    setTimeout(() => {
-      if (this.outsideClickHandler) {
-        document.addEventListener('click', this.outsideClickHandler)
-      }
-    }, 0)
+    this.syncMenuOpenState()
   }
 
   protected componentWillUnmount(): void {
-    if (this.outsideClickHandler) {
-      document.removeEventListener('click', this.outsideClickHandler)
-      this.outsideClickHandler = null
+    document.removeEventListener('click', this.outsideClickHandler)
+  }
+
+  private setMenuOpen(isOpen: boolean): void {
+    if (this.props.isMenuOpen === isOpen) {
+      return
+    }
+
+    this.props.isMenuOpen = isOpen
+    this.syncMenuOpenState()
+  }
+
+  private syncMenuOpenState(): void {
+    const isOpen = !!this.props.isMenuOpen
+
+    this.element()?.classList.toggle('dropdown_open', isOpen)
+    document.removeEventListener('click', this.outsideClickHandler)
+
+    if (isOpen) {
+      document.addEventListener('click', this.outsideClickHandler)
     }
   }
 
@@ -74,14 +89,7 @@ export default class Dropdown extends Block<DropdownProps> {
 
       if (action === this.props.toggleAction) {
         event.stopPropagation()
-
-        const nextIsOpen = !this.props.isMenuOpen
-
-        // Откладываем re-render, чтобы document click не закрыл меню из-за пересоздания DOM
-        setTimeout(() => {
-          this.setProps({ isMenuOpen: nextIsOpen })
-        }, 0)
-
+        this.setMenuOpen(!this.props.isMenuOpen)
         return
       }
 
@@ -91,7 +99,7 @@ export default class Dropdown extends Block<DropdownProps> {
         return
       }
 
-      this.setProps({ isMenuOpen: false })
+      this.setMenuOpen(false)
       this.props.onItemClick?.(action)
     },
   }
