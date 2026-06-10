@@ -3,7 +3,6 @@ import type { BlockOwnProps } from '../../../types/block'
 import type { SignInRequest } from '../../../types/user'
 
 export interface SignInPageProps extends BlockOwnProps {
-  title?: string
   form: FormProps<SignInRequest>
   redirectLink: {
     href: string

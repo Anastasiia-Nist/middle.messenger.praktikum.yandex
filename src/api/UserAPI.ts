@@ -1,5 +1,5 @@
 import { API_BASE } from '../constants/api'
-import { BaseAPI } from '../system/api/BaseApi'
+import { BaseApi } from '../system/api/BaseApi'
 import HTTPTransport from '../system/api/HTTPTransport'
 import type {
   ChangePasswordRequest,
@@ -10,7 +10,7 @@ import type {
 
 const http = new HTTPTransport(`${API_BASE}/user`)
 
-export class UserAPI extends BaseAPI {
+export class UserAPI extends BaseApi {
   updateProfile(data: UserUpdateRequest): Promise<User> {
     return http.put('/profile', { data })
   }

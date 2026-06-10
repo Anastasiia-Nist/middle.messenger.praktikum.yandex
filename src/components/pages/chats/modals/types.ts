@@ -20,6 +20,8 @@ export interface ChatModalProps extends ModalProps {
   mappedUsers?: Array<ChatUser & { removeAction: string }>
   onSubmit?: (data: { title: string }) => void
   onSearch?: (login: string) => void
+  onSearchSubmit?: (data: Record<string, string | boolean>) => void
   onAddUser?: (userId: number) => void
   onRemoveUser?: (userId: number) => void
+  onCloseModal?: (modal: ChatModalKey) => void
 }

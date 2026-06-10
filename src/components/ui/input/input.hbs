@@ -1,9 +1,5 @@
 <div class="form-field {{inputClass}}{{#if error}} form-field_invalid{{/if}}">
   <label class="form-field__label" for="{{id}}">{{label}}</label>
-  {{#if (eq fieldType 'textarea')}}
-    <textarea class="form-field__input" id="{{id}}" name="{{name}}" rows="{{rows}}" ref="{{name}}" {{#if autocomplete}}autocomplete="{{autocomplete}}" {{/if}} {{#if disabled}}disabled{{/if}}>{{value}}</textarea>
-  {{else}}
-    <input class="form-field__input" id="{{id}}" name="{{name}}" type="{{type}}" value="{{value}}" placeholder="{{placeholder}}" ref="{{name}}" {{#if autocomplete}}autocomplete="{{autocomplete}}" {{/if}} {{#if disabled}}disabled{{/if}} />
-  {{/if}}
+  <input class="form-field__input" id="{{id}}" name="{{name}}" type="{{type}}" value="{{value}}" placeholder="{{placeholder}}" ref="{{name}}" {{#if autocomplete}}autocomplete="{{autocomplete}}" {{/if}} {{#if disabled}}disabled{{/if}} />
   <span class="form-field__error" ref="error">{{error}}</span>
 </div>

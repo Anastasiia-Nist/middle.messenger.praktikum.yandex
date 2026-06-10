@@ -1,4 +1,4 @@
-import { BUTTON_CLICK_EVENT } from '../../../constants'
+import { ACTIONS, BUTTON_CLICK_EVENT } from '../../../constants'
 import Block from '../../../system/Block'
 import { isCustomEventWithStringDetail } from '../../../utils/events'
 import template from './dropdown.hbs?raw'
@@ -25,6 +25,7 @@ export default class Dropdown extends Block<DropdownProps> {
       ...props,
       isMenuOpen: props.isMenuOpen ?? false,
       triggerButtonClass: props.triggerButtonClass ?? DEFAULT_TRIGGER_CLASS,
+      toggleAction: props.toggleAction ?? ACTIONS.DROPDOWN_TOGGLE,
       items: mapItemsWithButtonClass(props.items),
     })
   }
@@ -71,7 +72,7 @@ export default class Dropdown extends Block<DropdownProps> {
 
       const { action } = event.detail
 
-      if (action === 'dropdown-toggle') {
+      if (action === this.props.toggleAction) {
         event.stopPropagation()
 
         const nextIsOpen = !this.props.isMenuOpen

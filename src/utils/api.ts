@@ -1,3 +1,4 @@
+import { DEFAULT_API_ERROR } from '../constants/messages'
 import type { ApiError, HttpErrorBody } from '../types/api'
 
 export function queryStringify(data: Record<string, unknown>): string {
@@ -36,7 +37,7 @@ export function resolveUrl(base: string, url: string): string {
 
 export function parseApiError(error: unknown): string {
   if (!error || typeof error !== 'object') {
-    return 'Произошла ошибка'
+    return DEFAULT_API_ERROR
   }
 
   const apiError = error as ApiError

@@ -1,6 +1,12 @@
-import Modal from '../../../ui/modal/Modal'
+import {
+  ACTIONS,
+  chatUserAction,
+  parseChatUserAction,
+} from '../../../../constants'
+import type { FormData } from '../../../ui/form/types'
 import type { ChatUser } from '../../../../types/chat'
 import type { User } from '../../../../types/user'
+import Modal from '../../../ui/modal/Modal'
 import { chatsModalConfig } from './modalsConfig'
 import template from './chat-modal.hbs?raw'
 import type { ChatModalProps } from './types'
@@ -12,15 +18,31 @@ type ChatUserItem = ChatUser & { removeAction: string }
 function mapSearchResults(results: User[]): SearchResultItem[] {
   return results.map((user) => ({
     ...user,
-    addAction: `add-user-${user.id}`,
+    addAction: chatUserAction('add', user.id),
   }))
 }
 
 function mapUsers(users: ChatUser[]): ChatUserItem[] {
   return users.map((user) => ({
     ...user,
-    removeAction: `remove-user-${user.id}`,
+    removeAction: chatUserAction('remove', user.id),
   }))
+}
+
+function buildSearchSubmitHandler(
+  onSearch?: (login: string) => void,
+): ((data: FormData) => void) | undefined {
+  if (!onSearch) {
+    return undefined
+  }
+
+  return (data: FormData) => {
+    const login = String(data.login ?? '').trim()
+
+    if (login) {
+      onSearch(login)
+    }
+  }
 }
 
 function buildModalProps(props: ChatModalProps): ChatModalProps {
@@ -28,7 +50,8 @@ function buildModalProps(props: ChatModalProps): ChatModalProps {
 
   const nextProps: ChatModalProps = {
     ...props,
-    cancelAction: 'modal-cancel',
+    cancelAction: ACTIONS.MODAL_CANCEL,
+    closeAction: ACTIONS.MODAL_CLOSE,
     title: config.title,
     hostClass: config.hostClass,
     modalClass: config.modalClass,
@@ -39,6 +62,7 @@ function buildModalProps(props: ChatModalProps): ChatModalProps {
     actions: config.actions ?? [],
     searchActions: config.searchActions ?? [],
     formName: config.formName ?? '',
+    onSearchSubmit: buildSearchSubmitHandler(props.onSearch),
     mappedSearchResults: [],
     mappedUsers: [],
   }
@@ -74,6 +98,10 @@ export default class ChatModal extends Modal<ChatModalProps> {
       nextProps.mappedUsers = mapUsers(nextProps.users)
     }
 
+    if (nextProps.onSearch !== undefined) {
+      nextProps.onSearchSubmit = buildSearchSubmitHandler(nextProps.onSearch)
+    }
+
     super.setProps(nextProps)
   }
 
@@ -91,35 +119,23 @@ export default class ChatModal extends Modal<ChatModalProps> {
   }
 
   private handleAddUserAction(action: string): void {
-    if (action === 'search-user') {
-      const loginInput = this.element()?.querySelector<HTMLInputElement>('input[name="login"]')
-      const login = loginInput?.value.trim() ?? ''
+    const userId = parseChatUserAction(action, 'add')
 
-      if (login) {
-        this.props.onSearch?.(login)
-      }
-
-      return
-    }
-
-    if (action.startsWith('add-user-')) {
-      const userId = Number(action.replace('add-user-', ''))
-
-      if (!Number.isNaN(userId)) {
-        this.props.onAddUser?.(userId)
-      }
+    if (userId !== null) {
+      this.props.onAddUser?.(userId)
     }
   }
 
   private handleRemoveUserAction(action: string): void {
-    if (!action.startsWith('remove-user-')) {
-      return
-    }
+    const userId = parseChatUserAction(action, 'remove')
 
-    const userId = Number(action.replace('remove-user-', ''))
-
-    if (!Number.isNaN(userId)) {
+    if (userId !== null) {
       this.props.onRemoveUser?.(userId)
     }
+  }
+
+  protected close(): void {
+    this.props.onCloseModal?.(this.props.modalKey)
+    this.props.onClose?.()
   }
 }

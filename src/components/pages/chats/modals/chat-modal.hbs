@@ -1,10 +1,10 @@
 <div class="{{hostClass}}">
-  {{#> modal isOpen=isOpen title=title error=error modalClass=modalClass}}
+  {{#> modal isOpen=isOpen title=title error=error modalClass=modalClass closeAction=closeAction}}
     {{#if isFormType}}
       {{{ Form name=formName formClass="modal-form" fields=fields actions=actions onSubmit=onSubmit }}}
     {{/if}}
     {{#if isSearchFormType}}
-      {{{ Form name=formName formClass="modal-form" fields=fields actions=searchActions }}}
+      {{{ Form name=formName formClass="modal-form" fields=fields actions=searchActions onSubmit=onSearchSubmit }}}
       {{#if mappedSearchResults.length}}
         <ul class="modal-user-list">
           {{#each mappedSearchResults}}
@@ -36,7 +36,7 @@
         <p class="modal-user-list__empty">В чате нет участников</p>
       {{/if}}
       <div class="modal-form__actions">
-        {{{ Button type="button" text="Закрыть" buttonClass="button_stretch_full" action="modal-close" }}}
+        {{{ Button type="button" text="Закрыть" buttonClass="button_stretch_full" action=closeAction }}}
       </div>
     {{/if}}
   {{/modal}}

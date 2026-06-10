@@ -10,5 +10,6 @@ export interface DropdownProps extends BlockOwnProps {
   items: DropdownItem[]
   isMenuOpen?: boolean
   triggerButtonClass?: string
+  toggleAction?: string
   onItemClick?: (itemId: string) => void
 }

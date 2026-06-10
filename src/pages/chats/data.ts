@@ -1,4 +1,4 @@
-import { ROUTES } from '../../constants'
+import { CHAT_PLACEHOLDER, ROUTES } from '../../constants'
 
 export const chatsPageData = {
   sidebar: {
@@ -7,7 +7,7 @@ export const chatsPageData = {
     searchPlaceholder: 'Поиск',
     chats: [],
   },
-  activeChatName: 'Выберите чат',
+  activeChatName: CHAT_PLACEHOLDER,
   messagesByDay: [],
   messageForm: {
     name: 'chat-message',

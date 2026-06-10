@@ -1,11 +1,8 @@
 import { chatAPI } from '../api'
-import type { ChatSidebarItem } from '../components/pages/chats/sidebar/types'
-import { defaultModalsState } from '../pages/chats/modalData'
-import { buildMenuItems } from '../pages/chats/menuItems'
-import type { ChatsPageProps } from '../pages/chats/types'
-import { chatsPageData } from '../pages/chats/data'
+import { LOCALE, YESTERDAY_LABEL } from '../constants'
+import type { ChatSidebarItem } from '../types/chats-page'
 import type { Chat, ChatUser } from '../types/chat'
-import { parseApiError } from '../utils/api'
+import { withApiError } from '../utils/withApiError'
 
 function formatChatTime(time: string): string {
   const date = new Date(time)
@@ -18,7 +15,7 @@ function formatChatTime(time: string): string {
   const isToday = date.toDateString() === now.toDateString()
 
   if (isToday) {
-    return date.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })
+    return date.toLocaleTimeString(LOCALE, { hour: '2-digit', minute: '2-digit' })
   }
 
   const yesterday = new Date(now)
@@ -26,10 +23,10 @@ function formatChatTime(time: string): string {
   yesterday.setDate(now.getDate() - 1)
 
   if (date.toDateString() === yesterday.toDateString()) {
-    return 'Вчера'
+    return YESTERDAY_LABEL
   }
 
-  return date.toLocaleDateString('ru-RU', { weekday: 'short' })
+  return date.toLocaleDateString(LOCALE, { weekday: 'short' })
 }
 
 function mapChatToSidebarItem(chat: Chat, activeChatId: number | null): ChatSidebarItem {
@@ -43,68 +40,32 @@ function mapChatToSidebarItem(chat: Chat, activeChatId: number | null): ChatSide
   }
 }
 
-export default class ChatService {
-  getChatsPageData(): ChatsPageProps {
-    return {
-      ...chatsPageData,
-      activeChatId: null,
-      menuItems: buildMenuItems(null),
-      modals: defaultModalsState,
-      sidebar: {
-        ...chatsPageData.sidebar,
-        chats: [...chatsPageData.sidebar.chats],
-      },
-      messagesByDay: [...chatsPageData.messagesByDay],
-      messageForm: {
-        ...chatsPageData.messageForm,
-        fields: [...chatsPageData.messageForm.fields],
-        leadingActions: [...chatsPageData.messageForm.leadingActions],
-        actions: [...chatsPageData.messageForm.actions],
-      },
-    }
-  }
-
+class ChatService {
   async fetchChats(activeChatId: number | null = null): Promise<ChatSidebarItem[]> {
-    try {
-      const chats = await chatAPI.getChats()
+    const chats = await withApiError(() => chatAPI.getChats())
 
-      return chats.map((chat) => mapChatToSidebarItem(chat, activeChatId))
-    } catch (error) {
-      throw new Error(parseApiError(error))
-    }
+    return chats.map((chat) => mapChatToSidebarItem(chat, activeChatId))
   }
 
   async createChat(title: string): Promise<number> {
-    try {
-      const response = await chatAPI.createChat({ title })
+    const response = await withApiError(() => chatAPI.createChat({ title }))
 
-      return response.id
-    } catch (error) {
-      throw new Error(parseApiError(error))
-    }
+    return response.id
   }
 
   async addUsers(chatId: number, userIds: number[]): Promise<void> {
-    try {
-      await chatAPI.addUsers({ chatId, users: userIds })
-    } catch (error) {
-      throw new Error(parseApiError(error))
-    }
+    await withApiError(() => chatAPI.addUsers({ chatId, users: userIds }))
   }
 
   async removeUsers(chatId: number, userIds: number[]): Promise<void> {
-    try {
-      await chatAPI.removeUsers({ chatId, users: userIds })
-    } catch (error) {
-      throw new Error(parseApiError(error))
-    }
+    await withApiError(() => chatAPI.removeUsers({ chatId, users: userIds }))
   }
 
   async fetchChatUsers(chatId: number): Promise<ChatUser[]> {
-    try {
-      return await chatAPI.getChatUsers(chatId)
-    } catch (error) {
-      throw new Error(parseApiError(error))
-    }
+    return withApiError(() => chatAPI.getChatUsers(chatId))
   }
 }
+
+export const chatService = new ChatService()
+
+export default ChatService

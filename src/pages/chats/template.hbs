@@ -23,7 +23,7 @@
     </section>
   {{/layout}}
 
-  {{{ ChatModal modalKey="createChat" isOpen=modals.createChat.isOpen error=modals.createChat.error onSubmit=onCreateChat onClose=onCloseCreateChat }}}
-  {{{ ChatModal modalKey="addUser" isOpen=modals.addUser.isOpen error=modals.addUser.error searchResults=modals.addUser.searchResults onSearch=onSearch onAddUser=onAddUser onClose=onCloseAddUser }}}
-  {{{ ChatModal modalKey="removeUser" isOpen=modals.removeUser.isOpen error=modals.removeUser.error users=modals.removeUser.users onRemoveUser=onRemoveUser onClose=onCloseRemoveUser }}}
+  {{{ ChatModal modalKey="createChat" isOpen=modals.createChat.isOpen error=modals.createChat.error onSubmit=onCreateChat onCloseModal=onCloseModal }}}
+  {{{ ChatModal modalKey="addUser" isOpen=modals.addUser.isOpen error=modals.addUser.error searchResults=modals.addUser.searchResults onSearch=onSearchUser onAddUser=onAddUser onCloseModal=onCloseModal }}}
+  {{{ ChatModal modalKey="removeUser" isOpen=modals.removeUser.isOpen error=modals.removeUser.error users=modals.removeUser.users onRemoveUser=onRemoveUser onCloseModal=onCloseModal }}}
 {{/page}}

@@ -1,22 +1,28 @@
-import type { ChatMenuAction } from '../../components/pages/chats/header/types'
-import type { ChatSidebarItem } from '../../components/pages/chats/sidebar/types'
+import type { ChatModalKey } from '../../components/pages/chats/modals/modalsConfig'
+import {
+  chatsModalConfig,
+  getModalKeyByMenuAction,
+} from '../../components/pages/chats/modals/modalsConfig'
+import { defaultModalsState } from '../../components/pages/chats/modals/modalData'
+import { buildMenuItems } from '../../components/pages/chats/header/menuItems'
 import type { FormData } from '../../components/ui/form/types'
-import { buildMenuItems } from '../../pages/chats/menuItems'
-import { defaultModalsState } from '../../pages/chats/modalData'
+import {
+  ACTIONS,
+  CHAT_MODAL_ERRORS,
+  CHAT_PLACEHOLDER,
+  type ChatMenuAction,
+} from '../../constants'
+import { buildChatsPageProps } from '../../pages/chats/buildChatsPageProps'
 import ChatsPage from '../../pages/chats/ChatsPage'
-import type { ChatsModalsState } from '../../pages/chats/types'
-import ChatService from '../../services/ChatService'
+import type { ChatsModalsState } from '../../types/chats-page'
+import { chatService } from '../../services/ChatService'
 import { userService } from '../../services/UserService'
 import RouteController from '../RouteController'
 
 export default class ChatsController extends RouteController<ChatsPage> {
-  private readonly chatService = new ChatService()
-
-  private readonly pageData = this.chatService.getChatsPageData()
+  private readonly pageData = buildChatsPageProps()
 
   private activeChatId: number | null = null
-
-  private chats: ChatSidebarItem[] = []
 
   private modalsState: ChatsModalsState = defaultModalsState
 
@@ -25,12 +31,15 @@ export default class ChatsController extends RouteController<ChatsPage> {
       new ChatsPage({
         ...this.pageData,
         modals: this.modalsState,
-        onSubmit: (data: FormData) => console.log(data),
+        onSubmit: (data: FormData) => this.handleSendMessage(data),
         onChatSelect: (chatId: number) => {
-          void this.handleChatSelect(chatId)
+          this.handleChatSelect(chatId)
         },
         onMenuAction: (action: ChatMenuAction) => {
           void this.handleMenuAction(action)
+        },
+        onCloseModal: (modal: ChatModalKey) => {
+          this.closeModal(modal)
         },
         onCreateChat: async (data: { title: string }) => {
           await this.handleCreateChat(data.title)
@@ -53,13 +62,46 @@ export default class ChatsController extends RouteController<ChatsPage> {
     return element
   }
 
-  private getModalsState(): ChatsModalsState {
-    return this.page?.getModals() ?? this.modalsState
+  private handleSendMessage(data: FormData): void {
+    // TODO: подключить ChatAPI.get/send messages
+    void data
   }
 
   private setModals(modals: ChatsModalsState): void {
     this.modalsState = modals
     this.page?.setProps({ modals })
+  }
+
+  private openModal(modalKey: ChatModalKey): void {
+    const config = chatsModalConfig[modalKey]
+
+    this.setModals({
+      ...this.modalsState,
+      [modalKey]: config.getOpenState(this.modalsState),
+    })
+  }
+
+  private closeModal(modalKey: ChatModalKey): void {
+    const config = chatsModalConfig[modalKey]
+
+    this.setModals({
+      ...this.modalsState,
+      [modalKey]: config.getClosedState(),
+    })
+  }
+
+  private updateChatsView(chats: Awaited<ReturnType<typeof chatService.fetchChats>>): void {
+    const resolvedActiveChat = chats.find((chat) => chat.id === this.activeChatId)
+
+    this.page?.setProps({
+      sidebar: {
+        ...this.pageData.sidebar,
+        chats,
+      },
+      activeChatId: this.activeChatId,
+      activeChatName: resolvedActiveChat?.name ?? CHAT_PLACEHOLDER,
+      menuItems: buildMenuItems(this.activeChatId),
+    })
   }
 
   private async loadChats(selectChatId?: number): Promise<void> {
@@ -68,80 +110,81 @@ export default class ChatsController extends RouteController<ChatsPage> {
         this.activeChatId = selectChatId
       }
 
-      const chats = await this.chatService.fetchChats(this.activeChatId)
+      let chats = await chatService.fetchChats(this.activeChatId)
       const activeChat = chats.find((chat) => chat.id === this.activeChatId)
 
       if (this.activeChatId !== null && !activeChat) {
         this.activeChatId = chats[0]?.id ?? null
+        chats = await chatService.fetchChats(this.activeChatId)
       }
 
-      const resolvedActiveChat = chats.find((chat) => chat.id === this.activeChatId)
-
-      this.chats = chats
-
-      this.page?.setProps({
-        sidebar: {
-          ...this.pageData.sidebar,
-          chats,
-        },
-        activeChatId: this.activeChatId,
-        activeChatName: resolvedActiveChat?.name ?? 'Выберите чат',
-        menuItems: buildMenuItems(this.activeChatId),
-      })
+      this.updateChatsView(chats)
     } catch (error) {
       console.error(error)
     }
   }
 
-  private async handleChatSelect(chatId: number): Promise<void> {
+  private handleChatSelect(chatId: number): void {
     this.activeChatId = chatId
 
-    const chats = this.chats.map((chat) => ({
-      ...chat,
-      isActive: chat.id === chatId,
-    }))
+    void this.refreshChatsView()
+  }
 
-    const activeChat = chats.find((chat) => chat.id === chatId)
+  private async refreshChatsView(): Promise<void> {
+    try {
+      const chats = await chatService.fetchChats(this.activeChatId)
 
-    this.chats = chats
-
-    this.page?.setProps({
-      sidebar: {
-        ...this.pageData.sidebar,
-        chats,
-      },
-      activeChatId: chatId,
-      activeChatName: activeChat?.name ?? 'Выберите чат',
-      menuItems: buildMenuItems(chatId),
-    })
+      this.updateChatsView(chats)
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   private async handleMenuAction(action: ChatMenuAction): Promise<void> {
-    if (action === 'remove-user' && this.activeChatId !== null) {
-      await this.loadRemoveUserModal()
+    const modalKey = getModalKeyByMenuAction(action)
+
+    if (!modalKey) {
+      return
     }
+
+    const config = chatsModalConfig[modalKey]
+
+    if (config.requiresActiveChat && this.activeChatId === null) {
+      return
+    }
+
+    if (action === ACTIONS.CHAT_MENU.REMOVE_USER) {
+      await this.loadRemoveUserModal()
+
+      return
+    }
+
+    this.openModal(modalKey)
   }
 
   private async handleCreateChat(title: string): Promise<void> {
     const trimmedTitle = title.trim()
 
     if (!trimmedTitle) {
-      this.setModalError('createChat', 'Введите название чата')
+      this.setModalError('createChat', CHAT_MODAL_ERRORS.CREATE_TITLE_REQUIRED)
 
       return
     }
 
     try {
-      const chatId = await this.chatService.createChat(trimmedTitle)
+      const chatId = await chatService.createChat(trimmedTitle)
 
       this.setModals({
-        ...this.getModalsState(),
+        ...this.modalsState,
         createChat: { isOpen: false, error: undefined },
       })
 
       await this.loadChats(chatId)
     } catch (error) {
-      this.setModalError('createChat', error instanceof Error ? error.message : 'Не удалось создать чат')
+      this.setModalError(
+        'createChat',
+        error instanceof Error ? error.message : CHAT_MODAL_ERRORS.CREATE_FAILED,
+      )
     }
   }
 
@@ -149,7 +192,7 @@ export default class ChatsController extends RouteController<ChatsPage> {
     const trimmedLogin = login.trim()
 
     if (!trimmedLogin) {
-      this.setModalError('addUser', 'Введите логин')
+      this.setModalError('addUser', CHAT_MODAL_ERRORS.SEARCH_LOGIN_REQUIRED)
 
       return
     }
@@ -158,16 +201,19 @@ export default class ChatsController extends RouteController<ChatsPage> {
       const searchResults = await userService.searchByLogin(trimmedLogin)
 
       this.setModals({
-        ...this.getModalsState(),
+        ...this.modalsState,
         addUser: {
-          ...this.getModalsState().addUser,
+          ...this.modalsState.addUser,
           isOpen: true,
           searchResults,
-          error: searchResults.length ? undefined : 'Пользователи не найдены',
+          error: searchResults.length ? undefined : CHAT_MODAL_ERRORS.SEARCH_NOT_FOUND,
         },
       })
     } catch (error) {
-      this.setModalError('addUser', error instanceof Error ? error.message : 'Не удалось найти пользователя')
+      this.setModalError(
+        'addUser',
+        error instanceof Error ? error.message : CHAT_MODAL_ERRORS.SEARCH_FAILED,
+      )
     }
   }
 
@@ -177,14 +223,17 @@ export default class ChatsController extends RouteController<ChatsPage> {
     }
 
     try {
-      await this.chatService.addUsers(this.activeChatId, [userId])
+      await chatService.addUsers(this.activeChatId, [userId])
 
       this.setModals({
-        ...this.getModalsState(),
+        ...this.modalsState,
         addUser: { isOpen: false, searchResults: [], error: undefined },
       })
     } catch (error) {
-      this.setModalError('addUser', error instanceof Error ? error.message : 'Не удалось добавить пользователя')
+      this.setModalError(
+        'addUser',
+        error instanceof Error ? error.message : CHAT_MODAL_ERRORS.ADD_USER_FAILED,
+      )
     }
   }
 
@@ -194,10 +243,13 @@ export default class ChatsController extends RouteController<ChatsPage> {
     }
 
     try {
-      await this.chatService.removeUsers(this.activeChatId, [userId])
+      await chatService.removeUsers(this.activeChatId, [userId])
       await this.loadRemoveUserModal()
     } catch (error) {
-      this.setModalError('removeUser', error instanceof Error ? error.message : 'Не удалось удалить пользователя')
+      this.setModalError(
+        'removeUser',
+        error instanceof Error ? error.message : CHAT_MODAL_ERRORS.REMOVE_USER_FAILED,
+      )
     }
   }
 
@@ -207,10 +259,10 @@ export default class ChatsController extends RouteController<ChatsPage> {
     }
 
     try {
-      const users = await this.chatService.fetchChatUsers(this.activeChatId)
+      const users = await chatService.fetchChatUsers(this.activeChatId)
 
       this.setModals({
-        ...this.getModalsState(),
+        ...this.modalsState,
         removeUser: {
           isOpen: true,
           users,
@@ -218,17 +270,18 @@ export default class ChatsController extends RouteController<ChatsPage> {
         },
       })
     } catch (error) {
-      this.setModalError('removeUser', error instanceof Error ? error.message : 'Не удалось загрузить участников')
+      this.setModalError(
+        'removeUser',
+        error instanceof Error ? error.message : CHAT_MODAL_ERRORS.LOAD_USERS_FAILED,
+      )
     }
   }
 
   private setModalError(modal: keyof ChatsModalsState, error: string): void {
-    const currentModals = this.getModalsState()
-
     this.setModals({
-      ...currentModals,
+      ...this.modalsState,
       [modal]: {
-        ...currentModals[modal],
+        ...this.modalsState[modal],
         isOpen: true,
         error,
       },

@@ -1,12 +1,12 @@
-import type { ChatMenuAction } from '../header/types'
+import { ACTIONS, type ChatMenuAction } from '../../../../constants'
+import type { ChatsModalsState } from '../../../../types/chats-page'
 import type { FormActionConfig, FormFieldConfig } from '../../../ui/form/types'
 import {
   addUserFields,
   addUserSearchActions,
   createChatActions,
   createChatFields,
-} from '../../../../pages/chats/modalData'
-import type { ChatsModalsState } from '../../../../pages/chats/types'
+} from './modalData'
 
 export type ChatModalKey = keyof ChatsModalsState
 
@@ -36,7 +36,7 @@ export const chatsModalConfig: Record<ChatModalKey, ChatModalConfig> = {
     formName: 'create-chat',
     fields: createChatFields,
     actions: createChatActions,
-    menuAction: 'create-chat',
+    menuAction: ACTIONS.CHAT_MENU.CREATE,
     getOpenState: () => ({ isOpen: true, error: undefined }),
     getClosedState: () => ({ isOpen: false, error: undefined }),
   },
@@ -48,7 +48,7 @@ export const chatsModalConfig: Record<ChatModalKey, ChatModalConfig> = {
     formName: 'add-user',
     fields: addUserFields,
     searchActions: addUserSearchActions,
-    menuAction: 'add-user',
+    menuAction: ACTIONS.CHAT_MENU.ADD_USER,
     requiresActiveChat: true,
     getOpenState: () => ({ isOpen: true, searchResults: [], error: undefined }),
     getClosedState: () => ({ isOpen: false, searchResults: [], error: undefined }),
@@ -58,7 +58,7 @@ export const chatsModalConfig: Record<ChatModalKey, ChatModalConfig> = {
     hostClass: 'chat-modal chat-modal_remove-user',
     modalClass: 'modal_remove-user',
     contentType: 'user-list',
-    menuAction: 'remove-user',
+    menuAction: ACTIONS.CHAT_MENU.REMOVE_USER,
     requiresActiveChat: true,
     getOpenState: (modals) => ({
       isOpen: true,

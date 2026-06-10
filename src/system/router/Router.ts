@@ -2,13 +2,6 @@ import { ROUTES } from '../../constants'
 import { authService } from '../../services/AuthService'
 import Route, { type BlockFactory } from './Route'
 
-const PUBLIC_ROUTES = [
-  ROUTES.SIGN_IN,
-  ROUTES.SIGN_UP,
-  ROUTES.ERROR_404,
-  ROUTES.ERROR_500,
-] as const
-
 const PRIVATE_ROUTES = [
   ROUTES.MESSENGER,
   ROUTES.SETTINGS,
@@ -93,5 +86,3 @@ export default class Router {
     return this.routes.find((route) => route.match(pathname))
   }
 }
-
-export { PUBLIC_ROUTES, PRIVATE_ROUTES }

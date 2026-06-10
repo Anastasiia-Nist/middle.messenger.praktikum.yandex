@@ -1,3 +1,4 @@
+import { REQUEST_TIMEOUT_MS } from '../../constants/api'
 import { HTTP_METHODS } from '../../constants/httpMethods'
 import type { RequestOptions } from '../../types/api'
 import { queryStringify, resolveUrl } from '../../utils/api'
@@ -28,7 +29,7 @@ export default class HTTPTransport {
   request = <T = unknown>(
     url: string,
     options: RequestOptions = {},
-    timeout = 5000,
+    timeout = REQUEST_TIMEOUT_MS,
   ): Promise<T> => {
     const { headers = {}, method, data, responseType } = options
     const requestTimeout = options.timeout ?? timeout

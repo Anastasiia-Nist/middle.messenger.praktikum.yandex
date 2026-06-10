@@ -1,4 +1,4 @@
-import { BUTTON_CLICK_EVENT } from '../../../constants'
+import { ACTIONS, BUTTON_CLICK_EVENT } from '../../../constants'
 import Block from '../../../system/Block'
 import { isCustomEventWithStringDetail } from '../../../utils/events'
 import template from './modal.hbs?raw'
@@ -8,6 +8,13 @@ export default class Modal<P extends ModalProps = ModalProps> extends Block<P> {
   static componentName = 'Modal'
 
   protected template = template
+
+  constructor(props: P) {
+    super({
+      ...props,
+      closeAction: props.closeAction ?? ACTIONS.MODAL_CLOSE,
+    } as P)
+  }
 
   protected events = {
     [BUTTON_CLICK_EVENT]: (event: Event) => {
@@ -42,7 +49,7 @@ export default class Modal<P extends ModalProps = ModalProps> extends Block<P> {
   }
 
   protected isCloseAction(action: string): boolean {
-    return action === 'modal-close' || action === (this.props.cancelAction ?? 'modal-cancel')
+    return action === ACTIONS.MODAL_CLOSE || action === (this.props.cancelAction ?? ACTIONS.MODAL_CANCEL)
   }
 
   protected handleAction(action: string): void {

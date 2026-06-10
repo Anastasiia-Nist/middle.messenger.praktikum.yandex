@@ -1,7 +1,7 @@
 import { userAPI } from '../api'
 import type { FormFieldConfig } from '../components/ui/form/types'
 import type { ChangePasswordRequest, User, UserUpdateRequest } from '../types/user'
-import { parseApiError } from '../utils/api'
+import { withApiError } from '../utils/withApiError'
 
 class UserService {
   mapUserToProfileFields(user: User, fields: FormFieldConfig[]): FormFieldConfig[] {
@@ -12,35 +12,19 @@ class UserService {
   }
 
   async updateProfile(data: UserUpdateRequest): Promise<User> {
-    try {
-      return await userAPI.updateProfile(data)
-    } catch (error) {
-      throw new Error(parseApiError(error))
-    }
+    return withApiError(() => userAPI.updateProfile(data))
   }
 
   async changePassword(data: ChangePasswordRequest): Promise<void> {
-    try {
-      await userAPI.changePassword(data)
-    } catch (error) {
-      throw new Error(parseApiError(error))
-    }
+    await withApiError(() => userAPI.changePassword(data))
   }
 
   async updateAvatar(file: File): Promise<User> {
-    try {
-      return await userAPI.updateAvatar(file)
-    } catch (error) {
-      throw new Error(parseApiError(error))
-    }
+    return withApiError(() => userAPI.updateAvatar(file))
   }
 
   async searchByLogin(login: string): Promise<User[]> {
-    try {
-      return await userAPI.searchByLogin({ login })
-    } catch (error) {
-      throw new Error(parseApiError(error))
-    }
+    return withApiError(() => userAPI.searchByLogin({ login }))
   }
 }
 

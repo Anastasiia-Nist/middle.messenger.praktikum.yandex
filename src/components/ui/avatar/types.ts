@@ -6,4 +6,6 @@ export interface AvatarProps extends BlockOwnProps {
   overlayText?: string
   src?: string
   action?: string
+  accept?: string
+  onFileSelect?: (file: File) => void | Promise<void>
 }

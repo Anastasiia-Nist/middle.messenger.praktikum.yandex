@@ -6,5 +6,6 @@ export interface ModalProps extends BlockOwnProps {
   modalClass?: string
   error?: string
   cancelAction?: string
+  closeAction?: string
   onClose?: () => void
 }
