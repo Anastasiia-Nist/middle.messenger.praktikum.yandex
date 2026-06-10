@@ -15,7 +15,6 @@ export default defineConfig(({ mode }) => {
         '/api/v2': {
           target: apiHost,
           changeOrigin: true,
-          secure: false,
           cookieDomainRewrite: '',
         },
       },

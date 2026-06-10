@@ -63,7 +63,7 @@ export default class ChatsController extends RouteController<ChatsPage> {
   }
 
   private handleSendMessage(data: FormData): void {
-    // TODO: подключить ChatAPI.get/send messages
+    // TODO: подключить отправку сообщений
     void data
   }
 
