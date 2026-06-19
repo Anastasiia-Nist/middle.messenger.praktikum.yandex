@@ -1,19 +1,22 @@
-import type { FormSubmitData } from '../../components/ui/form/types'
 import { signInPageData } from '../../pages/auth/sign-in/data'
 import SignInPage from '../../pages/auth/sign-in/SignInPage'
-import RouteController from '../RouteController'
+import { authService } from '../../services/AuthService'
+import type { SignInRequest } from '../../types/user'
+import BaseAuthController from './BaseAuthController'
 
-export default class SignInController extends RouteController<SignInPage> {
+export default class SignInController extends BaseAuthController<SignInPage> {
   render(): HTMLElement {
     return this.renderPage(
       new SignInPage({
         ...signInPageData,
         form: {
           ...signInPageData.form,
-          onSubmit: (data: FormSubmitData) => console.log(data),
+          onSubmit: (data: SignInRequest) => {
+            void this.handleAuthSubmit(() => authService.signIn(data))
+          },
         },
       }),
-      'SignInPage'
+      'SignInPage',
     )
   }
 }

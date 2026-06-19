@@ -1,0 +1,12 @@
+<div class="dropdown{{#if isMenuOpen}} dropdown_open{{/if}}">
+  <div class="dropdown__trigger">
+    {{{ Button type="button" text="⋮" buttonClass=triggerButtonClass action=toggleAction }}}
+  </div>
+  <ul class="dropdown__menu" role="menu">
+    {{#each items}}
+      <li class="dropdown__item" role="none">
+        {{{ Button type="button" text=this.label buttonClass=this.buttonClass action=this.id }}}
+      </li>
+    {{/each}}
+  </ul>
+</div>

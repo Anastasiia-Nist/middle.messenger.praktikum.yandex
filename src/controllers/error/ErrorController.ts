@@ -1,4 +1,5 @@
-import { type ErrorCode, errorPageDataByCode } from '../../pages/error/data'
+import type { ErrorCode } from '../../types'
+import { errorPageDataByCode } from '../../pages/error/data'
 import ErrorPage from '../../pages/error/ErrorPage'
 import RouteController from '../RouteController'
 

@@ -1,0 +1,39 @@
+<div class="{{hostClass}}">
+  {{#> modal isOpen=isOpen title=title error=error modalClass=modalClass closeAction=closeAction}}
+    {{#if isFormType}}
+      {{{ Form name=formName formClass="modal-form" fields=fields actions=actions onSubmit=onSubmit }}}
+    {{/if}}
+    {{#if isSearchFormType}}
+      {{{ Form name=formName formClass="modal-form" fields=fields actions=searchActions onSubmit=onSearchSubmit }}}
+    {{/if}}
+    {{#if isConfirmType}}
+      <p class="modal-confirm__message">{{message}}</p>
+    {{/if}}
+    {{#if hasListItems}}
+      {{#if modalListItems.length}}
+        <ul class="modal-user-list">
+          {{#each modalListItems}}
+            <li class="modal-user-list__item">
+              <div class="modal-user-list__info">
+                <span class="modal-user-list__name">{{this.primaryText}}</span>
+                <span class="modal-user-list__login">{{this.secondaryText}}</span>
+              </div>
+              {{{ Button type=this.listAction.type text=this.listAction.text buttonClass=this.listAction.buttonClass action=this.listAction.action }}}
+            </li>
+          {{/each}}
+        </ul>
+      {{else}}
+        {{#if emptyListMessage}}
+          <p class="modal-user-list__empty">{{emptyListMessage}}</p>
+        {{/if}}
+      {{/if}}
+    {{/if}}
+    {{#if hasFooterActions}}
+      <div class="form__actions modal-form__actions">
+        {{#each actions}}
+          {{{ Button type=this.type text=this.text buttonClass=this.buttonClass action=this.action }}}
+        {{/each}}
+      </div>
+    {{/if}}
+  {{/modal}}
+</div>

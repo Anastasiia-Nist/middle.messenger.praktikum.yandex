@@ -16,6 +16,18 @@ export default abstract class RouteController<T extends Block = Block> {
     return element as HTMLElement
   }
 
+  getView(): T {
+    if (!this.page) {
+      this.render()
+    }
+
+    if (!this.page) {
+      throw new Error('Контроллер не создал страницу')
+    }
+
+    return this.page
+  }
+
   destroy(): void {
     this.page?.destroy()
     this.page = null

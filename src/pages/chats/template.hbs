@@ -1,13 +1,10 @@
 {{#> page mainClass="page-chats"}}
   {{#> layout layoutClass="chat-layout" asideClass="chat-layout__aside" contentClass="chat-layout__content" hasAsideBlock=true}}
     {{#*inline "aside-block"}}
-      {{{ ChatSidebar profileLink=sidebar.profileLink profileText=sidebar.profileText searchPlaceholder=sidebar.searchPlaceholder chats=sidebar.chats }}}
+      {{{ ChatSidebar profileLink=sidebar.profileLink profileText=sidebar.profileText searchPlaceholder=sidebar.searchPlaceholder chats=sidebar.chats onChatSelect=onChatSelect }}}
     {{/inline}}
     <section class="chat-content">
-      <header class="chat-content__header">
-        {{{ Avatar type="icon" }}}
-        <h1 class="chat-content__title">{{activeChatName}}</h1>
-      </header>
+      {{{ ChatContentHeader activeChatName=activeChatName activeChatId=activeChatId menuItems=menuItems onMenuAction=onMenuAction }}}
 
       <ul class="chat-content__messages">
         {{#each messagesByDay}}
@@ -25,4 +22,9 @@
       {{{ Form formClass=messageForm.formClass name=messageForm.name fields=messageForm.fields leadingActions=messageForm.leadingActions actions=messageForm.actions onSubmit=onSubmit }}}
     </section>
   {{/layout}}
+
+  {{{ ChatModal modalKey="createChat" isOpen=modals.createChat.isOpen error=modals.createChat.error onSubmit=onCreateChat onCloseModal=onCloseModal }}}
+  {{{ ChatModal modalKey="addUser" isOpen=modals.addUser.isOpen error=modals.addUser.error searchResults=modals.addUser.searchResults onSearch=onSearchUser onAddUser=onAddUser onCloseModal=onCloseModal }}}
+  {{{ ChatModal modalKey="removeUser" isOpen=modals.removeUser.isOpen error=modals.removeUser.error users=modals.removeUser.users onRemoveUser=onRemoveUser onCloseModal=onCloseModal }}}
+  {{{ ChatModal modalKey="deleteChat" isOpen=modals.deleteChat.isOpen error=modals.deleteChat.error onDeleteChat=onDeleteChat onCloseModal=onCloseModal }}}
 {{/page}}

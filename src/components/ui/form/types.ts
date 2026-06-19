@@ -1,14 +1,12 @@
 import type { BlockOwnProps } from '../../../types/block'
 
-export type FormSubmitData = Record<string, string | boolean>
+export type FormData = Record<string, string | boolean>
 
 export interface FormFieldConfig {
   id: string
   name: string
   label: string
   type?: string
-  fieldType?: string
-  rows?: number
   value?: string
   placeholder?: string
   inputClass?: string
@@ -22,13 +20,12 @@ export interface FormActionConfig {
   action?: string
 }
 
-export interface FormProps extends BlockOwnProps {
+export interface FormProps<TData extends FormData = FormData> extends BlockOwnProps {
   name: string
   formClass?: string
-  actionsClass?: string
   fields: FormFieldConfig[]
   leadingActions?: FormActionConfig[]
   actions?: FormActionConfig[]
   disabled?: boolean
-  onSubmit?: (data: FormSubmitData) => void
+  onSubmit?: (data: TData) => void
 }

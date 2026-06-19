@@ -1,32 +1,19 @@
-export const ERROR_CODES = ['404', '500'] as const
+import { ERROR_CODES, ROUTES } from '../../constants'
 
-export type ErrorCode = (typeof ERROR_CODES)[number]
+const ERROR_PAGE_LINK = {
+  href: ROUTES.MESSENGER,
+  text: 'Назад к чатам',
+} as const
 
-export const errorPageDataByCode: Record<
-  ErrorCode,
-  {
-    code: ErrorCode
-    description: string
-    link: {
-      href: string
-      text: string
-    }
-  }
-> = {
-  '404': {
-    code: '404',
+export const errorPageDataByCode = {
+  [ERROR_CODES.NOT_FOUND]: {
+    code: ERROR_CODES.NOT_FOUND,
     description: 'Не туда попали',
-    link: {
-      href: '#/',
-      text: 'Назад к чатам',
-    },
+    link: ERROR_PAGE_LINK,
   },
-  '500': {
-    code: '500',
+  [ERROR_CODES.SERVER_ERROR]: {
+    code: ERROR_CODES.SERVER_ERROR,
     description: 'Мы уже фиксим',
-    link: {
-      href: '#/',
-      text: 'Назад к чатам',
-    },
+    link: ERROR_PAGE_LINK,
   },
-}
+} as const

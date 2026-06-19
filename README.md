@@ -14,37 +14,38 @@
 
 ## Архитектура (MVC)
 
-Поток данных: `main.ts` → `router` (hash-маршрут) → **Controller** → **View** (страница `Block`) → при необходимости **Model** (сервис).
+Поток данных: `main.ts` → `Router` (History API) → **Controller** → **View** (страница `Block`) → **Model** (сервисы + API).
 
 | Слой | Где в `src/` | Роль |
 |------|--------------|------|
-| **View** | `components/`, `pages/`, `system/Block.ts` | Отрисовка UI: классы `extends Block`, шаблоны `.hbs`, стили |
-| **Controller** | `controllers/`, `router/` | Создание страницы, обработчики событий, связь View и Model |
-| **Model** | `services/` | Бизнес-логика без DOM (`FormService`, `ChatService`) |
+| **View** | `pages/`, `components/`, `system/Block.ts` | Отрисовка UI: классы `extends Block`, шаблоны `.hbs`, стили |
+| **Controller** | `controllers/` | Состояние страницы, обработчики, связь View и Model |
+| **Model** | `services/` | Бизнес-логика без DOM |
+| **Transport** | `api/`, `system/api/` | HTTP-клиенты и XHR-транспорт |
+| **Routing** | `routes/` | Конфигурация маршрутов приложения |
 
+Контроллер — единственный владелец состояния страницы. View-компоненты «глупые»: получают props и вызывают колбэки.
 
 ### Структура `src/`
 
 ```
 src/
-├── main.ts              # Точка входа: регистрация, роутинг, монтирование в #app
-├── base.css, styles.css # Глобальные стили
-├── router/              # Hash-роутинг: маршрутизация
-├── system/              # Ядро View: Block, registerComponents
-├── controllers/         # Controller: контроллеры страниц
-├── services/            # Model: работа с данными и формами
-├── pages/               # View: страницы приложения (Block + template + data)
-├── components/          # View: компоненты
-│   ├── ui/              # Атомарные компоненты (Button, Form, Input…)
-│   ├── pages/           # Составные блоки конкретных страниц (сайдбары)
-│   └── layouts/         # Обёртки разметки (layout, page)
-├── helpers/             # Хелперы
-│   ├── register/        # Регистрация компонентов
-│   └── validation/      # Проверка полей форм
-├── constants/           # Константы (селекторы, правила валидации)
-├── types/               # Общие TypeScript-типы
-├── mock/                # Заглушки данных (чаты, профиль) до подключения API
-└── public/              # Статические файлы (иконки, изображения)
+├── main.ts                 # Точка входа: регистрация HB, auth check, SPA-навигация
+├── base.css, styles.css
+├── routes/                 # Конфигурация Router (маршрут → Controller)
+├── system/                 # Ядро: Block, registerComponents, Router, HTTPTransport
+├── controllers/            # Controller: контроллеры страниц
+├── services/               # Model: AuthService, ChatService, UserService, FormService
+├── api/                    # HTTP-клиенты (AuthAPI, ChatAPI, UserAPI)
+├── pages/                  # View: страницы (Block + template + data)
+├── components/
+│   ├── ui/                 # Атомарные компоненты (Button, Form, Modal…)
+│   ├── pages/              # Составные блоки страниц (sidebar, header, modals)
+│   └── layouts/            # Обёртки разметки (layout, page)
+├── helpers/                # formActions, регистрация HB, валидация
+├── constants/              # routes, actions, messages, validation, api
+├── types/                  # Domain и infra типы
+└── utils/                  # renderDOM, api helpers, withApiError
 ```
 
 ### Добавление UI-компонента
@@ -53,6 +54,8 @@ src/
 2. `static componentName`, шаблон `.hbs`, стили
 3. Импорт и `registerComponent()` в `system/registerComponents.ts`
 4. В шаблоне: `{{{ ComponentName key=value }}}`
+
+Action-строки кнопок и UI-тексты выносятся в `constants/actions.ts` и `constants/messages.ts`, в шаблоны передаются через props.
 
 ## Команды
 
@@ -68,16 +71,16 @@ src/
 
 ## Страницы приложения
 
-Маршруты работают через hash: в адресе после `#` указывается путь (например `http://localhost:3000/#/settings` или тот же путь на демо-домене).
+Маршруты работают через History API: путь указывается в адресной строке (например `http://localhost:3000/settings`).
 
 **Возможно без VPN демо не откроется**
 
-- **Чаты:** `/`, `/chats` — [открыть на демо](https://messenger-practicum-yandex-by-nist.netlify.app/#/)
-- **Вход:** `/sign-in` — [открыть на демо](https://messenger-practicum-yandex-by-nist.netlify.app/#/sign-in)
-- **Регистрация:** `/sign-up` — [открыть на демо](https://messenger-practicum-yandex-by-nist.netlify.app/#/sign-up)
-- **Настройки профиля:** `/settings` — [открыть на демо](https://messenger-practicum-yandex-by-nist.netlify.app/#/settings)
-- **Ошибка 404:** `/404` — [открыть на демо](https://messenger-practicum-yandex-by-nist.netlify.app/#/404)
-- **Ошибка 500:** `/500` — [открыть на демо](https://messenger-practicum-yandex-by-nist.netlify.app/#/500)
+- **Вход:** `/` — [открыть на демо](https://messenger-practicum-yandex-by-nist.netlify.app/)
+- **Чаты:** `/messenger` — [открыть на демо](https://messenger-practicum-yandex-by-nist.netlify.app/messenger)
+- **Регистрация:** `/sign-up` — [открыть на демо](https://messenger-practicum-yandex-by-nist.netlify.app/sign-up)
+- **Настройки профиля:** `/settings` — [открыть на демо](https://messenger-practicum-yandex-by-nist.netlify.app/settings)
+- **Ошибка 404:** `/404` — [открыть на демо](https://messenger-practicum-yandex-by-nist.netlify.app/404)
+- **Ошибка 500:** `/500` — [открыть на демо](https://messenger-practicum-yandex-by-nist.netlify.app/500)
 
 ## Ссылки
 

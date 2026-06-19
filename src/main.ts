@@ -1,29 +1,35 @@
 import './styles.css'
 
 import { registerComponents } from './system/registerComponents'
-import { APP_ROOT_SELECTOR } from './constants'
 import { registerHandlebarsHelpers } from './helpers/register/registerHandlebarsHelpers'
 import { registerHandlebarsPartials } from './helpers/register/registerHandlebarsPartials'
-import { renderCurrentRoute } from './router/router'
-
-const rootNode = document.querySelector<HTMLDivElement>(APP_ROOT_SELECTOR)
-
-if (!rootNode) {
-  throw new Error('rootNode не найден в DOM')
-}
-
-const render = () => {
-  rootNode.replaceChildren(renderCurrentRoute())
-}
+import { router } from './routes'
+import { authService } from './services/AuthService'
 
 registerHandlebarsHelpers()
 registerHandlebarsPartials()
 registerComponents()
 
-window.addEventListener('hashchange', render)
+document.addEventListener('click', (event) => {
+  const link = (event.target as Element).closest('a')
 
-if (!window.location.hash) {
-  window.location.hash = '#/'
+  if (!link || link.origin !== window.location.origin) {
+    return
+  }
+
+  const pathname = link.pathname
+
+  if (!pathname || pathname === window.location.pathname) {
+    return
+  }
+
+  event.preventDefault()
+  router.go(pathname)
+})
+
+const init = async (): Promise<void> => {
+  await authService.checkAuth()
+  router.start()
 }
 
-render()
+void init()

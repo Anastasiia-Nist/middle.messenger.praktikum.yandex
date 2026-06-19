@@ -1,14 +1,14 @@
-import { chatListMock, chatMessagesByDayMock } from '../../mock/chat/messages'
+import { CHAT_PLACEHOLDER, ROUTES } from '../../constants'
 
 export const chatsPageData = {
   sidebar: {
-    profileLink: '#/settings',
+    profileLink: ROUTES.SETTINGS,
     profileText: 'Профиль >',
     searchPlaceholder: 'Поиск',
-    chats: chatListMock,
+    chats: [],
   },
-  activeChatName: 'Грейнджер',
-  messagesByDay: chatMessagesByDayMock,
+  activeChatName: CHAT_PLACEHOLDER,
+  messagesByDay: [],
   messageForm: {
     name: 'chat-message',
     formClass: 'chat-content__form',

@@ -5,8 +5,6 @@ export interface InputProps extends BlockOwnProps {
   name: string
   label: string
   type?: string
-  fieldType?: string
-  rows?: number
   value?: string
   placeholder?: string
   disabled?: boolean

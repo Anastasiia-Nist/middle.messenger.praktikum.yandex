@@ -1,3 +1,5 @@
+import { ROUTES } from '../../../constants'
+
 export const signInPageData = {
   form: {
     name: 'sign-in',
@@ -25,7 +27,7 @@ export const signInPageData = {
     formClass: 'page-auth__form',
   },
   redirectLink: {
-    href: '#/sign-up',
+    href: ROUTES.SIGN_UP,
     text: 'Нет аккаунта?',
   },
 }
