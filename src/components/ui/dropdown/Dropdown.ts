@@ -7,10 +7,26 @@ import type { DropdownItem, DropdownProps } from './types'
 const DEFAULT_TRIGGER_CLASS = 'dropdown__trigger-button'
 
 function mapItemsWithButtonClass(items: DropdownItem[]): Array<DropdownItem & { buttonClass: string }> {
-  return items.map((item) => ({
-    ...item,
-    buttonClass: item.disabled ? 'dropdown__button dropdown__button_disabled' : 'dropdown__button',
-  }))
+  return items.map((item) => {
+    if (item.disabled) {
+      return {
+        ...item,
+        buttonClass: 'dropdown__button dropdown__button_disabled',
+      }
+    }
+
+    if (item.danger) {
+      return {
+        ...item,
+        buttonClass: 'dropdown__button dropdown__button_danger',
+      }
+    }
+
+    return {
+      ...item,
+      buttonClass: 'dropdown__button',
+    }
+  })
 }
 
 export default class Dropdown extends Block<DropdownProps> {

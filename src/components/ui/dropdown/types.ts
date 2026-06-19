@@ -4,6 +4,7 @@ export type DropdownItem = {
   id: string
   label: string
   disabled?: boolean
+  danger?: boolean
 }
 
 export interface DropdownProps extends BlockOwnProps {

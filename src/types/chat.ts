@@ -35,6 +35,10 @@ export type UsersRequest = {
   chatId: number
 }
 
+export type DeleteChatRequest = {
+  chatId: number
+}
+
 export type GetChatsParams = {
   offset?: number
   limit?: number

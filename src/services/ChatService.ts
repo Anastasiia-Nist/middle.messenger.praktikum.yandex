@@ -64,6 +64,10 @@ class ChatService {
   async fetchChatUsers(chatId: number): Promise<ChatUser[]> {
     return withApiError(() => chatAPI.getChatUsers(chatId))
   }
+
+  async deleteChat(chatId: number): Promise<void> {
+    await withApiError(() => chatAPI.deleteChat({ chatId }))
+  }
 }
 
 export const chatService = new ChatService()

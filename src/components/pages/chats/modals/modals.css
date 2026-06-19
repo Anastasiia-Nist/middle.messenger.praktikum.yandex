@@ -55,3 +55,9 @@
   color: var(--color-text-muted);
   text-align: center;
 }
+
+.modal-confirm__message {
+  margin: var(--space-0);
+  font-size: var(--font-size-md);
+  line-height: 1.5;
+}

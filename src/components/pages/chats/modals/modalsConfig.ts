@@ -3,24 +3,32 @@ import type { ChatsModalsState } from '../../../../types/chats-page'
 import type { FormActionConfig, FormFieldConfig } from '../../../ui/form/types'
 import {
   addUserFields,
+  addUserListItemAction,
   addUserSearchActions,
   createChatActions,
   createChatFields,
+  deleteChatActions,
+  removeUserCloseActions,
+  removeUserListItemAction,
+  type ModalListItemAction,
 } from './modalData'
 
 export type ChatModalKey = keyof ChatsModalsState
 
-export type ChatModalContentType = 'form' | 'search-form' | 'user-list'
+export type ChatModalContentType = 'form' | 'search-form' | 'user-list' | 'confirm'
 
 export interface ChatModalConfig {
   title: string
   hostClass: string
   modalClass?: string
   contentType: ChatModalContentType
+  message?: string
   formName?: string
   fields?: FormFieldConfig[]
   actions?: FormActionConfig[]
   searchActions?: FormActionConfig[]
+  listItemAction?: ModalListItemAction
+  emptyListMessage?: string
   menuAction?: ChatMenuAction
   requiresActiveChat?: boolean
   getOpenState: (modals: ChatsModalsState) => ChatsModalsState[ChatModalKey]
@@ -48,6 +56,7 @@ export const chatsModalConfig: Record<ChatModalKey, ChatModalConfig> = {
     formName: 'add-user',
     fields: addUserFields,
     searchActions: addUserSearchActions,
+    listItemAction: addUserListItemAction,
     menuAction: ACTIONS.CHAT_MENU.ADD_USER,
     requiresActiveChat: true,
     getOpenState: () => ({ isOpen: true, searchResults: [], error: undefined }),
@@ -58,6 +67,9 @@ export const chatsModalConfig: Record<ChatModalKey, ChatModalConfig> = {
     hostClass: 'chat-modal chat-modal_remove-user',
     modalClass: 'modal_remove-user',
     contentType: 'user-list',
+    listItemAction: removeUserListItemAction,
+    actions: removeUserCloseActions,
+    emptyListMessage: 'В чате нет участников',
     menuAction: ACTIONS.CHAT_MENU.REMOVE_USER,
     requiresActiveChat: true,
     getOpenState: (modals) => ({
@@ -66,6 +78,18 @@ export const chatsModalConfig: Record<ChatModalKey, ChatModalConfig> = {
       error: undefined,
     }),
     getClosedState: () => ({ isOpen: false, users: [], error: undefined }),
+  },
+  deleteChat: {
+    title: 'Удалить чат',
+    hostClass: 'chat-modal chat-modal_delete-chat',
+    modalClass: 'modal_delete-chat',
+    contentType: 'confirm',
+    message: 'Вы уверены, что хотите удалить этот чат?',
+    actions: deleteChatActions,
+    menuAction: ACTIONS.CHAT_MENU.DELETE_CHAT,
+    requiresActiveChat: true,
+    getOpenState: () => ({ isOpen: true, error: undefined }),
+    getClosedState: () => ({ isOpen: false, error: undefined }),
   },
 }
 

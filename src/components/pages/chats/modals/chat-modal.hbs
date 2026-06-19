@@ -5,38 +5,34 @@
     {{/if}}
     {{#if isSearchFormType}}
       {{{ Form name=formName formClass="modal-form" fields=fields actions=searchActions onSubmit=onSearchSubmit }}}
-      {{#if mappedSearchResults.length}}
-        <ul class="modal-user-list">
-          {{#each mappedSearchResults}}
-            <li class="modal-user-list__item">
-              <div class="modal-user-list__info">
-                <span class="modal-user-list__name">{{this.first_name}} {{this.second_name}}</span>
-                <span class="modal-user-list__login">@{{this.login}}</span>
-              </div>
-              {{{ Button type="button" text="Добавить" buttonClass="modal-user-list__action" action=this.addAction }}}
-            </li>
-          {{/each}}
-        </ul>
-      {{/if}}
     {{/if}}
-    {{#if isUserListType}}
-      {{#if mappedUsers.length}}
+    {{#if isConfirmType}}
+      <p class="modal-confirm__message">{{message}}</p>
+    {{/if}}
+    {{#if hasListItems}}
+      {{#if modalListItems.length}}
         <ul class="modal-user-list">
-          {{#each mappedUsers}}
+          {{#each modalListItems}}
             <li class="modal-user-list__item">
               <div class="modal-user-list__info">
-                <span class="modal-user-list__name">{{this.display_name}}</span>
-                <span class="modal-user-list__login">@{{this.login}}</span>
+                <span class="modal-user-list__name">{{this.primaryText}}</span>
+                <span class="modal-user-list__login">{{this.secondaryText}}</span>
               </div>
-              {{{ Button type="button" text="Удалить" buttonClass="modal-user-list__action modal-user-list__action_danger" action=this.removeAction }}}
+              {{{ Button type=this.listAction.type text=this.listAction.text buttonClass=this.listAction.buttonClass action=this.listAction.action }}}
             </li>
           {{/each}}
         </ul>
       {{else}}
-        <p class="modal-user-list__empty">В чате нет участников</p>
+        {{#if emptyListMessage}}
+          <p class="modal-user-list__empty">{{emptyListMessage}}</p>
+        {{/if}}
       {{/if}}
-      <div class="modal-form__actions">
-        {{{ Button type="button" text="Закрыть" buttonClass="button_stretch_full" action=closeAction }}}
+    {{/if}}
+    {{#if hasFooterActions}}
+      <div class="form__actions modal-form__actions">
+        {{#each actions}}
+          {{{ Button type=this.type text=this.text buttonClass=this.buttonClass action=this.action }}}
+        {{/each}}
       </div>
     {{/if}}
   {{/modal}}

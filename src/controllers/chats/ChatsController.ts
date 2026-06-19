@@ -53,6 +53,9 @@ export default class ChatsController extends RouteController<ChatsPage> {
         onRemoveUser: async (userId: number) => {
           await this.handleRemoveUser(userId)
         },
+        onDeleteChat: async () => {
+          await this.handleDeleteChat()
+        },
       }),
       'ChatsPage',
     )
@@ -249,6 +252,28 @@ export default class ChatsController extends RouteController<ChatsPage> {
       this.setModalError(
         'removeUser',
         error instanceof Error ? error.message : CHAT_MODAL_ERRORS.REMOVE_USER_FAILED,
+      )
+    }
+  }
+
+  private async handleDeleteChat(): Promise<void> {
+    if (this.activeChatId === null) {
+      return
+    }
+
+    try {
+      await chatService.deleteChat(this.activeChatId)
+
+      this.setModals({
+        ...this.modalsState,
+        deleteChat: { isOpen: false, error: undefined },
+      })
+
+      await this.loadChats()
+    } catch (error) {
+      this.setModalError(
+        'deleteChat',
+        error instanceof Error ? error.message : CHAT_MODAL_ERRORS.DELETE_CHAT_FAILED,
       )
     }
   }

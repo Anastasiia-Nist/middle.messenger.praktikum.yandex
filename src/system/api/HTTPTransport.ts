@@ -3,6 +3,11 @@ import { HTTP_METHODS } from '../../constants/httpMethods'
 import type { RequestOptions } from '../../types/api'
 import { queryStringify, resolveUrl } from '../../utils/api'
 
+type HTTPMethod = <R = unknown>(
+  url: string,
+  options?: Omit<RequestOptions, 'method'>,
+) => Promise<R>
+
 export default class HTTPTransport {
   private readonly base: string
 
@@ -10,20 +15,20 @@ export default class HTTPTransport {
     this.base = base
   }
 
-  get = <T = unknown>(url: string, options: Omit<RequestOptions, 'method'> = {}): Promise<T> => {
-    return this.request<T>(url, { ...options, method: HTTP_METHODS.GET })
+  get: HTTPMethod = (url, options = {}) => {
+    return this.request(url, { ...options, method: HTTP_METHODS.GET })
   }
 
-  post = <T = unknown>(url: string, options: Omit<RequestOptions, 'method'> = {}): Promise<T> => {
-    return this.request<T>(url, { ...options, method: HTTP_METHODS.POST })
+  post: HTTPMethod = (url, options = {}) => {
+    return this.request(url, { ...options, method: HTTP_METHODS.POST })
   }
 
-  put = <T = unknown>(url: string, options: Omit<RequestOptions, 'method'> = {}): Promise<T> => {
-    return this.request<T>(url, { ...options, method: HTTP_METHODS.PUT })
+  put: HTTPMethod = (url, options = {}) => {
+    return this.request(url, { ...options, method: HTTP_METHODS.PUT })
   }
 
-  delete = <T = unknown>(url: string, options: Omit<RequestOptions, 'method'> = {}): Promise<T> => {
-    return this.request<T>(url, { ...options, method: HTTP_METHODS.DELETE })
+  delete: HTTPMethod = (url, options = {}) => {
+    return this.request(url, { ...options, method: HTTP_METHODS.DELETE })
   }
 
   request = <T = unknown>(

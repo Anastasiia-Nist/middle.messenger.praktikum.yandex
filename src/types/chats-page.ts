@@ -47,13 +47,17 @@ export interface ChatsModalsState {
     error?: string
     users: ChatUser[]
   }
+  deleteChat: {
+    isOpen: boolean
+    error?: string
+  }
 }
 
 export interface ChatsPageProps extends BlockOwnProps {
   sidebar: ChatSidebarProps
   activeChatId: number | null
   activeChatName: string
-  menuItems: Array<{ id: ChatMenuAction; label: string; disabled?: boolean }>
+  menuItems: Array<{ id: ChatMenuAction; label: string; disabled?: boolean; danger?: boolean }>
   modals: ChatsModalsState
   messagesByDay: ChatDayGroup[]
   messageForm: Pick<FormProps, 'name' | 'formClass' | 'fields' | 'leadingActions' | 'actions'>
@@ -65,4 +69,5 @@ export interface ChatsPageProps extends BlockOwnProps {
   onSearchUser?: (login: string) => void | Promise<void>
   onAddUser?: (userId: number) => void | Promise<void>
   onRemoveUser?: (userId: number) => void | Promise<void>
+  onDeleteChat?: () => void | Promise<void>
 }

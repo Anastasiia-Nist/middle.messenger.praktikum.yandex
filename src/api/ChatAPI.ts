@@ -6,6 +6,7 @@ import type {
   ChatUser,
   CreateChatRequest,
   CreateChatResponse,
+  DeleteChatRequest,
   GetChatsParams,
   UsersRequest,
 } from '../types/chat'
@@ -27,6 +28,10 @@ export class ChatAPI extends BaseApi {
 
   removeUsers(data: UsersRequest): Promise<void> {
     return http.delete('/users', { data })
+  }
+
+  deleteChat(data: DeleteChatRequest): Promise<void> {
+    return http.delete('/', { data })
   }
 
   getChatUsers(id: number): Promise<ChatUser[]> {

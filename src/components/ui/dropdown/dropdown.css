@@ -65,3 +65,11 @@
 .dropdown__button:hover:not(:disabled) {
   background-color: var(--color-background-sidebar);
 }
+
+.dropdown__button_danger {
+  color: var(--color-red);
+}
+
+.dropdown__button_danger:hover:not(:disabled) {
+  background-color: #fff0f0;
+}

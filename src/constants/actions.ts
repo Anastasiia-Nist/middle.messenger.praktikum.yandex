@@ -1,11 +1,13 @@
 export const ACTIONS = {
   MODAL_CLOSE: 'modal-close',
   MODAL_CANCEL: 'modal-cancel',
+  DELETE_CHAT_CONFIRM: 'delete-chat-confirm',
   DROPDOWN_TOGGLE: 'dropdown-toggle',
   CHAT_MENU: {
     CREATE: 'create-chat',
     ADD_USER: 'add-user',
     REMOVE_USER: 'remove-user',
+    DELETE_CHAT: 'delete-chat',
   },
   SETTINGS: {
     EDIT_PROFILE: 'edit-profile',

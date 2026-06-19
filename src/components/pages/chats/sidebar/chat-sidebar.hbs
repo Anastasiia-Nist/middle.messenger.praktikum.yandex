@@ -1,15 +1,12 @@
 <div class="chat-sidebar">
   <div class="chat-sidebar__header">
-    <a class="chat-sidebar__profile-link" href="{{profileLink}}">{{profileText}}</a>
+    {{{ Link href=profileLink text=profileText linkClass="chat-sidebar__profile-link" }}}
     {{{ Input id="chat-search" name="chat-search" label="" type="search" placeholder=searchPlaceholder inputClass="chat-sidebar__search" }}}
   </div>
   <ul class="chat-sidebar__list">
     {{#each chats}}
       <li class="chat-sidebar__item {{#if this.isActive}}chat-sidebar__item_active{{/if}}" data-chat-id="{{this.id}}">
         <div class="chat-sidebar__item-content">
-          <div class="chat-sidebar__avatar">
-            {{{ Avatar type="icon" }}}
-          </div>
           <div class="chat-sidebar__item-info">
             <div class="chat-sidebar__item-top">
               <span class="chat-sidebar__name">{{this.name}}</span>

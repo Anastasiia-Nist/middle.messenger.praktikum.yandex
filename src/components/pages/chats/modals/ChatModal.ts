@@ -3,29 +3,41 @@ import {
   chatUserAction,
   parseChatUserAction,
 } from '../../../../constants'
-import type { FormData } from '../../../ui/form/types'
+import type { FormActionConfig, FormData } from '../../../ui/form/types'
 import type { ChatUser } from '../../../../types/chat'
 import type { User } from '../../../../types/user'
 import Modal from '../../../ui/modal/Modal'
+import type { ModalListItemAction } from './modalData'
 import { chatsModalConfig } from './modalsConfig'
 import template from './chat-modal.hbs?raw'
-import type { ChatModalProps } from './types'
+import type { ChatModalProps, ModalListItem } from './types'
 
-type SearchResultItem = User & { addAction: string }
+function buildListAction(
+  listItemAction: ModalListItemAction,
+  action: string,
+): FormActionConfig {
+  return { ...listItemAction, action }
+}
 
-type ChatUserItem = ChatUser & { removeAction: string }
-
-function mapSearchResults(results: User[]): SearchResultItem[] {
+function mapSearchResultsToListItems(
+  results: User[],
+  listItemAction: ModalListItemAction,
+): ModalListItem[] {
   return results.map((user) => ({
-    ...user,
-    addAction: chatUserAction('add', user.id),
+    primaryText: `${user.first_name} ${user.second_name}`,
+    secondaryText: `@${user.login}`,
+    listAction: buildListAction(listItemAction, chatUserAction('add', user.id)),
   }))
 }
 
-function mapUsers(users: ChatUser[]): ChatUserItem[] {
+function mapUsersToListItems(
+  users: ChatUser[],
+  listItemAction: ModalListItemAction,
+): ModalListItem[] {
   return users.map((user) => ({
-    ...user,
-    removeAction: chatUserAction('remove', user.id),
+    primaryText: user.display_name,
+    secondaryText: `@${user.login}`,
+    listAction: buildListAction(listItemAction, chatUserAction('remove', user.id)),
   }))
 }
 
@@ -45,10 +57,28 @@ function buildSearchSubmitHandler(
   }
 }
 
+function buildModalListItems(props: ChatModalProps): ModalListItem[] {
+  const config = chatsModalConfig[props.modalKey]
+
+  if (!config.listItemAction) {
+    return []
+  }
+
+  if (props.modalKey === 'addUser' && props.searchResults) {
+    return mapSearchResultsToListItems(props.searchResults, config.listItemAction)
+  }
+
+  if (props.modalKey === 'removeUser' && props.users) {
+    return mapUsersToListItems(props.users, config.listItemAction)
+  }
+
+  return []
+}
+
 function buildModalProps(props: ChatModalProps): ChatModalProps {
   const config = chatsModalConfig[props.modalKey]
 
-  const nextProps: ChatModalProps = {
+  return {
     ...props,
     cancelAction: ACTIONS.MODAL_CANCEL,
     closeAction: ACTIONS.MODAL_CLOSE,
@@ -57,25 +87,18 @@ function buildModalProps(props: ChatModalProps): ChatModalProps {
     modalClass: config.modalClass,
     isFormType: config.contentType === 'form',
     isSearchFormType: config.contentType === 'search-form',
-    isUserListType: config.contentType === 'user-list',
+    isConfirmType: config.contentType === 'confirm',
+    hasListItems: config.contentType === 'search-form' || config.contentType === 'user-list',
+    hasFooterActions: config.contentType === 'confirm' || config.contentType === 'user-list',
+    message: config.message ?? '',
+    emptyListMessage: config.emptyListMessage ?? '',
     fields: config.fields ?? [],
     actions: config.actions ?? [],
     searchActions: config.searchActions ?? [],
     formName: config.formName ?? '',
     onSearchSubmit: buildSearchSubmitHandler(props.onSearch),
-    mappedSearchResults: [],
-    mappedUsers: [],
+    modalListItems: buildModalListItems(props),
   }
-
-  if (props.modalKey === 'addUser' && props.searchResults) {
-    nextProps.mappedSearchResults = mapSearchResults(props.searchResults)
-  }
-
-  if (props.modalKey === 'removeUser' && props.users) {
-    nextProps.mappedUsers = mapUsers(props.users)
-  }
-
-  return nextProps
 }
 
 export default class ChatModal extends Modal<ChatModalProps> {
@@ -90,12 +113,11 @@ export default class ChatModal extends Modal<ChatModalProps> {
   public setProps(props: Partial<ChatModalProps>): void {
     const nextProps = { ...props }
 
-    if (nextProps.searchResults) {
-      nextProps.mappedSearchResults = mapSearchResults(nextProps.searchResults)
-    }
-
-    if (nextProps.users) {
-      nextProps.mappedUsers = mapUsers(nextProps.users)
+    if (nextProps.searchResults || nextProps.users) {
+      nextProps.modalListItems = buildModalListItems({
+        ...this.props,
+        ...nextProps,
+      })
     }
 
     if (nextProps.onSearch !== undefined) {
@@ -112,6 +134,9 @@ export default class ChatModal extends Modal<ChatModalProps> {
         break
       case 'removeUser':
         this.handleRemoveUserAction(action)
+        break
+      case 'deleteChat':
+        this.handleDeleteChatAction(action)
         break
       default:
         break
@@ -131,6 +156,12 @@ export default class ChatModal extends Modal<ChatModalProps> {
 
     if (userId !== null) {
       this.props.onRemoveUser?.(userId)
+    }
+  }
+
+  private handleDeleteChatAction(action: string): void {
+    if (action === ACTIONS.DELETE_CHAT_CONFIRM) {
+      this.props.onDeleteChat?.()
     }
   }
 

@@ -11,4 +11,5 @@ export const CHAT_MODAL_ERRORS = {
   ADD_USER_FAILED: 'Не удалось добавить пользователя',
   REMOVE_USER_FAILED: 'Не удалось удалить пользователя',
   LOAD_USERS_FAILED: 'Не удалось загрузить участников',
+  DELETE_CHAT_FAILED: 'Не удалось удалить чат',
 } as const
