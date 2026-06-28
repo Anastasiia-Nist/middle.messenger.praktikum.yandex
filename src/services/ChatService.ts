@@ -30,13 +30,15 @@ function formatChatTime(time: string): string {
 }
 
 function mapChatToSidebarItem(chat: Chat, activeChatId: number | null): ChatSidebarItem {
+  const isActive = chat.id === activeChatId
+
   return {
     id: chat.id,
     name: chat.title,
     time: chat.last_message ? formatChatTime(chat.last_message.time) : '',
     preview: chat.last_message?.content ?? '',
-    unreadCount: chat.unread_count || undefined,
-    isActive: chat.id === activeChatId,
+    unreadCount: isActive ? undefined : (chat.unread_count || undefined),
+    isActive,
   }
 }
 

@@ -70,4 +70,5 @@ export interface ChatsPageProps extends BlockOwnProps {
   onAddUser?: (userId: number) => void | Promise<void>
   onRemoveUser?: (userId: number) => void | Promise<void>
   onDeleteChat?: () => void | Promise<void>
+  onUnmount?: () => void
 }

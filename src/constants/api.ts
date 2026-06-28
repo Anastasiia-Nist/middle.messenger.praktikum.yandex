@@ -10,6 +10,22 @@ export const API_BASE = import.meta.env.DEV
   ? API_PREFIX
   : `${API_HOST}${API_PREFIX}`
 
+export const WS_PING_INTERVAL_MS = 30000
+
+export const WS_MESSAGES_PAGE_SIZE = 20
+
+export function buildChatWsUrl(userId: number, chatId: number, token: string): string {
+  if (import.meta.env.DEV) {
+    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
+
+    return `${protocol}//${window.location.host}/ws/chats/${userId}/${chatId}/${token}`
+  }
+
+  const host = API_HOST.replace(/^https?:\/\//, '')
+
+  return `wss://${host}/ws/chats/${userId}/${chatId}/${token}`
+}
+
 export function resolveResourceUrl(path: string): string {
   if (!path) {
     return ''

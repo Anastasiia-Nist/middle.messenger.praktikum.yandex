@@ -19,7 +19,9 @@
         {{/each}}
       </ul>
 
-      {{{ Form formClass=messageForm.formClass name=messageForm.name fields=messageForm.fields leadingActions=messageForm.leadingActions actions=messageForm.actions onSubmit=onSubmit }}}
+      {{#if activeChatId}}
+        {{{ Form formClass=messageForm.formClass name=messageForm.name fields=messageForm.fields leadingActions=messageForm.leadingActions actions=messageForm.actions onSubmit=onSubmit }}}
+      {{/if}}
     </section>
   {{/layout}}
 

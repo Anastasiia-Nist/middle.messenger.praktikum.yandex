@@ -10,6 +10,10 @@ export default class Button extends Block<ButtonProps> {
 
   protected events = {
     click: (event: Event) => {
+      if (this.props.disabled) {
+        return
+      }
+
       event.stopPropagation()
 
       this.element()?.dispatchEvent(

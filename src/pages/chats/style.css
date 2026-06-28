@@ -161,6 +161,11 @@
   background-size: contain;
 }
 
+.chat-content__add-file:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
 .chat-content__submit {
   min-width: 1.75rem;
   min-height: 1.75rem;

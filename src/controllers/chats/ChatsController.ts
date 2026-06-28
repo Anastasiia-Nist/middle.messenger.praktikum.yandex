@@ -14,9 +14,17 @@ import {
 } from '../../constants'
 import { buildChatsPageProps } from '../../pages/chats/buildChatsPageProps'
 import ChatsPage from '../../pages/chats/ChatsPage'
-import type { ChatsModalsState } from '../../types/chats-page'
+import type { ChatDayGroup, ChatsModalsState } from '../../types/chats-page'
+import { authService } from '../../services/AuthService'
 import { chatService } from '../../services/ChatService'
+import { messageService } from '../../services/MessageService'
 import { userService } from '../../services/UserService'
+import {
+  clearChatHash,
+  parseChatHash,
+  replaceChatHashSilently,
+  setChatHash,
+} from '../../utils/chatHash'
 import RouteController from '../RouteController'
 
 export default class ChatsController extends RouteController<ChatsPage> {
@@ -24,7 +32,15 @@ export default class ChatsController extends RouteController<ChatsPage> {
 
   private activeChatId: number | null = null
 
+  private currentUserId: number | null = null
+
+  private messagesByDay: ChatDayGroup[] = []
+
   private modalsState: ChatsModalsState = defaultModalsState
+
+  private readonly handleHashChange = (): void => {
+    this.syncChatFromUrl()
+  }
 
   render(): HTMLElement {
     const element = this.renderPage(
@@ -33,7 +49,7 @@ export default class ChatsController extends RouteController<ChatsPage> {
         modals: this.modalsState,
         onSubmit: (data: FormData) => this.handleSendMessage(data),
         onChatSelect: (chatId: number) => {
-          this.handleChatSelect(chatId)
+          setChatHash(chatId)
         },
         onMenuAction: (action: ChatMenuAction) => {
           void this.handleMenuAction(action)
@@ -56,18 +72,79 @@ export default class ChatsController extends RouteController<ChatsPage> {
         onDeleteChat: async () => {
           await this.handleDeleteChat()
         },
+        onUnmount: () => {
+          window.removeEventListener('hashchange', this.handleHashChange)
+          messageService.disconnect()
+        },
       }),
       'ChatsPage',
     )
 
-    void this.loadChats()
+    window.addEventListener('hashchange', this.handleHashChange)
+    void this.initializePage()
 
     return element
   }
 
+  private async initializePage(): Promise<void> {
+    try {
+      const user = await authService.getUser()
+
+      this.currentUserId = user.id
+    } catch (error) {
+      console.error(error)
+    }
+
+    this.syncChatFromUrl()
+  }
+
   private handleSendMessage(data: FormData): void {
-    // TODO: подключить отправку сообщений
-    void data
+    const text = String(data.message ?? '').trim()
+
+    if (!text || this.activeChatId === null) {
+      return
+    }
+
+    messageService.sendText(text)
+    this.resetMessageField()
+  }
+
+  private resetMessageField(): void {
+    this.page?.setProps({
+      messageForm: {
+        ...this.pageData.messageForm,
+        fields: this.pageData.messageForm.fields.map((field) => (
+          field.name === 'message' ? { ...field, value: '' } : field
+        )),
+        leadingActions: [...(this.pageData.messageForm.leadingActions ?? [])],
+        actions: [...(this.pageData.messageForm.actions ?? [])],
+      },
+    })
+  }
+
+  private connectToActiveChat(): void {
+    if (this.activeChatId === null) {
+      messageService.disconnect()
+      this.updateMessagesView([])
+
+      return
+    }
+
+    void messageService.connect(this.activeChatId, {
+      currentUserId: this.currentUserId,
+      onMessagesUpdate: (messagesByDay) => {
+        this.updateMessagesView(messagesByDay)
+      },
+      onHistoryLoaded: () => {
+        void this.refreshChatsView()
+      },
+    })
+  }
+
+  private updateMessagesView(messagesByDay: ChatDayGroup[]): void {
+    this.messagesByDay = messagesByDay
+
+    this.page?.setProps({ messagesByDay })
   }
 
   private setModals(modals: ChatsModalsState): void {
@@ -104,10 +181,11 @@ export default class ChatsController extends RouteController<ChatsPage> {
       activeChatId: this.activeChatId,
       activeChatName: resolvedActiveChat?.name ?? CHAT_PLACEHOLDER,
       menuItems: buildMenuItems(this.activeChatId),
+      messagesByDay: this.messagesByDay,
     })
   }
 
-  private async loadChats(selectChatId?: number): Promise<void> {
+  private async loadChats(selectChatId?: number | null): Promise<void> {
     try {
       if (selectChatId !== undefined) {
         this.activeChatId = selectChatId
@@ -117,20 +195,23 @@ export default class ChatsController extends RouteController<ChatsPage> {
       const activeChat = chats.find((chat) => chat.id === this.activeChatId)
 
       if (this.activeChatId !== null && !activeChat) {
-        this.activeChatId = chats[0]?.id ?? null
-        chats = await chatService.fetchChats(this.activeChatId)
+        this.activeChatId = null
+        replaceChatHashSilently()
+        chats = await chatService.fetchChats(null)
       }
 
       this.updateChatsView(chats)
+      this.connectToActiveChat()
     } catch (error) {
       console.error(error)
     }
   }
 
-  private handleChatSelect(chatId: number): void {
-    this.activeChatId = chatId
+  private syncChatFromUrl(): void {
+    const chatId = parseChatHash()
 
-    void this.refreshChatsView()
+    this.updateMessagesView([])
+    void this.loadChats(chatId)
   }
 
   private async refreshChatsView(): Promise<void> {
@@ -182,7 +263,7 @@ export default class ChatsController extends RouteController<ChatsPage> {
         createChat: { isOpen: false, error: undefined },
       })
 
-      await this.loadChats(chatId)
+      setChatHash(chatId)
     } catch (error) {
       this.setModalError(
         'createChat',
@@ -269,7 +350,7 @@ export default class ChatsController extends RouteController<ChatsPage> {
         deleteChat: { isOpen: false, error: undefined },
       })
 
-      await this.loadChats()
+      clearChatHash()
     } catch (error) {
       this.setModalError(
         'deleteChat',

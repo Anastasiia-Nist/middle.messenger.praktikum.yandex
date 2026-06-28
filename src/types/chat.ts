@@ -54,3 +54,11 @@ export type ChatUser = {
   avatar: string
   role: string
 }
+
+export type ChatTokenResponse = {
+  token: string
+}
+
+export type UnreadCountResponse = {
+  unread_count: number
+}

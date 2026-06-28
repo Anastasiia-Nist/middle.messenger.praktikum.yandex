@@ -27,6 +27,8 @@ export const chatsPageData = {
       {
         type: 'button',
         buttonClass: 'chat-content__add-file',
+        disabled: true,
+        title: 'Функционал в разработке',
       },
     ],
     actions: [

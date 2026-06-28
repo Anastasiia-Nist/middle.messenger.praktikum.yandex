@@ -14,6 +14,13 @@ export default defineConfig(({ mode }) => {
           target: apiHost,
           changeOrigin: true,
           cookieDomainRewrite: '',
+          ws: true,
+        },
+        '/ws': {
+          target: apiHost,
+          changeOrigin: true,
+          cookieDomainRewrite: '',
+          ws: true,
         },
       },
     },
