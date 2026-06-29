@@ -74,7 +74,7 @@ describe('HTTPTransport — HTTP-запросы', () => {
     it('когда HTTP-метод не указан — отклоняет запрос с ошибкой', async () => {
       const http = new HTTPTransport(TEST_API_BASE)
 
-      await expect(http.request('/users')).rejects.toThrow('HTTP method is required')
+      await expect(http.request('/users')).rejects.toThrow('HTTP-метод обязателен')
     })
   })
 

@@ -36,7 +36,7 @@ export default class WebSocketTransport {
 
   send(data: Record<string, unknown>): void {
     if (!this.socket || this.socket.readyState !== WebSocket.OPEN) {
-      console.error('WebSocket is not open')
+      console.error('WebSocket не открыт')
 
       return
     }

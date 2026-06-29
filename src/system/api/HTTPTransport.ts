@@ -41,7 +41,7 @@ export default class HTTPTransport {
 
     return new Promise((resolve, reject) => {
       if (!method) {
-        reject(new Error('HTTP method is required'))
+        reject(new Error('HTTP-метод обязателен'))
         return
       }
 
@@ -95,19 +95,19 @@ export default class HTTPTransport {
       }
 
       xhr.onabort = () => reject({
-        reason: 'Request aborted',
+        reason: 'Запрос прерван',
         request: xhr,
       })
 
       xhr.onerror = () => reject({
-        reason: 'Network error',
+        reason: 'Ошибка сети',
         request: xhr,
       })
 
       xhr.timeout = requestTimeout
 
       xhr.ontimeout = () => reject({
-        reason: 'Request timeout',
+        reason: 'Превышено время ожидания запроса',
         timeout: requestTimeout,
         request: xhr,
       })

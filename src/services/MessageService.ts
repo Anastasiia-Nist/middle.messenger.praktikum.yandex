@@ -35,7 +35,7 @@ class MessageService {
 
   async connect(chatId: number, callbacks: MessageServiceCallbacks): Promise<void> {
     if (callbacks.currentUserId === null) {
-      console.error('User id is required for WebSocket connection')
+      console.error('Для подключения WebSocket требуется id пользователя')
 
       return
     }
@@ -98,7 +98,7 @@ class MessageService {
 
   sendText(text: string): void {
     if (!this.transport.isOpen()) {
-      console.error('Cannot send message: WebSocket is not open')
+      console.error('Невозможно отправить сообщение: WebSocket не открыт')
 
       return
     }
@@ -124,7 +124,7 @@ class MessageService {
 
   private handleError = (): void => {
     this.connectingChatId = null
-    console.error('WebSocket connection error')
+    console.error('Ошибка подключения WebSocket')
   }
 
   private handleSocketMessage = (event?: Event | MessageEvent): void => {

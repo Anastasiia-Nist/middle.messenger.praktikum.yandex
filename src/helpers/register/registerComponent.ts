@@ -25,13 +25,13 @@ export function registerComponent<P extends BlockOwnProps = BlockOwnProps>(
           const placeholder = node.querySelector(`[${dataAttribute}]`)
 
           if (!placeholder) {
-            throw new Error(`Can't find data-id for component ${Component.componentName}`)
+            throw new Error(`Не найден data-id для компонента ${Component.componentName}`)
           }
 
           const element = component.element()
 
           if (!element) {
-            throw new Error('Component element is not created')
+            throw new Error('Элемент компонента не создан')
           }
 
           placeholder.replaceWith(element)

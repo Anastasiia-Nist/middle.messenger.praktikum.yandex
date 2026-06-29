@@ -3,7 +3,7 @@ import type { ApiError, HttpErrorBody } from '../types/api'
 
 export function queryStringify(data: Record<string, unknown>): string {
   if (typeof data !== 'object' || data === null) {
-    throw new Error('Data must be a non-null object')
+    throw new Error('Данные должны быть непустым объектом')
   }
 
   const pairs = Object.entries(data).reduce<string[]>((result, [key, value]) => {

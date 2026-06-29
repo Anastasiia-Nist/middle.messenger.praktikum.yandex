@@ -55,7 +55,7 @@ export class ChatAPI extends BaseApi {
       return String((response as ChatTokenResponse).token)
     }
 
-    throw new Error('Chat token not found')
+    throw new Error('Токен чата не найден')
   }
 
   async getNewMessagesCount(chatId: number): Promise<number> {
