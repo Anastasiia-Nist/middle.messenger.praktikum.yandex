@@ -1,4 +1,5 @@
-import { defineConfig, loadEnv } from 'vite'
+import { loadEnv } from 'vite'
+import { defineConfig } from 'vitest/config'
 
 const DEFAULT_API_HOST = 'https://ya-praktikum.tech'
 
@@ -27,6 +28,11 @@ export default defineConfig(({ mode }) => {
     preview: {
       host: '0.0.0.0',
       port: 3000,
+    },
+    test: {
+      environment: 'jsdom',
+      include: ['src/**/*.test.ts'],
+      globals: false,
     },
   }
 })
