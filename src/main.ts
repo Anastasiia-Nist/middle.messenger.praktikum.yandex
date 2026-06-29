@@ -1,10 +1,12 @@
 import './styles.css'
 
+import { ROUTES } from './constants'
 import { registerComponents } from './system/registerComponents'
 import { registerHandlebarsHelpers } from './helpers/register/registerHandlebarsHelpers'
 import { registerHandlebarsPartials } from './helpers/register/registerHandlebarsPartials'
 import { router } from './routes'
 import { authService } from './services/AuthService'
+import { setServerErrorHandler } from './utils/handleServerError'
 
 registerHandlebarsHelpers()
 registerHandlebarsPartials()
@@ -25,6 +27,12 @@ document.addEventListener('click', (event) => {
 
   event.preventDefault()
   router.go(pathname)
+})
+
+setServerErrorHandler(() => {
+  if (window.location.pathname !== ROUTES.ERROR_500) {
+    router.go(ROUTES.ERROR_500)
+  }
 })
 
 const init = async (): Promise<void> => {

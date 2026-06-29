@@ -2,6 +2,7 @@ import { REQUEST_TIMEOUT_MS } from '../../constants/api'
 import { HTTP_METHODS } from '../../constants/httpMethods'
 import type { RequestOptions } from '../../types/api'
 import { queryStringify, resolveUrl } from '../../utils/api'
+import { handleServerError } from '../../utils/handleServerError'
 
 type HTTPMethod = <R = unknown>(
   url: string,
@@ -85,6 +86,10 @@ export default class HTTPTransport {
 
           resolve(response as T)
         } else {
+          if (xhr.status === 500) {
+            handleServerError()
+          }
+
           reject({
             status: xhr.status,
             statusText: xhr.statusText,
