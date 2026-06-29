@@ -2,7 +2,12 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { API_HOST, API_PREFIX } from '../../constants/api'
 import { HTTP_METHODS } from '../../constants/httpMethods'
+import { handleServerError } from '../../utils/handleServerError'
 import HTTPTransport from './HTTPTransport'
+
+vi.mock('../../utils/handleServerError', () => ({
+  handleServerError: vi.fn(),
+}))
 
 const TEST_API_BASE = `${API_HOST}${API_PREFIX}`
 
@@ -55,6 +60,7 @@ const createMockXHR = () => {
 describe('HTTPTransport — HTTP-запросы', () => {
   beforeEach(() => {
     vi.stubGlobal('XMLHttpRequest', vi.fn(() => createMockXHR()))
+    vi.mocked(handleServerError).mockClear()
   })
 
   afterEach(() => {
@@ -127,6 +133,31 @@ describe('HTTPTransport — HTTP-запросы', () => {
         statusText: 'Bad Request',
         response: '{"reason":"Invalid data"}',
       })
+      expect(handleServerError).not.toHaveBeenCalled()
+    })
+
+    it('когда сервер отвечает 500 — вызывает обработчик серверной ошибки', async () => {
+      let xhr!: MockXHR
+
+      vi.stubGlobal('XMLHttpRequest', vi.fn(() => {
+        xhr = new MockXHR()
+        xhr.status = 500
+        xhr.statusText = 'Internal Server Error'
+        xhr.responseText = '{"reason":"Server error"}'
+
+        return xhr
+      }))
+
+      const http = new HTTPTransport(TEST_API_BASE)
+      const responsePromise = http.get('/users')
+
+      xhr.triggerLoad()
+
+      await expect(responsePromise).rejects.toMatchObject({
+        status: 500,
+        statusText: 'Internal Server Error',
+      })
+      expect(handleServerError).toHaveBeenCalledOnce()
     })
   })
 })
