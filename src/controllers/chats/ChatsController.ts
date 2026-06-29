@@ -80,6 +80,7 @@ export default class ChatsController extends RouteController<ChatsPage> {
       'ChatsPage',
     )
 
+    window.removeEventListener('hashchange', this.handleHashChange)
     window.addEventListener('hashchange', this.handleHashChange)
     void this.initializePage()
 
@@ -134,9 +135,6 @@ export default class ChatsController extends RouteController<ChatsPage> {
       currentUserId: this.currentUserId,
       onMessagesUpdate: (messagesByDay) => {
         this.updateMessagesView(messagesByDay)
-      },
-      onHistoryLoaded: () => {
-        void this.refreshChatsView()
       },
     })
   }
@@ -212,16 +210,6 @@ export default class ChatsController extends RouteController<ChatsPage> {
 
     this.updateMessagesView([])
     void this.loadChats(chatId)
-  }
-
-  private async refreshChatsView(): Promise<void> {
-    try {
-      const chats = await chatService.fetchChats(this.activeChatId)
-
-      this.updateChatsView(chats)
-    } catch (error) {
-      console.error(error)
-    }
   }
 
   private async handleMenuAction(action: ChatMenuAction): Promise<void> {
@@ -350,6 +338,7 @@ export default class ChatsController extends RouteController<ChatsPage> {
         deleteChat: { isOpen: false, error: undefined },
       })
 
+      this.activeChatId = null
       clearChatHash()
     } catch (error) {
       this.setModalError(

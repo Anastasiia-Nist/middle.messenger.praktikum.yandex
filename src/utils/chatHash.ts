@@ -1,3 +1,7 @@
+function emitHashChange(): void {
+  window.dispatchEvent(new Event('hashchange'))
+}
+
 export function parseChatHash(): number | null {
   const raw = window.location.hash.slice(1)
 
@@ -17,7 +21,8 @@ export function setChatHash(chatId: number): void {
     return
   }
 
-  window.location.hash = String(chatId)
+  window.history.replaceState(null, '', `${window.location.pathname}${nextHash}`)
+  emitHashChange()
 }
 
 export function clearChatHash(): void {
@@ -25,7 +30,8 @@ export function clearChatHash(): void {
     return
   }
 
-  window.location.hash = ''
+  window.history.replaceState(null, '', window.location.pathname)
+  emitHashChange()
 }
 
 export function replaceChatHashSilently(): void {

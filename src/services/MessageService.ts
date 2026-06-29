@@ -3,8 +3,16 @@ import { buildChatWsUrl, WS_MESSAGES_PAGE_SIZE } from '../constants/api'
 import WebSocketTransport from '../system/api/WebSocketTransport'
 import type { ChatDayGroup } from '../types/chats-page'
 import type { WsMessage, WsOldMessage } from '../types/message'
-import { groupMessagesByDay } from '../utils/groupMessagesByDay'
+import { groupMessagesByDay } from '../helpers/chat/groupMessagesByDay'
+import { sanitizeInput } from '../utils/sanitizeInput'
 import { withApiError } from '../utils/withApiError'
+
+function sanitizeWsMessage(message: WsMessage): WsMessage {
+  return {
+    ...message,
+    content: sanitizeInput(message.content),
+  }
+}
 
 type MessageServiceCallbacks = {
   currentUserId: number | null
@@ -225,7 +233,7 @@ class MessageService {
     const uniqueMessages = new Map<string, WsMessage>()
 
     messages.forEach((message) => {
-      uniqueMessages.set(message.id, message)
+      uniqueMessages.set(message.id, sanitizeWsMessage(message))
     })
 
     return Array.from(uniqueMessages.values()).sort(

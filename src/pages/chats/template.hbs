@@ -1,7 +1,7 @@
 {{#> page mainClass="page-chats"}}
   {{#> layout layoutClass="chat-layout" asideClass="chat-layout__aside" contentClass="chat-layout__content" hasAsideBlock=true}}
     {{#*inline "aside-block"}}
-      {{{ ChatSidebar profileLink=sidebar.profileLink profileText=sidebar.profileText searchPlaceholder=sidebar.searchPlaceholder chats=sidebar.chats onChatSelect=onChatSelect }}}
+      {{{ ChatSidebar profileLink=sidebar.profileLink profileText=sidebar.profileText chats=sidebar.chats onChatSelect=onChatSelect }}}
     {{/inline}}
     <section class="chat-content">
       {{{ ChatContentHeader activeChatName=activeChatName activeChatId=activeChatId menuItems=menuItems onMenuAction=onMenuAction }}}

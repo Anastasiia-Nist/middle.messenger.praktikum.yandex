@@ -4,7 +4,6 @@ export const chatsPageData = {
   sidebar: {
     profileLink: ROUTES.SETTINGS,
     profileText: 'Профиль >',
-    searchPlaceholder: 'Поиск',
     chats: [],
   },
   activeChatName: CHAT_PLACEHOLDER,
