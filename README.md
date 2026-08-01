@@ -78,7 +78,6 @@ Action-строки кнопок и UI-тексты выносятся в `const
 - `npm run build` — lint (TypeScript, CSS, typecheck) и production-сборка в `dist`
 - `npm run lint` — ESLint, Stylelint и typecheck
 - `npm run lint:fix` — автоисправление замечаний ESLint и Stylelint
-- `npm run format` — форматирование шаблонов `.hbs` (js-beautify)
 - `npm run test` — однократный прогон unit-тестов (Vitest)
 - `npm run test:watch` — тесты в watch-режиме
 

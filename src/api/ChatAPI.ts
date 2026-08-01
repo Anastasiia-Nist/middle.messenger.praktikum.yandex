@@ -1,5 +1,4 @@
 import { API_BASE } from '../constants/api'
-import { BaseApi } from '../system/api/BaseApi'
 import HTTPTransport from '../system/api/HTTPTransport'
 import type {
   Chat,
@@ -15,7 +14,7 @@ import type {
 
 const http = new HTTPTransport(`${API_BASE}/chats`)
 
-export class ChatAPI extends BaseApi {
+export class ChatAPI {
   getChats(params?: GetChatsParams): Promise<Chat[]> {
     return http.get('/', { data: params })
   }

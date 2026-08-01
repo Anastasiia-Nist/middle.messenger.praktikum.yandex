@@ -55,4 +55,9 @@ export default class Avatar extends Block<AvatarProps> {
 
     this.fileInput.click()
   }
+
+  protected componentWillUnmount(): void {
+    this.fileInput?.remove()
+    this.fileInput = null
+  }
 }

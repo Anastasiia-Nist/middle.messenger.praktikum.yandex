@@ -14,7 +14,6 @@
     "lint:fix": "npm run lint:fix:ts && npm run lint:fix:css",
     "lint:fix:ts": "eslint \"**/*.{ts,js}\" --fix",
     "lint:fix:css": "stylelint \"src/**/*.css\" --fix",
-    "format": "find src -name '*.hbs' -exec npx js-beautify --config .jsbeautifyrc --type html -r {} +",
     "test": "vitest run",
     "test:watch": "vitest",
     "prepare": "husky"
@@ -34,7 +33,12 @@
     "url": "https://github.com/Anastasiia-Nist/middle.messenger.praktikum.yandex/issues"
   },
   "homepage": "https://github.com/Anastasiia-Nist/middle.messenger.praktikum.yandex#readme",
+  "lint-staged": {
+    "*.{ts,js}": "eslint",
+    "*.css": "stylelint"
+  },
   "dependencies": {
+    "dompurify": "^3.4.12",
     "handlebars": "^4.7.9"
   },
   "devDependencies": {
@@ -47,7 +51,7 @@
     "husky": "^9.1.7",
     "jest": "npm:empty-npm-package@^1.0.0",
     "jsdom": "^26.1.0",
-    "js-beautify": "^1.15.4",
+    "lint-staged": "^17.3.0",
     "postcss": "^8.5.10",
     "postcss-preset-env": "^10.6.1",
     "stylelint": "^16.26.1",
