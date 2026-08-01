@@ -1,4 +1,11 @@
 <header class="chat-content__header">
+  {{#if activeChatId}}
+    <button
+      type="button"
+      class="chat-content__back"
+      aria-label="Назад к списку чатов"
+    ></button>
+  {{/if}}
   <h1 class="chat-content__title">{{activeChatName}}</h1>
   {{{ Dropdown items=menuItems onItemClick=onMenuAction }}}
 </header>

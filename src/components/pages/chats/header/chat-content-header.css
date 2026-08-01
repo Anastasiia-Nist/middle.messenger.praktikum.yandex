@@ -5,10 +5,31 @@
   overflow: visible;
 }
 
+.chat-content__back {
+  display: none;
+  flex-shrink: 0;
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: var(--space-0);
+  background-color: transparent;
+  background-image: url('../../../../public/img/button-back.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  border: none;
+  cursor: pointer;
+}
+
 .chat-content__title {
   flex: 1;
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+@media (width <= 768px) {
+  .chat-content__back {
+    display: block;
+  }
 }

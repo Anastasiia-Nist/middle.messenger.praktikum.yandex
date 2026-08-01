@@ -53,6 +53,7 @@ export interface ChatsModalsState {
 }
 
 export interface ChatsPageProps extends BlockOwnProps {
+  layoutClass: string
   sidebar: ChatSidebarProps
   activeChatId: number | null
   activeChatName: string
@@ -62,6 +63,7 @@ export interface ChatsPageProps extends BlockOwnProps {
   messageForm: Pick<FormProps, 'name' | 'formClass' | 'fields' | 'leadingActions' | 'actions'>
   onSubmit?: (data: FormData) => void
   onChatSelect?: (chatId: number) => void
+  onBackToList?: () => void
   onMenuAction?: (action: ChatMenuAction) => void
   onCloseModal?: (modal: keyof ChatsModalsState) => void
   onCreateChat?: (data: { title: string }) => void | Promise<void>

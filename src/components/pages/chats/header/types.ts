@@ -9,4 +9,5 @@ export interface ChatContentHeaderProps extends BlockOwnProps {
   activeChatId: number | null
   menuItems: DropdownItem[]
   onMenuAction?: (action: ChatMenuAction) => void
+  onBackToList?: () => void
 }
