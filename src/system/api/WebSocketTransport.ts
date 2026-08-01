@@ -13,32 +13,49 @@ export default class WebSocketTransport {
 
   connect(url: string): void {
     this.close()
-    this.socket = new WebSocket(url)
 
-    this.socket.addEventListener('open', (event) => {
+    const socket = new WebSocket(url)
+    this.socket = socket
+
+    socket.addEventListener('open', (event) => {
+      if (this.socket !== socket) {
+        return
+      }
+
       this.startPing()
       this.emit('open', event)
     })
 
-    this.socket.addEventListener('message', (event) => {
+    socket.addEventListener('message', (event) => {
+      if (this.socket !== socket) {
+        return
+      }
+
       this.emit('message', event)
     })
 
-    this.socket.addEventListener('close', (event) => {
+    socket.addEventListener('close', (event) => {
+      if (this.socket !== socket) {
+        return
+      }
+
+      this.socket = null
       this.stopPing()
       this.emit('close', event)
     })
 
-    this.socket.addEventListener('error', (event) => {
+    socket.addEventListener('error', (event) => {
+      if (this.socket !== socket) {
+        return
+      }
+
       this.emit('error', event)
     })
   }
 
   send(data: Record<string, unknown>): void {
     if (!this.socket || this.socket.readyState !== WebSocket.OPEN) {
-      console.error('WebSocket не открыт')
-
-      return
+      throw new Error('WebSocket не открыт')
     }
 
     this.socket.send(JSON.stringify(data))
@@ -47,18 +64,20 @@ export default class WebSocketTransport {
   close(): void {
     this.stopPing()
 
-    if (!this.socket) {
+    const socket = this.socket
+
+    if (!socket) {
       return
     }
 
-    if (
-      this.socket.readyState === WebSocket.OPEN
-      || this.socket.readyState === WebSocket.CONNECTING
-    ) {
-      this.socket.close()
-    }
-
     this.socket = null
+
+    if (
+      socket.readyState === WebSocket.OPEN
+      || socket.readyState === WebSocket.CONNECTING
+    ) {
+      socket.close()
+    }
   }
 
   isConnecting(): boolean {
@@ -91,7 +110,11 @@ export default class WebSocketTransport {
     this.stopPing()
 
     this.pingTimer = setInterval(() => {
-      this.send({ type: 'ping' })
+      try {
+        this.send({ type: 'ping' })
+      } catch {
+        this.stopPing()
+      }
     }, WS_PING_INTERVAL_MS)
   }
 

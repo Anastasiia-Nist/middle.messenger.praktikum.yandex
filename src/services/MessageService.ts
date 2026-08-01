@@ -1,5 +1,5 @@
 import { chatAPI } from '../api'
-import { buildChatWsUrl, WS_MESSAGES_PAGE_SIZE } from '../constants/api'
+import { buildChatWsUrl, REQUEST_TIMEOUT_MS, WS_MESSAGES_PAGE_SIZE } from '../constants/api'
 import WebSocketTransport from '../system/api/WebSocketTransport'
 import type { ChatDayGroup } from '../types/chats-page'
 import type { WsMessage, WsOldMessage } from '../types/message'
@@ -20,6 +20,12 @@ type MessageServiceCallbacks = {
   onHistoryLoaded?: () => void
 }
 
+type PendingGetOld = {
+  resolve: (messages: WsOldMessage[]) => void
+  reject: (reason?: unknown) => void
+  timer: ReturnType<typeof setTimeout>
+}
+
 class MessageService {
   private transport = new WebSocketTransport()
 
@@ -27,15 +33,17 @@ class MessageService {
 
   private connectingChatId: number | null = null
 
+  private abortController: AbortController | null = null
+
   private messages: WsMessage[] = []
 
   private callbacks: MessageServiceCallbacks | null = null
 
-  private getOldResolver: ((messages: WsOldMessage[]) => void) | null = null
+  private pendingGetOld: PendingGetOld | null = null
 
   async connect(chatId: number, callbacks: MessageServiceCallbacks): Promise<void> {
     if (callbacks.currentUserId === null) {
-      console.error('Для подключения WebSocket требуется id пользователя')
+      this.logError('Для подключения WebSocket требуется id пользователя')
 
       return
     }
@@ -54,6 +62,8 @@ class MessageService {
     }
 
     this.disconnect(false)
+    this.abortController = new AbortController()
+    const { signal } = this.abortController
     this.chatId = chatId
     this.connectingChatId = chatId
     this.callbacks = callbacks
@@ -62,7 +72,7 @@ class MessageService {
     try {
       const token = await withApiError(() => chatAPI.getChatToken(chatId))
 
-      if (this.chatId !== chatId) {
+      if (signal.aborted || this.chatId !== chatId) {
         return
       }
 
@@ -73,18 +83,22 @@ class MessageService {
 
       this.transport.connect(buildChatWsUrl(callbacks.currentUserId, chatId, token))
     } catch (error) {
-      console.error(error)
-      this.connectingChatId = null
+      if (!signal.aborted) {
+        this.connectingChatId = null
+        this.logError(error)
+      }
     }
   }
 
   disconnect(resetState = true): void {
+    this.abortController?.abort()
+    this.abortController = null
     this.transport.off('open', this.handleOpen)
     this.transport.off('message', this.handleSocketMessage)
     this.transport.off('close', this.handleClose)
     this.transport.off('error', this.handleError)
     this.transport.close()
-    this.getOldResolver = null
+    this.failPendingGetOld(new Error('WebSocket отключён'))
     this.connectingChatId = null
 
     if (!resetState) {
@@ -97,16 +111,14 @@ class MessageService {
   }
 
   sendText(text: string): void {
-    if (!this.transport.isOpen()) {
-      console.error('Невозможно отправить сообщение: WebSocket не открыт')
-
-      return
+    try {
+      this.transport.send({
+        type: 'message',
+        content: text,
+      })
+    } catch (error) {
+      this.logError(error)
     }
-
-    this.transport.send({
-      type: 'message',
-      content: text,
-    })
   }
 
   getMessages(): WsMessage[] {
@@ -119,12 +131,21 @@ class MessageService {
   }
 
   private handleClose = (): void => {
-    this.getOldResolver = null
+    this.handleTransportFailure('WebSocket закрыт')
   }
 
   private handleError = (): void => {
+    this.handleTransportFailure('Ошибка подключения WebSocket')
+  }
+
+  private handleTransportFailure(reason: string): void {
     this.connectingChatId = null
-    console.error('Ошибка подключения WebSocket')
+    const hadPending = this.pendingGetOld !== null
+    this.failPendingGetOld(new Error(reason))
+
+    if (!hadPending) {
+      this.logError(reason)
+    }
   }
 
   private handleSocketMessage = (event?: Event | MessageEvent): void => {
@@ -141,8 +162,7 @@ class MessageService {
     }
 
     if (Array.isArray(payload)) {
-      this.getOldResolver?.(payload as WsOldMessage[])
-      this.getOldResolver = null
+      this.settlePendingGetOld(payload as WsOldMessage[])
 
       return
     }
@@ -166,18 +186,34 @@ class MessageService {
   }
 
   private async loadHistory(): Promise<void> {
-    if (this.chatId === null) {
+    if (this.chatId === null || !this.abortController) {
       return
     }
 
+    const { signal } = this.abortController
+    const chatId = this.chatId
+
     try {
-      const unreadCount = await withApiError(() => chatAPI.getNewMessagesCount(this.chatId as number))
+      const unreadCount = await withApiError(() => chatAPI.getNewMessagesCount(chatId))
+
+      if (signal.aborted) {
+        return
+      }
+
       const collected: WsMessage[] = []
       let offset = '0'
       let loadedCount = 0
 
       while (true) {
+        if (signal.aborted) {
+          return
+        }
+
         const batch = await this.requestGetOld(offset)
+
+        if (signal.aborted) {
+          return
+        }
 
         if (!batch.length) {
           break
@@ -186,42 +222,87 @@ class MessageService {
         collected.push(...batch)
         loadedCount += batch.length
 
-        const hasMoreByUnread = unreadCount > 0 && loadedCount < unreadCount
-        const hasMoreByPageSize = batch.length === WS_MESSAGES_PAGE_SIZE
+        const exhaustedUnread = unreadCount > 0 && loadedCount >= unreadCount
+        const lastPage = batch.length < WS_MESSAGES_PAGE_SIZE
 
-        if (!hasMoreByUnread && !hasMoreByPageSize) {
+        if (exhaustedUnread || lastPage) {
           break
         }
 
-        if (unreadCount > 0 && loadedCount >= unreadCount) {
+        const nextOffset = batch[batch.length - 1]?.id
+
+        if (!nextOffset || nextOffset === offset) {
           break
         }
 
-        const lastMessage = batch[batch.length - 1]
+        offset = nextOffset
+      }
 
-        if (!lastMessage?.id) {
-          break
-        }
-
-        offset = lastMessage.id
+      if (signal.aborted) {
+        return
       }
 
       this.messages = this.mergeMessages(collected)
       this.notifyMessagesUpdate()
       this.callbacks?.onHistoryLoaded?.()
     } catch (error) {
-      console.error(error)
+      if (!signal.aborted) {
+        this.logError(error)
+      }
     }
   }
 
   private requestGetOld(content: string): Promise<WsOldMessage[]> {
-    return new Promise((resolve) => {
-      this.getOldResolver = resolve
-      this.transport.send({
-        type: 'get old',
-        content,
-      })
+    if (!this.transport.isOpen()) {
+      return Promise.reject(new Error('WebSocket не открыт'))
+    }
+
+    return new Promise((resolve, reject) => {
+      this.failPendingGetOld(new Error('Предыдущий запрос get old отменён'))
+
+      const timer = setTimeout(() => {
+        this.failPendingGetOld(new Error('Таймаут запроса get old'))
+      }, REQUEST_TIMEOUT_MS)
+
+      this.pendingGetOld = { resolve, reject, timer }
+
+      try {
+        this.transport.send({
+          type: 'get old',
+          content,
+        })
+      } catch (error) {
+        this.failPendingGetOld(error instanceof Error ? error : new Error(String(error)))
+      }
     })
+  }
+
+  private settlePendingGetOld(messages: WsOldMessage[]): void {
+    const pending = this.pendingGetOld
+
+    if (!pending) {
+      return
+    }
+
+    clearTimeout(pending.timer)
+    this.pendingGetOld = null
+    pending.resolve(messages)
+  }
+
+  private failPendingGetOld(error: Error): void {
+    const pending = this.pendingGetOld
+
+    if (!pending) {
+      return
+    }
+
+    clearTimeout(pending.timer)
+    this.pendingGetOld = null
+    pending.reject(error)
+  }
+
+  private logError(error: unknown): void {
+    console.error(error)
   }
 
   private appendMessage(message: WsMessage): void {
