@@ -34,6 +34,7 @@ describe('Router — навигация приложения', () => {
 
   afterEach(() => {
     pushStateSpy.mockRestore()
+    window.onpopstate = null
     document.body.innerHTML = ''
     resetRouter()
   })
@@ -76,6 +77,43 @@ describe('Router — навигация приложения', () => {
       router.go(ROUTES.MESSENGER)
 
       expect(pushStateSpy).toHaveBeenCalledWith({}, '', ROUTES.SIGN_IN)
+    })
+
+    it('когда пользователь авторизован — перенаправляет с / на /messenger', () => {
+      vi.mocked(authService.isAuth).mockReturnValue(true)
+      const router = new Router(ROOT_QUERY)
+
+      router
+        .use(ROUTES.SIGN_IN, createMockBlock)
+        .use(ROUTES.MESSENGER, createMockBlock)
+
+      router.go(ROUTES.SIGN_IN)
+
+      expect(pushStateSpy).toHaveBeenCalledWith({}, '', ROUTES.MESSENGER)
+    })
+  })
+
+  describe('popstate — кнопки Назад/Вперёд', () => {
+    it('когда срабатывает popstate — рендерит маршрут по pathname', () => {
+      pushStateSpy.mockRestore()
+
+      const signInFactory = vi.fn(createMockBlock)
+      const signUpFactory = vi.fn(createMockBlock)
+      const router = new Router(ROOT_QUERY)
+
+      router
+        .use(ROUTES.SIGN_IN, signInFactory)
+        .use(ROUTES.SIGN_UP, signUpFactory)
+
+      window.history.replaceState({}, '', ROUTES.SIGN_IN)
+      router.start()
+
+      expect(signInFactory).toHaveBeenCalledOnce()
+
+      window.history.pushState({}, '', ROUTES.SIGN_UP)
+      window.onpopstate?.(new PopStateEvent('popstate'))
+
+      expect(signUpFactory).toHaveBeenCalledOnce()
     })
   })
 
