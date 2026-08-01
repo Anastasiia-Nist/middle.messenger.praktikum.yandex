@@ -1,10 +1,10 @@
 {{#> page mainClass="page-chats"}}
-  {{#> layout layoutClass="chat-layout" asideClass="chat-layout__aside" contentClass="chat-layout__content" hasAsideBlock=true}}
+  {{#> layout layoutClass=layoutClass asideClass="chat-layout__aside" contentClass="chat-layout__content" hasAsideBlock=true}}
     {{#*inline "aside-block"}}
       {{{ ChatSidebar profileLink=sidebar.profileLink profileText=sidebar.profileText chats=sidebar.chats onChatSelect=onChatSelect }}}
     {{/inline}}
     <section class="chat-content">
-      {{{ ChatContentHeader activeChatName=activeChatName activeChatId=activeChatId menuItems=menuItems onMenuAction=onMenuAction }}}
+      {{{ ChatContentHeader activeChatName=activeChatName activeChatId=activeChatId menuItems=menuItems onMenuAction=onMenuAction onBackToList=onBackToList }}}
 
       <ul id="chat-messages" class="chat-content__messages">
         {{#each messagesByDay}}

@@ -186,4 +186,13 @@
   .chat-layout__content {
     display: none;
   }
+
+  .chat-layout_chat-open .chat-layout__aside {
+    display: none;
+  }
+
+  .chat-layout_chat-open .chat-layout__content {
+    display: flex;
+    width: 100%;
+  }
 }

@@ -6,6 +6,7 @@ import { chatsPageData } from './data'
 export function buildChatsPageProps(): ChatsPageProps {
   return {
     ...chatsPageData,
+    layoutClass: 'chat-layout',
     activeChatId: null,
     menuItems: buildMenuItems(null),
     modals: defaultModalsState,

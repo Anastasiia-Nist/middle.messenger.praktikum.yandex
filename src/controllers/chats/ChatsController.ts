@@ -51,6 +51,9 @@ export default class ChatsController extends RouteController<ChatsPage> {
         onChatSelect: (chatId: number) => {
           setChatHash(chatId)
         },
+        onBackToList: () => {
+          clearChatHash()
+        },
         onMenuAction: (action: ChatMenuAction) => {
           void this.handleMenuAction(action)
         },
@@ -170,8 +173,10 @@ export default class ChatsController extends RouteController<ChatsPage> {
 
   private updateChatsView(chats: Awaited<ReturnType<typeof chatService.fetchChats>>): void {
     const resolvedActiveChat = chats.find((chat) => chat.id === this.activeChatId)
+    const isChatOpen = this.activeChatId !== null
 
     this.page?.setProps({
+      layoutClass: isChatOpen ? 'chat-layout chat-layout_chat-open' : 'chat-layout',
       sidebar: {
         ...this.pageData.sidebar,
         chats,
