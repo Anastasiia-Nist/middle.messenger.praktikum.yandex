@@ -1,42 +1,17 @@
 import { chatAPI } from '../api'
-import { LOCALE, YESTERDAY_LABEL } from '../constants'
+import { mapChatToSidebarItem } from '../helpers/chat/mapChatToSidebarItem'
 import type { ChatSidebarItem } from '../types/chats-page'
-import type { Chat, ChatUser } from '../types/chat'
+import type { ChatUser } from '../types/chat'
+import { sanitizeInput } from '../utils/sanitizeInput'
 import { withApiError } from '../utils/withApiError'
 
-function formatChatTime(time: string): string {
-  const date = new Date(time)
-
-  if (Number.isNaN(date.getTime())) {
-    return time
-  }
-
-  const now = new Date()
-  const isToday = date.toDateString() === now.toDateString()
-
-  if (isToday) {
-    return date.toLocaleTimeString(LOCALE, { hour: '2-digit', minute: '2-digit' })
-  }
-
-  const yesterday = new Date(now)
-
-  yesterday.setDate(now.getDate() - 1)
-
-  if (date.toDateString() === yesterday.toDateString()) {
-    return YESTERDAY_LABEL
-  }
-
-  return date.toLocaleDateString(LOCALE, { weekday: 'short' })
-}
-
-function mapChatToSidebarItem(chat: Chat, activeChatId: number | null): ChatSidebarItem {
+function sanitizeChatUser(user: ChatUser): ChatUser {
   return {
-    id: chat.id,
-    name: chat.title,
-    time: chat.last_message ? formatChatTime(chat.last_message.time) : '',
-    preview: chat.last_message?.content ?? '',
-    unreadCount: chat.unread_count || undefined,
-    isActive: chat.id === activeChatId,
+    ...user,
+    first_name: sanitizeInput(user.first_name),
+    second_name: sanitizeInput(user.second_name),
+    display_name: sanitizeInput(user.display_name),
+    login: sanitizeInput(user.login),
   }
 }
 
@@ -62,7 +37,9 @@ class ChatService {
   }
 
   async fetchChatUsers(chatId: number): Promise<ChatUser[]> {
-    return withApiError(() => chatAPI.getChatUsers(chatId))
+    const users = await withApiError(() => chatAPI.getChatUsers(chatId))
+
+    return users.map(sanitizeChatUser)
   }
 
   async deleteChat(chatId: number): Promise<void> {

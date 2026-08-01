@@ -2,6 +2,7 @@ import { REQUEST_TIMEOUT_MS } from '../../constants/api'
 import { HTTP_METHODS } from '../../constants/httpMethods'
 import type { RequestOptions } from '../../types/api'
 import { queryStringify, resolveUrl } from '../../utils/api'
+import { handleServerError } from '../../utils/handleServerError'
 
 type HTTPMethod = <R = unknown>(
   url: string,
@@ -41,7 +42,7 @@ export default class HTTPTransport {
 
     return new Promise((resolve, reject) => {
       if (!method) {
-        reject(new Error('HTTP method is required'))
+        reject(new Error('HTTP-метод обязателен'))
         return
       }
 
@@ -85,6 +86,10 @@ export default class HTTPTransport {
 
           resolve(response as T)
         } else {
+          if (xhr.status === 500) {
+            handleServerError()
+          }
+
           reject({
             status: xhr.status,
             statusText: xhr.statusText,
@@ -95,19 +100,19 @@ export default class HTTPTransport {
       }
 
       xhr.onabort = () => reject({
-        reason: 'Request aborted',
+        reason: 'Запрос прерван',
         request: xhr,
       })
 
       xhr.onerror = () => reject({
-        reason: 'Network error',
+        reason: 'Ошибка сети',
         request: xhr,
       })
 
       xhr.timeout = requestTimeout
 
       xhr.ontimeout = () => reject({
-        reason: 'Request timeout',
+        reason: 'Превышено время ожидания запроса',
         timeout: requestTimeout,
         request: xhr,
       })

@@ -1,4 +1,7 @@
 import type { FormData } from '../components/ui/form/types'
+import { sanitizeInput } from '../utils/sanitizeInput'
+
+const PASSWORD_FIELDS = new Set(['password', 'oldPassword', 'newPassword'])
 
 export default class FormService {
   collect<TData extends FormData = FormData>(form: HTMLFormElement): TData {
@@ -19,7 +22,9 @@ export default class FormService {
         return
       }
 
-      result[element.name] = element.value
+      result[element.name] = PASSWORD_FIELDS.has(element.name)
+        ? element.value
+        : sanitizeInput(element.value)
     })
 
     return result as TData

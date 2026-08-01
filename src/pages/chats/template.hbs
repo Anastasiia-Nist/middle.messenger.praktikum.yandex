@@ -1,12 +1,12 @@
 {{#> page mainClass="page-chats"}}
   {{#> layout layoutClass="chat-layout" asideClass="chat-layout__aside" contentClass="chat-layout__content" hasAsideBlock=true}}
     {{#*inline "aside-block"}}
-      {{{ ChatSidebar profileLink=sidebar.profileLink profileText=sidebar.profileText searchPlaceholder=sidebar.searchPlaceholder chats=sidebar.chats onChatSelect=onChatSelect }}}
+      {{{ ChatSidebar profileLink=sidebar.profileLink profileText=sidebar.profileText chats=sidebar.chats onChatSelect=onChatSelect }}}
     {{/inline}}
     <section class="chat-content">
       {{{ ChatContentHeader activeChatName=activeChatName activeChatId=activeChatId menuItems=menuItems onMenuAction=onMenuAction }}}
 
-      <ul class="chat-content__messages">
+      <ul id="chat-messages" class="chat-content__messages">
         {{#each messagesByDay}}
           <li class="chat-day">
             <p class="chat-day__label">{{this.date}}</p>
@@ -19,7 +19,9 @@
         {{/each}}
       </ul>
 
-      {{{ Form formClass=messageForm.formClass name=messageForm.name fields=messageForm.fields leadingActions=messageForm.leadingActions actions=messageForm.actions onSubmit=onSubmit }}}
+      {{#if activeChatId}}
+        {{{ Form formClass=messageForm.formClass name=messageForm.name fields=messageForm.fields leadingActions=messageForm.leadingActions actions=messageForm.actions onSubmit=onSubmit }}}
+      {{/if}}
     </section>
   {{/layout}}
 

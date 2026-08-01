@@ -5,4 +5,6 @@ export interface ButtonProps extends BlockOwnProps {
   text?: string
   buttonClass?: string
   action?: string
+  disabled?: boolean
+  title?: string
 }

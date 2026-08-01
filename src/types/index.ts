@@ -1,6 +1,7 @@
 export * from './api'
 export * from './block'
 export * from './chat'
+export * from './message'
 export * from './chats-page'
 export * from './errors'
 export * from './user'

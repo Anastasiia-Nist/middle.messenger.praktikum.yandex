@@ -2,7 +2,7 @@
   {{#if leadingActions}}
     <div class="form__actions form__actions_leading">
       {{#each leadingActions}}
-        {{{ Button buttonClass=this.buttonClass type=this.type text=this.text action=this.action }}}
+        {{{ Button buttonClass=this.buttonClass type=this.type text=this.text action=this.action disabled=this.disabled title=this.title }}}
       {{/each}}
     </div>
   {{/if}}

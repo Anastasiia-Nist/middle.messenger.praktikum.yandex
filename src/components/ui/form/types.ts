@@ -18,6 +18,8 @@ export interface FormActionConfig {
   text?: string
   buttonClass?: string
   action?: string
+  disabled?: boolean
+  title?: string
 }
 
 export interface FormProps<TData extends FormData = FormData> extends BlockOwnProps {

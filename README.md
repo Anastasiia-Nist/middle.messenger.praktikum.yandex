@@ -1,6 +1,6 @@
 # Веб мессенджер
 
-Учебный проект Яндекс Практикум: клиентский интерфейс мессенджера (чаты и сообщения).
+Учебный проект Яндекс Практикум: клиентский интерфейс мессенджера с авторизацией, управлением чатами и обменом сообщениями в реальном времени через WebSocket.
 
 ## Стек
 
@@ -11,6 +11,16 @@
 - Handlebars
 - ESLint 9
 - Stylelint 16
+- Vitest 3 + jsdom
+- Husky + Commitlint (pre-commit lint, conventional commits)
+
+## Функциональность
+
+- **Авторизация** — вход, регистрация, проверка сессии при старте приложения
+- **Профиль** — просмотр и редактирование данных, смена пароля, загрузка аватара, выход
+- **Чаты** — список чатов, создание, удаление, добавление и удаление участников
+- **Сообщения** — отправка и получение в реальном времени через WebSocket, подгрузка истории, группировка по дням
+- **Навигация** — SPA на History API; активный чат хранится в hash (`/messenger#123`)
 
 ## Архитектура (MVC)
 
@@ -21,7 +31,7 @@
 | **View** | `pages/`, `components/`, `system/Block.ts` | Отрисовка UI: классы `extends Block`, шаблоны `.hbs`, стили |
 | **Controller** | `controllers/` | Состояние страницы, обработчики, связь View и Model |
 | **Model** | `services/` | Бизнес-логика без DOM |
-| **Transport** | `api/`, `system/api/` | HTTP-клиенты и XHR-транспорт |
+| **Transport** | `api/`, `system/api/` | HTTP- и WebSocket-транспорт |
 | **Routing** | `routes/` | Конфигурация маршрутов приложения |
 
 Контроллер — единственный владелец состояния страницы. View-компоненты «глупые»: получают props и вызывают колбэки.
@@ -33,19 +43,20 @@ src/
 ├── main.ts                 # Точка входа: регистрация HB, auth check, SPA-навигация
 ├── base.css, styles.css
 ├── routes/                 # Конфигурация Router (маршрут → Controller)
-├── system/                 # Ядро: Block, registerComponents, Router, HTTPTransport
+├── system/                 # Ядро: Block, registerComponents, Router, HTTP/WebSocket transport
 ├── controllers/            # Controller: контроллеры страниц
-├── services/               # Model: AuthService, ChatService, UserService, FormService
+├── services/               # Model: AuthService, ChatService, MessageService, UserService, FormService
 ├── api/                    # HTTP-клиенты (AuthAPI, ChatAPI, UserAPI)
 ├── pages/                  # View: страницы (Block + template + data)
 ├── components/
 │   ├── ui/                 # Атомарные компоненты (Button, Form, Modal…)
 │   ├── pages/              # Составные блоки страниц (sidebar, header, modals)
 │   └── layouts/            # Обёртки разметки (layout, page)
-├── helpers/                # formActions, регистрация HB, валидация
+├── helpers/                # formActions, регистрация HB, валидация, маппинг чатов/сообщений
+├── partials/               # Handlebars partials и их регистрация
 ├── constants/              # routes, actions, messages, validation, api
 ├── types/                  # Domain и infra типы
-└── utils/                  # renderDOM, api helpers, withApiError
+└── utils/                  # renderDOM, api helpers, withApiError, sanitizeInput, formatDateTime, chatHash
 ```
 
 ### Добавление UI-компонента
@@ -60,14 +71,27 @@ Action-строки кнопок и UI-тексты выносятся в `const
 ## Команды
 
 - `npm install` — установка зависимостей
-- `npm run dev` — dev-сервер Vite на порту `3000`
+- `npm run dev` — dev-сервер Vite на порту `3000` (с прокси `/api/v2` и `/ws`)
 - `npm run start` — production-сборка и preview на порту `3000`
 - `npm run preview` — preview уже собранного `dist`
 - `npm run typecheck` — проверка типов TypeScript (`tsc --noEmit`)
 - `npm run build` — lint (TypeScript, CSS, typecheck) и production-сборка в `dist`
 - `npm run lint` — ESLint, Stylelint и typecheck
 - `npm run lint:fix` — автоисправление замечаний ESLint и Stylelint
-- `npm run format` — форматирование шаблонов `.hbs` (js-beautify)
+- `npm run test` — однократный прогон unit-тестов (Vitest)
+- `npm run test:watch` — тесты в watch-режиме
+
+## Тестирование
+
+Unit-тесты на **Vitest** с окружением **jsdom** (конфигурация в `vite.config.ts`).
+
+| Область | Файлы |
+|---------|-------|
+| UI-компоненты | `Button`, `Form`, `Input`, `Modal` в `components/ui/` |
+| HTTP-транспорт | `system/api/HTTPTransport.test.ts` |
+| Роутинг | `system/router/Router.test.ts`, `Route.test.ts` |
+
+UI-компоненты проверяются через инстанс `Block`: рендер, props, события. Для HTTP и роутера используются моки (`vi.mock`, `MockXHR`).
 
 ## Страницы приложения
 
@@ -86,3 +110,5 @@ Action-строки кнопок и UI-тексты выносятся в `const
 
 - **Демо:** [messenger-practicum-yandex-by-nist.netlify.app](https://messenger-practicum-yandex-by-nist.netlify.app/) — **Возможно без VPN демо не откроется**
 - **Figma:** [ссылка на макет](https://www.figma.com/design/jF5fFFzgGOxQeB4CmKWTiE/Chat_external_link?node-id=1-502&t=FRbllHNs6HSSEDlZ-0)
+- **API (Swagger):** [ya-praktikum.tech/api/v2/swagger](https://ya-praktikum.tech/api/v2/swagger/#/)
+- **WebSocket API:** [ya-praktikum.tech/api/v2/openapi/ws](https://ya-praktikum.tech/api/v2/openapi/ws)
