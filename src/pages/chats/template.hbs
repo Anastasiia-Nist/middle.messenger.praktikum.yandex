@@ -6,7 +6,7 @@
     <section class="chat-content">
       {{{ ChatContentHeader activeChatName=activeChatName activeChatId=activeChatId menuItems=menuItems onMenuAction=onMenuAction }}}
 
-      <ul class="chat-content__messages">
+      <ul id="chat-messages" class="chat-content__messages">
         {{#each messagesByDay}}
           <li class="chat-day">
             <p class="chat-day__label">{{this.date}}</p>
